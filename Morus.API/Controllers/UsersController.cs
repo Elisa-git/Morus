@@ -15,9 +15,9 @@ namespace Morus.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        public UsersController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly UserManager<Usuario> _userManager;
+        private readonly SignInManager<Usuario> _signInManager;
+        public UsersController(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -71,7 +71,7 @@ namespace Morus.API.Controllers
                 return Ok("Falta alguns dados");
 
 
-            var user = new ApplicationUser
+            var user = new Usuario
             {
                 UserName = login.email,
                 Email = login.email,

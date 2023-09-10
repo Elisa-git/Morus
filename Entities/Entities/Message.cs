@@ -32,7 +32,7 @@ namespace Entities.Entities
         [Column(Order = 1)]
         public string UserId { get; set; }
 
-        public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
     
 }

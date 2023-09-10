@@ -28,7 +28,7 @@ builder.Services.AddSwaggerGen();
 // Config Services
 
 builder.Services.AddDbContext<ContextBase>(options => options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<Usuario>(options => options.SignIn.RequireConfirmedAccount = true)
      .AddEntityFrameworkStores<ContextBase>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

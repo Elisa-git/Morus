@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infraestructure.Configuration
 { 
-    public class ContextBase : IdentityDbContext<ApplicationUser>
+    public class ContextBase : IdentityDbContext<Usuario>
     {
         public ContextBase(DbContextOptions<ContextBase> opt) : base(opt)
         {
@@ -17,7 +17,7 @@ namespace Infraestructure.Configuration
         }
 
         public DbSet<Message> Message { get; set; }
-        public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<Usuario> ApplicationUser { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,7 +31,7 @@ namespace Infraestructure.Configuration
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<ApplicationUser>().ToTable("AspNetUsers").HasKey(t => t.Id);
+            builder.Entity<Usuario>().ToTable("AspNetUsers").HasKey(t => t.Id);
 
             base.OnModelCreating(builder);
         }

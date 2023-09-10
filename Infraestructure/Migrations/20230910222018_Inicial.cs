@@ -35,8 +35,16 @@ namespace Infraestructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
-                    User_CPF = table.Column<string>(type: "longtext", nullable: false),
-                    User_tipo = table.Column<int>(type: "int", nullable: true),
+                    CPF = table.Column<string>(type: "longtext", nullable: false),
+                    Nome = table.Column<string>(type: "longtext", nullable: false),
+                    Estado = table.Column<string>(type: "longtext", nullable: false),
+                    Cidade = table.Column<string>(type: "longtext", nullable: false),
+                    Bairro = table.Column<string>(type: "longtext", nullable: false),
+                    Rua = table.Column<string>(type: "longtext", nullable: false),
+                    Numero = table.Column<int>(type: "int", nullable: false),
+                    CEP = table.Column<string>(type: "longtext", nullable: false),
+                    Porteiro = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Tipo = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
@@ -173,20 +181,21 @@ namespace Infraestructure.Migrations
                 name: "Mensagem",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: false),
+                    UserId = table.Column<string>(type: "longtext", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Titulo = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
                     Ativo = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    DataAlteracao = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    DataAlteracao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UsuarioId = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Mensagem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Mensagem_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Mensagem_AspNetUsers_UsuarioId",
+                        column: x => x.UsuarioId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -231,9 +240,9 @@ namespace Infraestructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Mensagem_UserId",
+                name: "IX_Mensagem_UsuarioId",
                 table: "Mensagem",
-                column: "UserId");
+                column: "UsuarioId");
         }
 
         /// <inheritdoc />
