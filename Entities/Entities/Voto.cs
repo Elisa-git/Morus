@@ -2,40 +2,36 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Text.Json.Serialization;
+using Entities.Entities.Enum;
 
 namespace Entities.Entities
 {
-
-    [Table("Mensagem")]
-    public class Message : Notifies
+    [Table("Voto")]
+    public class Voto
     {
         [Key]
         [Column("Id")]
         public int Id { get; set; }
+        public ValorVotoEnum ValorVoto { get; set; }
 
-        [Column("Titulo")]
-        [MaxLength(255)]
-        public string Titulo { get; set; }
+        [ForeignKey("Votacao")]
+        [Column(Order = 1)]
+        public int Id_votacao { get; set; }
 
-        [Column("Ativo")]
-        public bool Ativo { get; set; }
-
-        [Column("DataCadastro")]
-        public DateTime DataCadastro { get; set; }
-
-        [Column("DataAlteracao")]
-        public DateTime DataAlteracao { get; set; }
-
+        [JsonIgnore]
+        public virtual Votacao Votacao { get; set; }
+        
         [ForeignKey("Usuario")]
         [Column(Order = 1)]
-        public string UserId { get; set; }
+        public string Id_usuario { get; set; }
 
         [JsonIgnore]
         public virtual Usuario Usuario { get; set; }
     }
-    
 }
