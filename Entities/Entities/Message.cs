@@ -30,12 +30,12 @@ namespace Entities.Entities
         [Column("DataAlteracao")]
         public DateTime DataAlteracao { get; set; }
 
-        [ForeignKey("Usuario")]
+        [ForeignKey("User")]
         [Column(Order = 1)]
         public string UserId { get; set; }
 
         [JsonIgnore]
-        public virtual Usuario Usuario { get; set; }
+        public virtual User User { get; set; }
     }
     
 }

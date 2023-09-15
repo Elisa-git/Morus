@@ -28,8 +28,8 @@ namespace Entities.Entities
         public virtual Votacao Votacao { get; set; }
         
         [ForeignKey("Usuario")]
-        [Column(Order = 1)]
-        public string Id_usuario { get; set; }
+        [Column(Order = 2)]
+        public int Id_usuario { get; set; }
 
         [JsonIgnore]
         public virtual Usuario Usuario { get; set; }

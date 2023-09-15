@@ -16,7 +16,7 @@ namespace Infraestructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.10")
+                .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Entities.Entities.AreaComum", b =>
@@ -128,6 +128,39 @@ namespace Infraestructure.Migrations
                     b.ToTable("Condominio");
                 });
 
+            modelBuilder.Entity("Entities.Entities.Informacao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    b.Property<string>("DataCriacao")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("DataCriacao");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("Descricao");
+
+                    b.Property<int>("Id_condominio")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("Titulo");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id_condominio");
+
+                    b.ToTable("Informacao");
+                });
+
             modelBuilder.Entity("Entities.Entities.LivroCaixa", b =>
                 {
                     b.Property<int>("Id")
@@ -222,9 +255,8 @@ namespace Infraestructure.Migrations
                         .HasColumnType("datetime(6)")
                         .HasColumnName("DataExpiracao");
 
-                    b.Property<string>("Id_usuario")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Id_usuario")
+                        .HasColumnType("int")
                         .HasColumnOrder(1);
 
                     b.Property<string>("Motivo")
@@ -262,10 +294,9 @@ namespace Infraestructure.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    b.Property<string>("Id_Usuario")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)")
-                        .HasColumnOrder(1);
+                    b.Property<int>("Id_Usuario")
+                        .HasColumnType("int")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("Status")
                         .HasColumnType("int")
@@ -324,17 +355,13 @@ namespace Infraestructure.Migrations
                     b.ToTable("TaxaMensal");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Usuario", b =>
+            modelBuilder.Entity("Entities.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<int>("Apartamento")
-                        .HasColumnType("int")
-                        .HasColumnName("Apartamento");
 
                     b.Property<string>("CPF")
                         .IsRequired()
@@ -345,20 +372,12 @@ namespace Infraestructure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("DataNascimento")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("DataNascimento");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("Id_condominio")
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
@@ -367,7 +386,6 @@ namespace Infraestructure.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Nome")
-                        .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("Nome");
 
@@ -395,11 +413,6 @@ namespace Infraestructure.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Tipo");
 
-                    b.Property<string>("Torre")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("Torre");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");
 
@@ -409,8 +422,6 @@ namespace Infraestructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id_condominio");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -419,6 +430,49 @@ namespace Infraestructure.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Entities.Entities.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    b.Property<int?>("Apartamento")
+                        .HasColumnType("int")
+                        .HasColumnName("Apartamento");
+
+                    b.Property<string>("CPF")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("CPF");
+
+                    b.Property<DateTime?>("DataNascimento")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("DataNascimento");
+
+                    b.Property<int?>("Id_condominio")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("longtext")
+                        .HasColumnName("Nome");
+
+                    b.Property<int?>("Tipo")
+                        .HasColumnType("int")
+                        .HasColumnName("Tipo");
+
+                    b.Property<string>("Torre")
+                        .HasColumnType("longtext")
+                        .HasColumnName("Torre");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id_condominio");
+
+                    b.ToTable("Usuario");
                 });
 
             modelBuilder.Entity("Entities.Entities.Votacao", b =>
@@ -468,10 +522,9 @@ namespace Infraestructure.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Id");
 
-                    b.Property<string>("Id_usuario")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)")
-                        .HasColumnOrder(1);
+                    b.Property<int>("Id_usuario")
+                        .HasColumnType("int")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("Id_votacao")
                         .HasColumnType("int")
@@ -487,39 +540,6 @@ namespace Infraestructure.Migrations
                     b.HasIndex("Id_votacao");
 
                     b.ToTable("Voto");
-                });
-
-            modelBuilder.Entity("Entities.Informacao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("Id");
-
-                    b.Property<string>("DataCriacao")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("DataCriacao");
-
-                    b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("Descricao");
-
-                    b.Property<int>("Id_condominio")
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("Titulo");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id_condominio");
-
-                    b.ToTable("Informacao");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -676,6 +696,17 @@ namespace Infraestructure.Migrations
                     b.Navigation("Condominio");
                 });
 
+            modelBuilder.Entity("Entities.Entities.Informacao", b =>
+                {
+                    b.HasOne("Entities.Entities.Condominio", "Condominio")
+                        .WithMany()
+                        .HasForeignKey("Id_condominio")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Condominio");
+                });
+
             modelBuilder.Entity("Entities.Entities.LivroCaixa", b =>
                 {
                     b.HasOne("Entities.Entities.Condominio", "Condominio")
@@ -689,13 +720,13 @@ namespace Infraestructure.Migrations
 
             modelBuilder.Entity("Entities.Entities.Message", b =>
                 {
-                    b.HasOne("Entities.Entities.Usuario", "Usuario")
+                    b.HasOne("Entities.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Usuario");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entities.Entities.Multa", b =>
@@ -743,9 +774,7 @@ namespace Infraestructure.Migrations
                 {
                     b.HasOne("Entities.Entities.Condominio", "Condominio")
                         .WithMany()
-                        .HasForeignKey("Id_condominio")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Id_condominio");
 
                     b.Navigation("Condominio");
                 });
@@ -780,17 +809,6 @@ namespace Infraestructure.Migrations
                     b.Navigation("Votacao");
                 });
 
-            modelBuilder.Entity("Entities.Informacao", b =>
-                {
-                    b.HasOne("Entities.Entities.Condominio", "Condominio")
-                        .WithMany()
-                        .HasForeignKey("Id_condominio")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Condominio");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -802,7 +820,7 @@ namespace Infraestructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Entities.Entities.Usuario", null)
+                    b.HasOne("Entities.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -811,7 +829,7 @@ namespace Infraestructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Entities.Entities.Usuario", null)
+                    b.HasOne("Entities.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -826,7 +844,7 @@ namespace Infraestructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Entities.Usuario", null)
+                    b.HasOne("Entities.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -835,7 +853,7 @@ namespace Infraestructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Entities.Entities.Usuario", null)
+                    b.HasOne("Entities.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

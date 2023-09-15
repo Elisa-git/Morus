@@ -31,6 +31,35 @@ namespace Infraestructure.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Nome = table.Column<string>(type: "longtext", nullable: true),
+                    CPF = table.Column<string>(type: "longtext", nullable: false),
+                    Tipo = table.Column<int>(type: "int", nullable: true),
+                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "longtext", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "longtext", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "longtext", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Condominio",
                 columns: table => new
                 {
@@ -68,189 +97,6 @@ namespace Infraestructure.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "AreaComum",
-                columns: table => new
-                {
-                    Id_condominio = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(type: "longtext", nullable: false),
-                    Limite = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AreaComum", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AreaComum_Condominio_Id_condominio",
-                        column: x => x.Id_condominio,
-                        principalTable: "Condominio",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Arquivo",
-                columns: table => new
-                {
-                    Id_condominio = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Classificacao = table.Column<string>(type: "longtext", nullable: false),
-                    TamanhoArquivo = table.Column<string>(type: "longtext", nullable: false),
-                    DataUpload = table.Column<DateTime>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Arquivo", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Arquivo_Condominio_Id_condominio",
-                        column: x => x.Id_condominio,
-                        principalTable: "Condominio",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id_condominio = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
-                    Nome = table.Column<string>(type: "longtext", nullable: false),
-                    CPF = table.Column<string>(type: "longtext", nullable: false),
-                    Torre = table.Column<string>(type: "longtext", nullable: false),
-                    Apartamento = table.Column<int>(type: "int", nullable: false),
-                    DataNascimento = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Tipo = table.Column<int>(type: "int", nullable: true),
-                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "longtext", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "longtext", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "longtext", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Condominio_Id_condominio",
-                        column: x => x.Id_condominio,
-                        principalTable: "Condominio",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Informacao",
-                columns: table => new
-                {
-                    Id_condominio = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Titulo = table.Column<string>(type: "longtext", nullable: false),
-                    Descricao = table.Column<string>(type: "longtext", nullable: false),
-                    DataCriacao = table.Column<string>(type: "longtext", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Informacao", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Informacao_Condominio_Id_condominio",
-                        column: x => x.Id_condominio,
-                        principalTable: "Condominio",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "LivroCaixa",
-                columns: table => new
-                {
-                    Id_condominio = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    DescricaoTransacao = table.Column<string>(type: "longtext", nullable: false),
-                    Categoria = table.Column<string>(type: "longtext", nullable: false),
-                    NumeroConta = table.Column<string>(type: "longtext", nullable: false),
-                    ValorTransacao = table.Column<double>(type: "double", nullable: false),
-                    DataTransacao = table.Column<DateTime>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LivroCaixa", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_LivroCaixa_Condominio_Id_condominio",
-                        column: x => x.Id_condominio,
-                        principalTable: "Condominio",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "TaxaMensal",
-                columns: table => new
-                {
-                    Id_condominio = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(type: "longtext", nullable: false),
-                    Descricao = table.Column<string>(type: "longtext", nullable: false),
-                    Valor = table.Column<double>(type: "double", nullable: false),
-                    Recorrente = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    DataInicio = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    DataFim = table.Column<DateTime>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TaxaMensal", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TaxaMensal_Condominio_Id_condominio",
-                        column: x => x.Id_condominio,
-                        principalTable: "Condominio",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Votacao",
-                columns: table => new
-                {
-                    Id_condominio = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Tema = table.Column<string>(type: "longtext", nullable: false),
-                    Descricao = table.Column<string>(type: "longtext", nullable: false),
-                    DataCriacao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    DataExpiracao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Votacao", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Votacao_Condominio_Id_condominio",
-                        column: x => x.Id_condominio,
-                        principalTable: "Condominio",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -370,10 +216,179 @@ namespace Infraestructure.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "AreaComum",
+                columns: table => new
+                {
+                    Id_condominio = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Nome = table.Column<string>(type: "longtext", nullable: false),
+                    Limite = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AreaComum", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AreaComum_Condominio_Id_condominio",
+                        column: x => x.Id_condominio,
+                        principalTable: "Condominio",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Arquivo",
+                columns: table => new
+                {
+                    Id_condominio = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Classificacao = table.Column<string>(type: "longtext", nullable: false),
+                    TamanhoArquivo = table.Column<string>(type: "longtext", nullable: false),
+                    DataUpload = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Arquivo", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Arquivo_Condominio_Id_condominio",
+                        column: x => x.Id_condominio,
+                        principalTable: "Condominio",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Informacao",
+                columns: table => new
+                {
+                    Id_condominio = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Titulo = table.Column<string>(type: "longtext", nullable: false),
+                    Descricao = table.Column<string>(type: "longtext", nullable: false),
+                    DataCriacao = table.Column<string>(type: "longtext", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Informacao", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Informacao_Condominio_Id_condominio",
+                        column: x => x.Id_condominio,
+                        principalTable: "Condominio",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "LivroCaixa",
+                columns: table => new
+                {
+                    Id_condominio = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    DescricaoTransacao = table.Column<string>(type: "longtext", nullable: false),
+                    Categoria = table.Column<string>(type: "longtext", nullable: false),
+                    NumeroConta = table.Column<string>(type: "longtext", nullable: false),
+                    ValorTransacao = table.Column<double>(type: "double", nullable: false),
+                    DataTransacao = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LivroCaixa", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LivroCaixa_Condominio_Id_condominio",
+                        column: x => x.Id_condominio,
+                        principalTable: "Condominio",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "TaxaMensal",
+                columns: table => new
+                {
+                    Id_condominio = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Nome = table.Column<string>(type: "longtext", nullable: false),
+                    Descricao = table.Column<string>(type: "longtext", nullable: false),
+                    Valor = table.Column<double>(type: "double", nullable: false),
+                    Recorrente = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DataInicio = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    DataFim = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaxaMensal", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TaxaMensal_Condominio_Id_condominio",
+                        column: x => x.Id_condominio,
+                        principalTable: "Condominio",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Usuario",
+                columns: table => new
+                {
+                    Id_condominio = table.Column<int>(type: "int", nullable: true),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Nome = table.Column<string>(type: "longtext", nullable: true),
+                    CPF = table.Column<string>(type: "longtext", nullable: false),
+                    Torre = table.Column<string>(type: "longtext", nullable: true),
+                    Apartamento = table.Column<int>(type: "int", nullable: true),
+                    DataNascimento = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    Tipo = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuario", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Usuario_Condominio_Id_condominio",
+                        column: x => x.Id_condominio,
+                        principalTable: "Condominio",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Votacao",
+                columns: table => new
+                {
+                    Id_condominio = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Tema = table.Column<string>(type: "longtext", nullable: false),
+                    Descricao = table.Column<string>(type: "longtext", nullable: false),
+                    DataCriacao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    DataExpiracao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Votacao", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Votacao_Condominio_Id_condominio",
+                        column: x => x.Id_condominio,
+                        principalTable: "Condominio",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Multa",
                 columns: table => new
                 {
-                    Id_usuario = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Id_usuario = table.Column<int>(type: "int", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     ValorMulta = table.Column<double>(type: "double", nullable: false),
@@ -386,9 +401,9 @@ namespace Infraestructure.Migrations
                 {
                     table.PrimaryKey("PK_Multa", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Multa_AspNetUsers_Id_usuario",
+                        name: "FK_Multa_Usuario_Id_usuario",
                         column: x => x.Id_usuario,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -399,7 +414,7 @@ namespace Infraestructure.Migrations
                 columns: table => new
                 {
                     Id_AreaComum = table.Column<int>(type: "int", nullable: false),
-                    Id_Usuario = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Id_Usuario = table.Column<int>(type: "int", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     DataReserva = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -415,9 +430,9 @@ namespace Infraestructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Reserva_AspNetUsers_Id_Usuario",
+                        name: "FK_Reserva_Usuario_Id_Usuario",
                         column: x => x.Id_Usuario,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -428,7 +443,7 @@ namespace Infraestructure.Migrations
                 columns: table => new
                 {
                     Id_votacao = table.Column<int>(type: "int", nullable: false),
-                    Id_usuario = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Id_usuario = table.Column<int>(type: "int", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     ValorVoto = table.Column<int>(type: "int", nullable: false)
@@ -437,9 +452,9 @@ namespace Infraestructure.Migrations
                 {
                     table.PrimaryKey("PK_Voto", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Voto_AspNetUsers_Id_usuario",
+                        name: "FK_Voto_Usuario_Id_usuario",
                         column: x => x.Id_usuario,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -493,11 +508,6 @@ namespace Infraestructure.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_Id_condominio",
-                table: "AspNetUsers",
-                column: "Id_condominio");
-
-            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -536,6 +546,11 @@ namespace Infraestructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_TaxaMensal_Id_condominio",
                 table: "TaxaMensal",
+                column: "Id_condominio");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuario_Id_condominio",
+                table: "Usuario",
                 column: "Id_condominio");
 
             migrationBuilder.CreateIndex(
@@ -600,10 +615,13 @@ namespace Infraestructure.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "AreaComum");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Usuario");
 
             migrationBuilder.DropTable(
                 name: "Votacao");

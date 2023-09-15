@@ -11,18 +11,17 @@ using System.Text;
 
 namespace Morus.API.Controllers
 {
-    [Route("api/Usuario")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserManager<Usuario> _userManager;
-        private readonly SignInManager<Usuario> _signInManager;
-        public UsersController(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager)
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
         }
-
 
         [AllowAnonymous]
         [Produces("application/json")]
@@ -45,12 +44,12 @@ namespace Morus.API.Controllers
 
                 var token = new TokenJWTBuilder()
                     .AddSecurityKey(JwtSecurityKey.Create("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"))
-                    .AddSubject("Empresa - Canal Dev Net Core")
-                    .AddIssuer("Morus.Securiry.Bearer")
-                    .AddAudience("Morus.Securiry.Bearer")
-                    .AddClaim("idUsuario", idUsuario)
-                    .AddExpiry(5)
-                    .Builder();
+                .AddSubject("Empresa - Morus")
+                .AddIssuer("Morus.Securiry.Bearer")
+                .AddAudience("Morus.Securiry.Bearer")
+                .AddClaim("idUsuario", idUsuario)
+                .AddExpiry(5)
+                .Builder();
 
                 return Ok(token.value);
             }
@@ -58,6 +57,7 @@ namespace Morus.API.Controllers
             {
                 return Unauthorized();
             }
+
 
         }
 
@@ -70,13 +70,12 @@ namespace Morus.API.Controllers
             if (string.IsNullOrWhiteSpace(login.email) || string.IsNullOrWhiteSpace(login.senha))
                 return Ok("Falta alguns dados");
 
-
-            var user = new Usuario
+            var user = new User
             {
                 UserName = login.email,
                 Email = login.email,
                 CPF = login.cpf,
-                Tipo = TipoUsuario.Sindico,
+                Tipo = TipoUsuario.Admin,
             };
 
             var resultado = await _userManager.CreateAsync(user, login.senha);
@@ -93,7 +92,6 @@ namespace Morus.API.Controllers
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
             // retorno email 
-            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var resultado2 = await _userManager.ConfirmEmailAsync(user, code);
 

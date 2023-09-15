@@ -34,8 +34,8 @@ namespace Entities.Entities
         public virtual AreaComum AreaComum { get; set; }
         
         [ForeignKey("Usuario")]
-        [Column(Order = 1)]
-        public string Id_Usuario { get; set; }
+        [Column(Order = 2)]
+        public int Id_Usuario { get; set; }
 
         [JsonIgnore]
         public virtual Usuario Usuario { get; set; }

@@ -36,7 +36,7 @@ namespace Entities.Entities
 
         [ForeignKey("Usuario")]
         [Column(Order = 1)]
-        public string Id_usuario { get; set; }
+        public int Id_usuario { get; set; }
 
         [JsonIgnore]
         public virtual Usuario Usuario { get; set; }

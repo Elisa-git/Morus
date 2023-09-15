@@ -9,7 +9,7 @@ using Morus.API.Models;
 
 namespace Morus.API.Controllers
 {
-    [Route("api/Messages")]
+    [Route("api/messages")]
     [ApiController]
     public class MessageController : ControllerBase
     {

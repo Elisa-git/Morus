@@ -1,5 +1,4 @@
-﻿using Entities;
-using Entities.Entities;
+﻿using Entities.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Infraestructure.Configuration
-{ 
-    public class ContextBase : IdentityDbContext<Usuario>
+{
+    public class ContextBase : IdentityDbContext<User>
     {
         public ContextBase(DbContextOptions<ContextBase> opt) : base(opt)
         {
@@ -20,6 +19,7 @@ namespace Infraestructure.Configuration
         public DbSet<Message> Message { get; set; }
         public DbSet<Condominio> Condominio { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<User> User { get; set; }
         public DbSet<AreaComum> AreaComum { get; set; }
         public DbSet<Arquivo> Arquivo { get; set; }
         public DbSet<Informacao> Informacao { get; set; }
@@ -39,10 +39,9 @@ namespace Infraestructure.Configuration
             }
         }
 
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Usuario>().ToTable("AspNetUsers").HasKey(t => t.Id);
+            builder.Entity<User>().ToTable("AspNetUsers").HasKey(t => t.Id);
 
             base.OnModelCreating(builder);
         }
