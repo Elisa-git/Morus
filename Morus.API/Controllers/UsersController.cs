@@ -101,5 +101,13 @@ namespace Morus.API.Controllers
                 return Ok("Erro ao confirmar usuários");
 
         }
-    }
+
+        [Produces("application/json")]
+        [HttpPost("/api/create_usuario")]
+        public IActionResult createUsuario([FromBody]usersRequest RequestBody )
+        {
+
+
+            return Ok();
+        }
 }
