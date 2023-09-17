@@ -14,7 +14,7 @@ namespace Morus.API.Models
         public string CEP { get; set; }
         public bool Porteiro { get; set; }
         public string DataCadastro { get; set; }
-        public string DataAlteracao { get; set; }
+        public string? DataAlteracao { get; set; }
         public string UserId { get; set; }
     }
 }

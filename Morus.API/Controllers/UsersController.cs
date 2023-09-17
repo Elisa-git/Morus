@@ -58,9 +58,7 @@ namespace Morus.API.Controllers
                 return Unauthorized();
             }
 
-
         }
-
 
         [AllowAnonymous]
         [Produces("application/json")]
@@ -84,7 +82,6 @@ namespace Morus.API.Controllers
             {
                 return Ok(resultado.Errors);
             }
-
 
             // Geração de Confirmação caso precise
             var userId = await _userManager.GetUserIdAsync(user);

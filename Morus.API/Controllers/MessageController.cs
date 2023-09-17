@@ -9,7 +9,7 @@ using Morus.API.Models;
 
 namespace Morus.API.Controllers
 {
-    [Route("api/messages")]
+    [Route("api/[controller]")]
     [ApiController]
     public class MessageController : ControllerBase
     {
@@ -23,15 +23,14 @@ namespace Morus.API.Controllers
             _IServiceMessage = IServiceMessage;
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [Produces("application/json")]
         [HttpPost("/api/Add")]
         public async Task<List<Notifies>> Add(MessageViewModel message)
         {
             message.UserId = await RetornarIdUsuarioLogado();
             var messageMap = _IMapper.Map<Message>(message);
-            //await _IMessage.Add(messageMap);
-            await _IServiceMessage.Adicionar(messageMap);
+            await _IMessage.Add(messageMap);
             return messageMap.ListaNotificacoes;
         }
 
@@ -41,8 +40,7 @@ namespace Morus.API.Controllers
         public async Task<List<Notifies>> Update(MessageViewModel message)
         {
             var messageMap = _IMapper.Map<Message>(message);
-            //await _IMessage.Update(messageMap);
-            await _IServiceMessage.Atualizar(messageMap);
+            await _IMessage.Update(messageMap);
             return messageMap.ListaNotificacoes;
         }
 
@@ -76,25 +74,9 @@ namespace Morus.API.Controllers
             return messageMap;
         }
 
-        [Authorize]
-        [Produces("application/json")]
-        [HttpPost("/api/ListarMessageAtivas")]
-        public async Task<List<MessageViewModel>> ListarMessageAtivas()
-        {
-            var mensagens = await _IServiceMessage.ListarMessageAtivas();
-            var messageMap = _IMapper.Map<List<MessageViewModel>>(mensagens);
-            return messageMap;
-        }
-
         private async Task<string> RetornarIdUsuarioLogado()
         {
-            if (User != null)
-            {
-                var idUsuario = User.FindFirst("idUsuario");
-                return idUsuario.Value;
-            }
-
-            return string.Empty;
+            return "54181da4-4e19-45df-bfa4-8f339c3bb46b";
 
         }
 
