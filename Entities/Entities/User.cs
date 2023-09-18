@@ -19,6 +19,9 @@ namespace Entities.Entities
         [Column("CPF")]
         public string CPF { get; set; }
 
+        [Column("Token")]
+        public string? Token { get; set; }
+
         //[Column("Torre")]
         //public string? Torre { get; set; }
 
@@ -29,7 +32,7 @@ namespace Entities.Entities
         //public DateTime? DataNascimento { get; set; }
 
         [Column("Tipo")]
-        public TipoUsuario? Tipo { get; set; }
+        public TipoUsuario Tipo { get; set; }
 
         //[ForeignKey("Condominio")]
         //[Column(Order = 1)]

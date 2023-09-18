@@ -35,7 +35,7 @@ namespace Entities.Entities
         public DateTime? DataNascimento { get; set; }
 
         [Column("Tipo")]
-        public TipoUsuario? Tipo { get; set; }
+        public TipoUsuario Tipo { get; set; }
 
         [ForeignKey("Condominio")]
         [Column(Order = 1)]
