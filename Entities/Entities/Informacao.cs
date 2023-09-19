@@ -15,7 +15,7 @@ using static System.Net.Mime.MediaTypeNames;
 namespace Entities.Entities
 {
     [Table("Informacao")]
-    public class Informacao
+    public class Informacao : Notifies
     {
         [Key]
         [Column("Id")]
@@ -27,14 +27,20 @@ namespace Entities.Entities
         [Column("Descricao")]
         public string Descricao { get; set; }
 
-        [Column("DataCriacao")]
-        public string DataCriacao { get; set; }
-
         [ForeignKey("Condominio")]
         [Column(Order = 1)]
         public int Id_condominio { get; set; }
 
         [JsonIgnore]
         public virtual Condominio Condominio { get; set; }
+
+        [Column("Ativo")]
+        public bool Ativo { get; set; }
+
+        [Column("DataCadastro")]
+        public DateTime DataCadastro { get; set; }
+
+        [Column("DataAlteracao")]
+        public DateTime DataAlteracao { get; set; }
     }
 }
