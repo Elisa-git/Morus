@@ -36,10 +36,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
 builder.Services.AddSingleton<IMessage, RepositoryMessage>();
 builder.Services.AddSingleton<ICondominio, CondominioRepositorio>();
-builder.Services.AddSingleton<IMulta, MultaRepositorio>();
+builder.Services.AddSingleton<IInformacaoRepositorio, InformacaoRepositorio>();
 
 builder.Services.AddScoped<CondominioRepositorio, CondominioRepositorio>();
-builder.Services.AddScoped<MultaRepositorio, MultaRepositorio>();
+builder.Services.AddScoped<InformacaoRepositorio, InformacaoRepositorio>();
 
 
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.GetTempPath()));
@@ -47,7 +47,7 @@ builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(P
 // SERVIÇO DOMINIO
 builder.Services.AddSingleton<IServiceMessage, ServiceMessage>();
 builder.Services.AddSingleton<ICondominioService, CondominioService>();
-builder.Services.AddSingleton<IMultaService, MultaService>();
+builder.Services.AddSingleton<IInformacaoService, InformacaoService>();
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -87,8 +87,8 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<Message, MessageViewModel>();
     cfg.CreateMap<CondominioRequest, Condominio>();
     cfg.CreateMap<Condominio, CondominioRequest>();
-    cfg.CreateMap<MultaRequest, Multa>();
-    cfg.CreateMap<Multa, MultaRequest>();
+    cfg.CreateMap<Informacao, InformacaoRequest>();
+    cfg.CreateMap<InformacaoRequest, Informacao>();
 });
 
 IMapper mapper = config.CreateMapper();
