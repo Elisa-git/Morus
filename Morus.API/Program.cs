@@ -37,9 +37,11 @@ builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
 builder.Services.AddSingleton<IMessage, RepositoryMessage>();
 builder.Services.AddSingleton<ICondominio, CondominioRepositorio>();
 builder.Services.AddSingleton<IInformacaoRepositorio, InformacaoRepositorio>();
+builder.Services.AddSingleton<IMulta, MultaRepositorio>();
 
 builder.Services.AddScoped<CondominioRepositorio, CondominioRepositorio>();
 builder.Services.AddScoped<InformacaoRepositorio, InformacaoRepositorio>();
+builder.Services.AddScoped<MultaRepositorio, MultaRepositorio>();
 
 
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.GetTempPath()));
@@ -48,6 +50,7 @@ builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(P
 builder.Services.AddSingleton<IServiceMessage, ServiceMessage>();
 builder.Services.AddSingleton<ICondominioService, CondominioService>();
 builder.Services.AddSingleton<IInformacaoService, InformacaoService>();
+builder.Services.AddSingleton<IMultaService, MultaService>();
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -89,6 +92,8 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<Condominio, CondominioRequest>();
     cfg.CreateMap<Informacao, InformacaoRequest>();
     cfg.CreateMap<InformacaoRequest, Informacao>();
+    cfg.CreateMap<Multa, MultaRequest>();
+    cfg.CreateMap<MultaRequest, Multa>();
 });
 
 IMapper mapper = config.CreateMapper();

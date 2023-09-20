@@ -22,11 +22,11 @@ namespace Infraestructure.Repository.Repositories
             _OptionsBuilder = new DbContextOptions<ContextBase>();
         }
 
-        public async Task<List<Message>> ListarMessage(Expression<Func<Message, bool>> exMessage)
+        public async Task<List<Multa>> ListarMessage(Expression<Func<Multa, bool>> exMessage)
         {
             using (var banco = new ContextBase(_OptionsBuilder))
             {
-                return await banco.Message.Where(exMessage).AsNoTracking().ToListAsync();
+                return await banco.Multa.Where(exMessage).AsNoTracking().ToListAsync();
             }
         }
     }

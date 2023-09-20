@@ -11,6 +11,6 @@ namespace Domain.Interfaces
 {
     public interface IMulta : IGeneric<Multa>
     {
-        Task<List<Message>> ListarMessage(Expression<Func<Message, bool>> exMessage);
+        Task<List<Multa>> ListarMessage(Expression<Func<Multa, bool>> exMessage);
     }
 }
