@@ -36,7 +36,7 @@ namespace Morus.API.Controllers
 
         [Authorize]
         [Produces("application/json")]
-        [HttpPost("/api/Update")]
+        [HttpPut("/api/Update")]
         public async Task<List<Notifies>> Update(MessageViewModel message)
         {
             var messageMap = _IMapper.Map<Message>(message);
@@ -46,7 +46,7 @@ namespace Morus.API.Controllers
 
         [Authorize]
         [Produces("application/json")]
-        [HttpPost("/api/Delete")]
+        [HttpDelete("/api/Delete")]
         public async Task<List<Notifies>> Delete(MessageViewModel message)
         {
             var messageMap = _IMapper.Map<Message>(message);
@@ -56,7 +56,7 @@ namespace Morus.API.Controllers
 
         [Authorize]
         [Produces("application/json")]
-        [HttpPost("/api/GetEntityById")]
+        [HttpGet("/api/GetEntityById")]
         public async Task<MessageViewModel> GetEntityById(Message message)
         {
             message = await _IMessage.GetEntityById(message.Id);
@@ -66,7 +66,7 @@ namespace Morus.API.Controllers
 
         [Authorize]
         [Produces("application/json")]
-        [HttpPost("/api/List")]
+        [HttpGet("/api/List")]
         public async Task<List<MessageViewModel>> List()
         {
             var mensagens = await _IMessage.List();
