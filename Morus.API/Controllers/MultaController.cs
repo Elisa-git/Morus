@@ -13,7 +13,7 @@ namespace Morus.API.Controllers
     [ApiController]
     public class MultaController : ControllerBase
     {
-        private readonly MultaRepositorio _multaRepositorio;
+        private readonly IMulta _multaRepositorio;
         private readonly IMapper mapper;
         private readonly IMulta _IMulta;
         public MultaController(MultaRepositorio multaRepositorio, IMapper mapper, IMulta IMulta)
@@ -43,15 +43,15 @@ namespace Morus.API.Controllers
             return multaMap.ListaNotificacoes;
         }
 
-        //[AllowAnonymous]
-        //[Produces("application/json")]
-        //[HttpDelete("/api/DeletarMulta")]
-        //public async Task<List<Notifies>> DeletarMulta(MultaRequest multaRequest)
-        //{
-        //    var multaMap = mapper.Map<Multa>(multaRequest);
-        //    await _multaRepositorio.Delete(multaMap);
-        //    return multaMap.ListaNotificacoes;
-        //}
+        [AllowAnonymous]
+        [Produces("application/json")]
+        [HttpDelete("/api/DeletarMulta")]
+        public async Task<List<Notifies>> DeletarMulta(MultaRequest multaRequest)
+        {
+            var multaMap = mapper.Map<Multa>(multaRequest);
+            await _multaRepositorio.Delete(multaMap);
+            return multaMap.ListaNotificacoes;
+        }
 
         //[AllowAnonymous]
         //[Produces("application/json")]

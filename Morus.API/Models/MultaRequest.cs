@@ -11,7 +11,7 @@ namespace Morus.API.Models
         public int Id { get; set; }
         public double ValorMulta { get; set; }
         public string AplicadaEm { get; set; }
-        public string DataExpiracao { get; set; }
+        public DateTime DataExpiracao { get; set; }
         public double TaxaJurosDia { get; set; }
         public string Motivo { get; set; }
         public int Id_usuario { get; set; }
