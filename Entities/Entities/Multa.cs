@@ -13,7 +13,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace Entities.Entities
 {
     [Table("Multa")]
-    public class Multa
+    public class Multa : Notifies
     {
         [Key]
         [Column("Id")]

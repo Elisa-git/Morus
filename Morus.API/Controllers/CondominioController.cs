@@ -42,7 +42,7 @@ namespace Morus.API.Controllers
 
         [AllowAnonymous]
         [Produces("application/json")]
-        [HttpPost("/api/AtualizarCondominio")]
+        [HttpPut("/api/AtualizarCondominio")]
         public async Task<List<Notifies>> AtualizarCondominio(CondominioRequest condominioRequest)
         {
             var condominioMapeado = mapper.Map<Condominio>(condominioRequest);
