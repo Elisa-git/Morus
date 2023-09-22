@@ -38,7 +38,7 @@ namespace Morus.API.Controllers
 
         [AllowAnonymous]
         [Produces("application/json")]
-        [HttpPost("/api/AtualizarInformacao")]
+        [HttpPut("/api/AtualizarInformacao")]
         public async Task<List<Notifies>> AtualizarInformacao(InformacaoRequest informacaoRequest)
         {
             var informacaoMapeada = mapper.Map<Informacao>(informacaoRequest);
@@ -48,7 +48,7 @@ namespace Morus.API.Controllers
 
         [AllowAnonymous]
         [Produces("application/json")]
-        [HttpPost("/api/ListarInformacao")]
+        [HttpGet("/api/ListarInformacao")]
         public async Task<List<InformacaoRequest>> ListarInformacao()
         {
             var informacao = await informaoRepositorio.List();
@@ -58,7 +58,7 @@ namespace Morus.API.Controllers
 
         [AllowAnonymous]
         [Produces("application/json")]
-        [HttpPost("/api/DeletarInformacao")]
+        [HttpDelete("/api/DeletarInformacao")]
         public async Task<List<Notifies>> DeletarInformacao(InformacaoRequest message)
         {
             var informacaoMapeada = mapper.Map<Informacao>(message);
