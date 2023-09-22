@@ -8,9 +8,9 @@
 
         public bool Ativo { get; set; }
 
-        public DateTime DataCadastro { get; set; }
+        public string DataCadastro { get; set; }
 
-        public DateTime DataAlteracao { get; set; }
+        public string DataAlteracao { get; set; }
 
         public string UserId { get; set; }
     }

@@ -1,5 +1,4 @@
 ﻿using Domain.Interfaces;
-using Domain.Services;
 using Entities.Entities;
 using Infraestructure.Configuration;
 using Infraestructure.Repository.Generics;
@@ -13,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace Infraestructure.Repository.Repositories
 {
-    public class RepositoryMessage : RepositoryGenerics<Message>, IMessage
+    public class CondominioRepositorio : RepositoryGenerics<Condominio>, ICondominio
     {
 
         private readonly DbContextOptions<ContextBase> _OptionsBuilder;
 
-        public RepositoryMessage()
+        public CondominioRepositorio()
         {
             _OptionsBuilder = new DbContextOptions<ContextBase>();
         }

@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
-    public interface IMessage : IGeneric<Message>
+    public interface IMulta : IGeneric<Multa>
     {
-        Task<List<Message>> ListarMessage(Expression<Func<Message, bool>> exMessage);
-
+        Task<List<Multa>> ListarMessage(Expression<Func<Multa, bool>> exMessage);
     }
 }

@@ -28,19 +28,29 @@ builder.Services.AddSwaggerGen();
 // Config Services
 
 builder.Services.AddDbContext<ContextBase>(options => options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-     .AddEntityFrameworkStores<ContextBase>();
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ContextBase>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 // INTERFACE E REPOSITORIO
 builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
 builder.Services.AddSingleton<IMessage, RepositoryMessage>();
+builder.Services.AddSingleton<ICondominio, CondominioRepositorio>();
+builder.Services.AddSingleton<IInformacaoRepositorio, InformacaoRepositorio>();
+builder.Services.AddSingleton<IMulta, MultaRepositorio>();
+
+builder.Services.AddScoped<CondominioRepositorio, CondominioRepositorio>();
+builder.Services.AddScoped<InformacaoRepositorio, InformacaoRepositorio>();
+builder.Services.AddScoped<MultaRepositorio, MultaRepositorio>();
+
 
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.GetTempPath()));
 
 // SERVIÇO DOMINIO
 builder.Services.AddSingleton<IServiceMessage, ServiceMessage>();
+builder.Services.AddSingleton<ICondominioService, CondominioService>();
+builder.Services.AddSingleton<IInformacaoService, InformacaoService>();
+builder.Services.AddSingleton<IMultaService, MultaService>();
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -78,6 +88,12 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
 {
     cfg.CreateMap<MessageViewModel, Message>();
     cfg.CreateMap<Message, MessageViewModel>();
+    cfg.CreateMap<CondominioRequest, Condominio>();
+    cfg.CreateMap<Condominio, CondominioRequest>();
+    cfg.CreateMap<Informacao, InformacaoRequest>();
+    cfg.CreateMap<InformacaoRequest, Informacao>();
+    cfg.CreateMap<Multa, MultaRequest>();
+    cfg.CreateMap<MultaRequest, Multa>();
 });
 
 IMapper mapper = config.CreateMapper();

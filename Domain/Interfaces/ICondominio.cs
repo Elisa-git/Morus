@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
-    public interface IMessage : IGeneric<Message>
+    public interface ICondominio : IGeneric<Condominio>
     {
         Task<List<Message>> ListarMessage(Expression<Func<Message, bool>> exMessage);
-
     }
 }

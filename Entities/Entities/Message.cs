@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace Entities.Entities
 {
@@ -12,6 +13,7 @@ namespace Entities.Entities
     [Table("Mensagem")]
     public class Message : Notifies
     {
+        [Key]
         [Column("Id")]
         public int Id { get; set; }
 
@@ -28,11 +30,12 @@ namespace Entities.Entities
         [Column("DataAlteracao")]
         public DateTime DataAlteracao { get; set; }
 
-        [ForeignKey("ApplicationUser")]
+        [ForeignKey("User")]
         [Column(Order = 1)]
         public string UserId { get; set; }
 
-        public virtual ApplicationUser ApplicationUser { get; set; }
+        [JsonIgnore]
+        public virtual User User { get; set; }
     }
     
 }

@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces.InterfaceServices
 {
-    public interface IServiceMessage
+    public interface ICondominioService
     {
-        Task Adicionar(Message Objeto);
-
-        Task Atualizar(Message Objeto);
-
-        Task<List<Message>> ListarMessageAtivas();
+        Task SalvarCondominio(Condominio condominio);
     }
 }

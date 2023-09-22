@@ -1,6 +1,7 @@
 ﻿using Domain.Interfaces;
-using Domain.Services;
+using Domain.Interfaces.InterfaceServices;
 using Entities.Entities;
+using Google.Protobuf;
 using Infraestructure.Configuration;
 using Infraestructure.Repository.Generics;
 using Microsoft.EntityFrameworkCore;
@@ -13,21 +14,19 @@ using System.Threading.Tasks;
 
 namespace Infraestructure.Repository.Repositories
 {
-    public class RepositoryMessage : RepositoryGenerics<Message>, IMessage
+    public class MultaRepositorio : RepositoryGenerics<Multa>, IMulta
     {
-
         private readonly DbContextOptions<ContextBase> _OptionsBuilder;
-
-        public RepositoryMessage()
+        public MultaRepositorio() 
         {
             _OptionsBuilder = new DbContextOptions<ContextBase>();
         }
 
-        public async Task<List<Message>> ListarMessage(Expression<Func<Message, bool>> exMessage)
+        public async Task<List<Multa>> ListarMessage(Expression<Func<Multa, bool>> exMessage)
         {
             using (var banco = new ContextBase(_OptionsBuilder))
             {
-                return await banco.Message.Where(exMessage).AsNoTracking().ToListAsync();
+                return await banco.Multa.Where(exMessage).AsNoTracking().ToListAsync();
             }
         }
     }

@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces.InterfaceServices
 {
-    public interface IServiceMessage
+    public interface IMultaService
     {
-        Task Adicionar(Message Objeto);
-
-        Task Atualizar(Message Objeto);
-
-        Task<List<Message>> ListarMessageAtivas();
+        Task SalvarMulta(Multa multa);
     }
 }

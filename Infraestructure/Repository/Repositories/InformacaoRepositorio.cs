@@ -1,5 +1,4 @@
 ﻿using Domain.Interfaces;
-using Domain.Services;
 using Entities.Entities;
 using Infraestructure.Configuration;
 using Infraestructure.Repository.Generics;
@@ -13,21 +12,21 @@ using System.Threading.Tasks;
 
 namespace Infraestructure.Repository.Repositories
 {
-    public class RepositoryMessage : RepositoryGenerics<Message>, IMessage
+    public class InformacaoRepositorio : RepositoryGenerics<Informacao>, IInformacaoRepositorio
     {
 
         private readonly DbContextOptions<ContextBase> _OptionsBuilder;
 
-        public RepositoryMessage()
+        public InformacaoRepositorio()
         {
             _OptionsBuilder = new DbContextOptions<ContextBase>();
         }
 
-        public async Task<List<Message>> ListarMessage(Expression<Func<Message, bool>> exMessage)
+        public async Task<List<Informacao>> ListarInformacoes(Expression<Func<Informacao, bool>> exInformacao)
         {
             using (var banco = new ContextBase(_OptionsBuilder))
             {
-                return await banco.Message.Where(exMessage).AsNoTracking().ToListAsync();
+                return await banco.Informacao.Where(exInformacao).AsNoTracking().ToListAsync();
             }
         }
     }
