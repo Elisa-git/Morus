@@ -1,5 +1,6 @@
 ﻿using Entities.Entities.Enum;
 using Entities.Entities;
+using Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +9,8 @@ using Microsoft.AspNetCore.WebUtilities;
 using Morus.API.Models;
 using Morus.API.Token;
 using System.Text;
+using Infraestructure.Repository.Repositories;
+using AutoMapper;
 
 namespace Morus.API.Controllers
 {
@@ -16,11 +19,17 @@ namespace Morus.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
+        private readonly UserService _userService;
         private readonly SignInManager<User> _signInManager;
-        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly RepositoryUsers _userRepo;
+        private readonly IMapper mapper;
+        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager, RepositoryUsers userRepo, UserService userService, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userRepo = userRepo;
+            _userService = userService;
+            mapper = mapper;
         }
 
         [AllowAnonymous]
@@ -98,5 +107,24 @@ namespace Morus.API.Controllers
                 return Ok("Erro ao confirmar usuários");
 
         }
+        [Authorize]
+        [Produces("application/json")]
+        [HttpPost("/api/create_usuario")]
+        public IActionResult createUsuario([FromBody]usersRequest RequestBody, [FromHeader]string token)
+        {
+            var allowed_types = new List<TipoUsuario> {TipoUsuario.Admin, TipoUsuario.Sindico};
+            if (_userService.IsAllowed(allowed_types, token))
+            {
+                Usuario usuario = mapper.Map<Usuario>(RequestBody);
+                _userService.createUsuario(usuario);
+                return Ok();
+            }
+            else
+            {
+                return Forbid();
+            }
+
+            
+        }
+        
     }
-}
