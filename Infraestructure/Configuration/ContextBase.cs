@@ -28,6 +28,7 @@ namespace Infraestructure.Configuration
         public DbSet<Votacao> Votacao { get; set; }
         public DbSet<Voto> Voto { get; set; }
         public DbSet<Multa> Multa { get; set; }
+        public DbSet<Ocorrencia> Ocorrencia { get; set; }
         public DbSet<Reserva> Reserva { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -49,7 +50,7 @@ namespace Infraestructure.Configuration
 
         public string ObterStringConexao()
         {
-            return "server=localhost;database=morus;user=root";
+            return "server=localhost;database=morus;user=root;password=root";
         }
     }
 }
