@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Entities.Entities
 {
     [Table("Usuario")]
-    public class Usuario 
+    public class Usuario : Notifies
     {
         [Key]
         [Column("Id")]
