@@ -16,7 +16,7 @@ namespace Morus.API.Controllers
         private readonly IOcorrencia _ocorrenciaRepositorio;
         private readonly IMapper mapper;
         private readonly IOcorrencia _IOcorrencia;
-        public OcorrenciaController(OcorrenciaRepositorio ocorrenciaRepositorio, IMapper mapper, IMulta IOcorrencia)
+        public OcorrenciaController(OcorrenciaRepositorio ocorrenciaRepositorio, IMapper mapper, IOcorrencia IOcorrencia)
         {
             this.mapper = mapper;
             _IOcorrencia = IOcorrencia;

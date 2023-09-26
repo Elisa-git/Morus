@@ -23,7 +23,7 @@ namespace Entities.Entities
         [Column("Descricao")]
         public string Descricao { get; set; }
 
-        [Column("DataCadastro")]
+        [Column("data_ocorrencia")]
         public DateTime DataCadastro { get; set; }
 
         [ForeignKey("Usuario")]
