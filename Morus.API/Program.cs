@@ -40,6 +40,7 @@ builder.Services.AddSingleton<IUsuario, UsuarioRepositorio>();
 builder.Services.AddSingleton<IInformacaoRepositorio, InformacaoRepositorio>();
 builder.Services.AddSingleton<IMulta, MultaRepositorio>();
 builder.Services.AddSingleton<IOcorrencia, OcorrenciaRepositorio>();
+builder.Services.AddSingleton<ILivroCaixaRepositorio, LivroCaixaRepositorio>();
 
 builder.Services.AddScoped<CondominioRepositorio, CondominioRepositorio>();
 builder.Services.AddScoped<UsuarioRepositorio, UsuarioRepositorio>();
@@ -57,6 +58,7 @@ builder.Services.AddSingleton<IUsuarioService, UsuarioService>();
 builder.Services.AddSingleton<IInformacaoService, InformacaoService>();
 builder.Services.AddSingleton<IMultaService, MultaService>();
 builder.Services.AddSingleton<IOcorrenciaService, OcorrenciaService>();
+builder.Services.AddSingleton<ILivroCaixaService, LivroCaixaService>();
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -104,6 +106,8 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<MultaRequest, Multa>();
     cfg.CreateMap<Ocorrencia, OcorrenciaRequest>();
     cfg.CreateMap<OcorrenciaRequest, Ocorrencia>();
+    cfg.CreateMap<LivroCaixa, LivroCaixaRequest>();
+    cfg.CreateMap<LivroCaixaRequest, LivroCaixa>();
 });
 
 IMapper mapper = config.CreateMapper();

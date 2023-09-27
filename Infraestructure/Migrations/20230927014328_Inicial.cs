@@ -37,7 +37,8 @@ namespace Infraestructure.Migrations
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Nome = table.Column<string>(type: "longtext", nullable: true),
                     CPF = table.Column<string>(type: "longtext", nullable: false),
-                    Tipo = table.Column<int>(type: "int", nullable: true),
+                    Token = table.Column<string>(type: "longtext", nullable: true),
+                    Tipo = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
@@ -269,7 +270,9 @@ namespace Infraestructure.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Titulo = table.Column<string>(type: "longtext", nullable: false),
                     Descricao = table.Column<string>(type: "longtext", nullable: false),
-                    DataCriacao = table.Column<string>(type: "longtext", nullable: false)
+                    Ativo = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    DataAlteracao = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -292,6 +295,7 @@ namespace Infraestructure.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     DescricaoTransacao = table.Column<string>(type: "longtext", nullable: false),
                     Categoria = table.Column<string>(type: "longtext", nullable: false),
+                    Torre = table.Column<string>(type: "longtext", nullable: false),
                     NumeroConta = table.Column<string>(type: "longtext", nullable: false),
                     ValorTransacao = table.Column<double>(type: "double", nullable: false),
                     DataTransacao = table.Column<DateTime>(type: "datetime(6)", nullable: false)
@@ -346,7 +350,7 @@ namespace Infraestructure.Migrations
                     Torre = table.Column<string>(type: "longtext", nullable: true),
                     Apartamento = table.Column<int>(type: "int", nullable: true),
                     DataNascimento = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    Tipo = table.Column<int>(type: "int", nullable: true)
+                    Tipo = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -402,6 +406,29 @@ namespace Infraestructure.Migrations
                     table.PrimaryKey("PK_Multa", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Multa_Usuario_Id_usuario",
+                        column: x => x.Id_usuario,
+                        principalTable: "Usuario",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Ocorrencia",
+                columns: table => new
+                {
+                    Id_usuario = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Titulo = table.Column<string>(type: "longtext", nullable: false),
+                    Descricao = table.Column<string>(type: "longtext", nullable: false),
+                    data_ocorrencia = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ocorrencia", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Ocorrencia_Usuario_Id_usuario",
                         column: x => x.Id_usuario,
                         principalTable: "Usuario",
                         principalColumn: "Id",
@@ -534,6 +561,11 @@ namespace Infraestructure.Migrations
                 column: "Id_usuario");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Ocorrencia_Id_usuario",
+                table: "Ocorrencia",
+                column: "Id_usuario");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reserva_Id_AreaComum",
                 table: "Reserva",
                 column: "Id_AreaComum");
@@ -601,6 +633,9 @@ namespace Infraestructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Multa");
+
+            migrationBuilder.DropTable(
+                name: "Ocorrencia");
 
             migrationBuilder.DropTable(
                 name: "Reserva");

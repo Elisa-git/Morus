@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestructure.Migrations
 {
     [DbContext(typeof(ContextBase))]
-    [Migration("20230915214507_Inicial")]
+    [Migration("20230927014328_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -138,10 +138,17 @@ namespace Infraestructure.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Id");
 
-                    b.Property<string>("DataCriacao")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("DataCriacao");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("Ativo");
+
+                    b.Property<DateTime>("DataAlteracao")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("DataAlteracao");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("DataCadastro");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
@@ -193,6 +200,11 @@ namespace Infraestructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("NumeroConta");
+
+                    b.Property<string>("Torre")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("Torre");
 
                     b.Property<double>("ValorTransacao")
                         .HasColumnType("double")
@@ -280,6 +292,38 @@ namespace Infraestructure.Migrations
                     b.HasIndex("Id_usuario");
 
                     b.ToTable("Multa");
+                });
+
+            modelBuilder.Entity("Entities.Entities.Ocorrencia", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("data_ocorrencia");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("Descricao");
+
+                    b.Property<int>("Id_usuario")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("Titulo");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id_usuario");
+
+                    b.ToTable("Ocorrencia");
                 });
 
             modelBuilder.Entity("Entities.Entities.Reserva", b =>
@@ -412,9 +456,13 @@ namespace Infraestructure.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("Tipo")
+                    b.Property<int>("Tipo")
                         .HasColumnType("int")
                         .HasColumnName("Tipo");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("longtext")
+                        .HasColumnName("Token");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");
@@ -463,7 +511,7 @@ namespace Infraestructure.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("Nome");
 
-                    b.Property<int?>("Tipo")
+                    b.Property<int>("Tipo")
                         .HasColumnType("int")
                         .HasColumnName("Tipo");
 
@@ -733,6 +781,17 @@ namespace Infraestructure.Migrations
                 });
 
             modelBuilder.Entity("Entities.Entities.Multa", b =>
+                {
+                    b.HasOne("Entities.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("Id_usuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Entities.Entities.Ocorrencia", b =>
                 {
                     b.HasOne("Entities.Entities.Usuario", "Usuario")
                         .WithMany()

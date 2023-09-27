@@ -50,7 +50,7 @@ namespace Infraestructure.Configuration
 
         public string ObterStringConexao()
         {
-            return "server=localhost;database=morus;user=root;password=root";
+            return "server=localhost;database=morus;user=root";
         }
     }
 }

@@ -13,7 +13,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace Entities.Entities
 {
     [Table("LivroCaixa")]
-    public class LivroCaixa
+    public class LivroCaixa : Notifies
     {
         [Key]
         [Column("Id")]
@@ -25,9 +25,11 @@ namespace Entities.Entities
         [Column("Categoria")]
         public string Categoria { get; set; }
 
+        [Column("Torre")]
+        public string Torre {  get; set; }
+
         [Column("NumeroConta")]
         public string NumeroConta { get; set; }
-
 
         [Column("ValorTransacao")]
         public double ValorTransacao { get; set; }
