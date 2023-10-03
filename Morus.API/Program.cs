@@ -41,6 +41,7 @@ builder.Services.AddSingleton<IInformacaoRepositorio, InformacaoRepositorio>();
 builder.Services.AddSingleton<IMulta, MultaRepositorio>();
 builder.Services.AddSingleton<IOcorrencia, OcorrenciaRepositorio>();
 builder.Services.AddSingleton<ILivroCaixaRepositorio, LivroCaixaRepositorio>();
+builder.Services.AddSingleton<IAreaComumRepositorio, AreaComumRepositorio>();
 builder.Services.AddSingleton<ITaxaMensalRepositorio, TaxaMensalRepositorio>();
 
 builder.Services.AddScoped<CondominioRepositorio, CondominioRepositorio>();
@@ -48,6 +49,7 @@ builder.Services.AddScoped<UsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<InformacaoRepositorio, InformacaoRepositorio>();
 builder.Services.AddScoped<MultaRepositorio, MultaRepositorio>();
 builder.Services.AddScoped<OcorrenciaRepositorio, OcorrenciaRepositorio>();
+builder.Services.AddScoped<AreaComumRepositorio, AreaComumRepositorio>();
 
 
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.GetTempPath()));
@@ -61,6 +63,7 @@ builder.Services.AddSingleton<IMultaService, MultaService>();
 builder.Services.AddSingleton<IOcorrenciaService, OcorrenciaService>();
 builder.Services.AddSingleton<ILivroCaixaService, LivroCaixaService>();
 builder.Services.AddSingleton<ITaxaMensalService, TaxaMensalService>();
+builder.Services.AddSingleton<IAreaComumService, AreaComumService>();
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -112,6 +115,8 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<LivroCaixaRequest, LivroCaixa>();
     cfg.CreateMap<TaxaMensal, TaxaMensalRequest>();
     cfg.CreateMap<TaxaMensalRequest, TaxaMensal>();
+    cfg.CreateMap<AreaComum, AreaComumRequest>();
+    cfg.CreateMap<AreaComumRequest, AreaComum>();
 });
 
 IMapper mapper = config.CreateMapper();
