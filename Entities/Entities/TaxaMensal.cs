@@ -13,7 +13,7 @@ using System.Text.Json.Serialization;
 namespace Entities.Entities
 {
     [Table("TaxaMensal")]
-    public class TaxaMensal
+    public class TaxaMensal : Notifies
     {
         [Key]
         [Column("Id")]
