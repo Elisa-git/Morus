@@ -14,7 +14,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace Entities.Entities
 {
     [Table("AreaComum")]
-    public class AreaComum
+    public class AreaComum : Notifies
     {
         [Key]
         [Column("Id")]
