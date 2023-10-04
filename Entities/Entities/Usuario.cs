@@ -1,4 +1,6 @@
-﻿using Entities.Entities.Enum;
+﻿using Core;
+using Entities.Entities.Enum;
+using Entities.Validacoes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OData.Edm;
 using System;
@@ -13,7 +15,7 @@ using System.Threading.Tasks;
 namespace Entities.Entities
 {
     [Table("Usuario")]
-    public class Usuario : Notifies
+    public class Usuario : EntityBase
     {
         [Key]
         [Column("Id")]
@@ -43,5 +45,11 @@ namespace Entities.Entities
 
         [JsonIgnore]
         public virtual Condominio? Condominio { get; set; }
+
+        public override bool EhValido()
+        {
+            ResultadoValidacao = new UsuarioValidation().Validate(this);
+            return ResultadoValidacao.IsValid;
+        }
     }
 }

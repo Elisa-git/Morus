@@ -1,4 +1,7 @@
+using Application;
+using Application.Interfaces;
 using AutoMapper;
+using Core.Notificador;
 using Domain.Interfaces;
 using Domain.Interfaces.Generics;
 using Domain.Interfaces.InterfaceServices;
@@ -9,6 +12,7 @@ using Infraestructure.Repository.Generics;
 using Infraestructure.Repository.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Morus.API.Models;
@@ -28,9 +32,19 @@ builder.Services.AddSwaggerGen();
 // Config Services
 
 builder.Services.AddDbContext<ContextBase>(options => options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ContextBase>();
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
+builder.Services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ContextBase>()
+                .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(opt => 
+{
+    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+});
+
+
+//builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ContextBase>();
 
 // INTERFACE E REPOSITORIO
 builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
@@ -51,6 +65,9 @@ builder.Services.AddScoped<MultaRepositorio, MultaRepositorio>();
 builder.Services.AddScoped<OcorrenciaRepositorio, OcorrenciaRepositorio>();
 builder.Services.AddScoped<AreaComumRepositorio, AreaComumRepositorio>();
 
+builder.Services.AddScoped<IOcorrenciaApplication, OcorrenciaApplication>();
+
+builder.Services.AddScoped<INotificador, Notificador>();
 
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.GetTempPath()));
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Entities.Entities
 {
     [Table("Condominio")]
-    public class Condominio : Notifies
+    public class Condominio
     {
         [Key]
         [Column("Id")]

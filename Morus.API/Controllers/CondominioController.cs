@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Notificador;
 using Domain.Interfaces;
 using Domain.Interfaces.InterfaceServices;
 using Domain.Services;
@@ -17,11 +18,13 @@ namespace Morus.API.Controllers
     public class CondominioController : ControllerBase
     {
         private readonly CondominioRepositorio _condominioRepositorio;
+        private readonly INotificador _notificador;
         private readonly IMapper mapper;
 
-        public CondominioController(CondominioRepositorio condominioRepositorio, IMapper mapper) 
+        public CondominioController(CondominioRepositorio condominioRepositorio, IMapper mapper, INotificador notificador) 
         { 
             _condominioRepositorio = condominioRepositorio;
+            _notificador = notificador;
             this.mapper = mapper;
         }
 
@@ -35,8 +38,17 @@ namespace Morus.API.Controllers
 
             condominioRequest.UserId = await RetornarIdUsuarioLogado();
             var condominioMapeado = mapper.Map<Condominio>(condominioRequest);
-            await _condominioRepositorio.Add(condominioMapeado);
-            return condominioMapeado.ListaNotificacoes;
+            return null;
+            //var mensagens = condominioMapeado.Validar();
+            //if (mensagens.Any())
+            //    mensagens.ForEach(m => _notificador.Notificar(new Notificacao(m)));
+
+
+
+
+            //await _condominioRepositorio.Add(condominioMapeado);
+
+            //return condominioMapeado.ListaNotificacoes;
 
         }
 
@@ -47,7 +59,8 @@ namespace Morus.API.Controllers
         {
             var condominioMapeado = mapper.Map<Condominio>(condominioRequest);
             await _condominioRepositorio.Update(condominioMapeado);
-            return condominioMapeado.ListaNotificacoes;
+            //return condominioMapeado.ListaNotificacoes;
+            return null;
         }
 
         private async Task<string> RetornarIdUsuarioLogado()

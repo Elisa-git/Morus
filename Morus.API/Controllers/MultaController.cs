@@ -70,6 +70,7 @@ namespace Morus.API.Controllers
         {
             var multas = await _IMulta.List();
             var multaMap = mapper.Map<List<Multa>>(multas);
+            
             return multaMap;
         }
     }

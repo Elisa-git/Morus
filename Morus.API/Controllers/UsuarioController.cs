@@ -1,9 +1,13 @@
-﻿using AutoMapper;
+﻿using Application.Interfaces;
+using AutoMapper;
+using Core.Notificador;
 using Domain.Interfaces;
 using Domain.Interfaces.InterfaceServices;
 using Entities.Entities;
+using FluentValidation;
 using Infraestructure.Repository.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Morus.API.Models;
 
@@ -11,26 +15,39 @@ namespace Morus.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class UsuarioController : MorusController
     {
-        private readonly IUsuario _usuarioRepositorio;
+        private readonly IUsuarioApplication _usuarioApplication;
         private readonly IMapper mapper;
         private readonly IUsuario _IUsuario;
-        public UsuarioController(UsuarioRepositorio usuarioRepositorio, IMapper mapper, IUsuario IUsuario)
+        public UsuarioController(IMapper mapper, IUsuario IUsuario, IUsuarioApplication usuarioApplication, INotificador notificador) : base(notificador)
         {
             this.mapper = mapper;
             _IUsuario = IUsuario;
-            _usuarioRepositorio = usuarioRepositorio;
+            _usuarioApplication = usuarioApplication;
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPost("/api/CadastrarUsuario")]
-        public async Task<List<Notifies>> CadastrarUsuario(UsuarioRequest usuarioRequest)
+        public async Task<IActionResult> CadastrarUsuario(UsuarioRequest usuarioRequest)
         {
-            var usuarioMapeado = mapper.Map<Usuario>(usuarioRequest);
-            await _usuarioRepositorio.Add(usuarioMapeado);
-            return usuarioMapeado.ListaNotificacoes;
+            try
+            {
+                var usuarioMapeado = mapper.Map<Usuario>(usuarioRequest);
+                await _usuarioApplication.Cadastrar(usuarioMapeado);
+
+                return CustomResponse(200, true);
+            }
+            catch(ValidationException)
+            {
+                return CustomResponse(400, false);
+            }
+            catch(Exception)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         //[AllowAnonymous]
@@ -49,8 +66,9 @@ namespace Morus.API.Controllers
         public async Task<List<Notifies>> DeletarUsuario(UsuarioRequest usuarioRequest)
         {
             var usuarioMap = mapper.Map<Usuario>(usuarioRequest);
-            await _usuarioRepositorio.Delete(usuarioMap);
-            return usuarioMap.ListaNotificacoes;
+            //await _usuarioRepositorio.Delete(usuarioMap);
+            //return usuarioMap.ListaNotificacoes;
+            return null;
         }
 
         [AllowAnonymous]

@@ -1,4 +1,5 @@
 ﻿using Entities.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -43,14 +44,26 @@ namespace Infraestructure.Configuration
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<User>().ToTable("AspNetUsers").HasKey(t => t.Id);
-
             base.OnModelCreating(builder);
+            SeedIdentityRoles(builder);
+        }
+
+
+        private void SeedIdentityRoles(ModelBuilder builder)
+        {
+            builder.Entity<IdentityRole>().HasData
+                (
+                    new IdentityRole() { Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "ADMIN" },
+                    new IdentityRole() { Name = "Sindico", ConcurrencyStamp = "2", NormalizedName = "SINDICO" },
+                    new IdentityRole() { Name = "Morador", ConcurrencyStamp = "3", NormalizedName = "MORADOR" },
+                    new IdentityRole() { Name = "Porteiro", ConcurrencyStamp = "4", NormalizedName = "PORTEIRO" }
+                );
         }
 
 
         public string ObterStringConexao()
         {
-            return "server=localhost;database=morus;user=root";
+            return "server=localhost;database=morus;user=root;password=12345678";
         }
     }
 }
