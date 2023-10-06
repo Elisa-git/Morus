@@ -6,6 +6,7 @@ namespace Domain.Interfaces
 {
     public interface IUsuario : IGeneric<Usuario>
     {
+        Task<List<Usuario>> ListarComCondominio();
         Task<List<Usuario>> ListarMessage(Expression<Func<Usuario, bool>> exMessage);
         Task<List<Usuario>> ListarMessageIncludeCondominio(Expression<Func<Usuario, bool>> exMessage);
     }

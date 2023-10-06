@@ -17,5 +17,15 @@ namespace Domain.Services
         {
             await usuarioGenerico.Add(usuario);
         }
+
+        public async Task<List<Usuario>> ListarUsuarios()
+        {
+            return await usuarioGenerico.List();
+        }
+
+        public async Task<List<Usuario>> ListarUsuariosComCondominio()
+        {
+            return await usuarioGenerico.ListarComCondominio();
+        }
     }
 }

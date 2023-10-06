@@ -12,10 +12,10 @@ namespace Domain.Entities
         public int Id { get; set; }
 
         [Column("ValorMulta")]
-        public double ValorMulta { get; set; }
+        public decimal ValorMulta { get; set; }
 
         [Column("AplicadaEm")]
-        public string AplicadaEm { get; set; }
+        public DateTime AplicadaEm { get; set; }
 
         [Column("DataExpiracao")]
         public DateTime DataExpiracao { get; set; }

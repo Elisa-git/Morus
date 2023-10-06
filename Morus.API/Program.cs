@@ -103,15 +103,15 @@ builder.Services.AddScoped<INotificador, Notificador>();
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.GetTempPath()));
 
 // SERVIÇO DOMINIO
-builder.Services.AddSingleton<IServiceMessage, ServiceMessage>();
-builder.Services.AddSingleton<ICondominioService, CondominioService>();
-builder.Services.AddSingleton<IUsuarioService, UsuarioService>();
-builder.Services.AddSingleton<IInformacaoService, InformacaoService>();
-builder.Services.AddSingleton<IMultaService, MultaService>();
-builder.Services.AddSingleton<IOcorrenciaService, OcorrenciaService>();
-builder.Services.AddSingleton<ILivroCaixaService, LivroCaixaService>();
-builder.Services.AddSingleton<ITaxaMensalService, TaxaMensalService>();
-builder.Services.AddSingleton<IAreaComumService, AreaComumService>();
+builder.Services.AddScoped<IServiceMessage, ServiceMessage>();
+builder.Services.AddScoped<ICondominioService, CondominioService>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IInformacaoService, InformacaoService>();
+builder.Services.AddScoped<IMultaService, MultaService>();
+builder.Services.AddScoped<IOcorrenciaService, OcorrenciaService>();
+builder.Services.AddScoped<ILivroCaixaService, LivroCaixaService>();
+builder.Services.AddScoped<ITaxaMensalService, TaxaMensalService>();
+builder.Services.AddScoped<IAreaComumService, AreaComumService>();
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

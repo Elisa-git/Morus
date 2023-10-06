@@ -24,5 +24,7 @@ namespace Application
 
             await _ocorrenciaRepositorio.Add(ocorrencia);
         }
+
+
     }
 }

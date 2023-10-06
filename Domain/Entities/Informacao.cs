@@ -1,11 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core;
+using Domain.Validacoes;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Domain.Entities
 {
     [Table("Informacao")]
-    public class Informacao : Notifies
+    public class Informacao : EntityBase
     {
         [Key]
         [Column("Id")]
@@ -32,5 +34,11 @@ namespace Domain.Entities
 
         [Column("DataAlteracao")]
         public DateTime DataAlteracao { get; set; }
+
+        public override bool EhValido()
+        {
+            ResultadoValidacao = new InformacaoValidation().Validate(this);
+            return ResultadoValidacao.IsValid;
+        }
     }
 }

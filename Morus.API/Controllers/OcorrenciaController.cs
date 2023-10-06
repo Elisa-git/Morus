@@ -4,6 +4,8 @@ using Core.Exceptions;
 using Core.Notificador;
 using Domain.Entities;
 using Domain.Interfaces;
+using Domain.Interfaces.InterfaceServices;
+using Domain.Services;
 using Infraestructure.Repository.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,14 +19,21 @@ namespace Morus.API.Controllers
     {
         private readonly IOcorrencia _ocorrenciaRepositorio;
         private readonly IOcorrenciaApplication _ocorrenciaApplication;
+        private readonly IOcorrenciaService _ocorrenciaService;
         private readonly IMapper mapper;
         private readonly IOcorrencia _IOcorrencia;
-        public OcorrenciaController(OcorrenciaRepositorio ocorrenciaRepositorio, IMapper mapper, IOcorrencia IOcorrencia, IOcorrenciaApplication ocorrenciaApplication, INotificador notificador) : base(notificador)
+        public OcorrenciaController(OcorrenciaRepositorio ocorrenciaRepositorio,
+                                    IMapper mapper,
+                                    IOcorrencia IOcorrencia,
+                                    IOcorrenciaApplication ocorrenciaApplication,
+                                    INotificador notificador,
+                                    IOcorrenciaService ocorrenciaService) : base(notificador)
         {
             this.mapper = mapper;
             _IOcorrencia = IOcorrencia;
             _ocorrenciaRepositorio = ocorrenciaRepositorio;
             _ocorrenciaApplication = ocorrenciaApplication;
+            _ocorrenciaService = ocorrenciaService;
         }
 
         [AllowAnonymous]
@@ -35,7 +44,7 @@ namespace Morus.API.Controllers
             try
             {
                 var ocorrenciaMapeado = mapper.Map<Ocorrencia>(ocorrenciaRequest);
-                await _ocorrenciaApplication.CadastrarOcorrencia(ocorrenciaMapeado);
+                await _ocorrenciaService.SalvarOcorrencia(ocorrenciaMapeado);
 
                 return CustomResponse(200, true);
             }
@@ -55,10 +64,22 @@ namespace Morus.API.Controllers
         [HttpPut("/api/AtualizarOcorrencia")]
         public async Task<IActionResult> AtualizarOcorrencia(OcorrenciaRequest ocorrenciaRequest)
         {
-            var ocorrenciaMap = mapper.Map<Ocorrencia>(ocorrenciaRequest);
-            await _ocorrenciaRepositorio.Update(ocorrenciaMap);
-            //return ocorrenciaMap.ListaNotificacoes;
-            return Ok();
+            try
+            {
+                var ocorrenciaMap = mapper.Map<Ocorrencia>(ocorrenciaRequest);
+                await _ocorrenciaService.AtualizarOcorrencia(ocorrenciaMap);
+
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         [AllowAnonymous]
@@ -66,10 +87,22 @@ namespace Morus.API.Controllers
         [HttpDelete("/api/DeletarOcorrencia")]
         public async Task<IActionResult> DeletarOcorrencia(OcorrenciaRequest ocorrenciaRequest)
         {
-            var ocorrenciaMap = mapper.Map<Ocorrencia>(ocorrenciaRequest);
-            await _ocorrenciaRepositorio.Delete(ocorrenciaMap);
-            //return ocorrenciaMap.ListaNotificacoes;
-            return Ok();
+            try
+            {
+                var ocorrenciaMap = mapper.Map<Ocorrencia>(ocorrenciaRequest);
+                await _ocorrenciaService.DeletarOcorrencia(ocorrenciaMap);
+
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         [AllowAnonymous]
@@ -77,9 +110,18 @@ namespace Morus.API.Controllers
         [HttpGet("/api/ListarOcorrencias")]
         public async Task<IActionResult> ListarOcorrencias()
         {
-            var ocorrencias = await _IOcorrencia.List();
-            var ocorrenciaMap = mapper.Map<List<Ocorrencia>>(ocorrencias);
-            return Ok(ocorrenciaMap);
+            try
+            {
+                var ocorrencias = _ocorrenciaService.ListarOcorrencias();
+                var ocorrenciaMap = mapper.Map<List<Ocorrencia>>(ocorrencias);
+
+                return CustomResponse(ocorrenciaMap != null ? 200 : 404, true, ocorrenciaMap);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
     }
 }

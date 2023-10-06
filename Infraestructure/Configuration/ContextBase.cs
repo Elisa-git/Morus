@@ -40,8 +40,37 @@ namespace Infraestructure.Configuration
         {
             builder.Entity<User>().ToTable("AspNetUsers").HasKey(t => t.Id);
             base.OnModelCreating(builder);
+            SeedDatabaseInicial(builder);
             SeedIdentityUserAndRoles(builder);
+            SeedMulta(builder);
         }
+
+        private void SeedDatabaseInicial(ModelBuilder builder)
+        {
+            builder.Entity<Condominio>().HasData
+                (
+                    new Condominio { Id = 1, Bairro = "Bairro Morus", CEP = "29101000", Cidade = "Vila Velha", Estado = "ES", Nome = "Condominio Morus", Numero = 1, Porteiro = false, Rua = "Rua Morus" }
+                );
+
+            builder.Entity<LivroCaixa>().HasData
+                (
+                    new LivroCaixa { Id = 1, Categoria = "teste", Id_condominio = 1, Torre = "A", ValorTransacao = 500.00m, NumeroConta = "123", DataTransacao = new DateTime(2023, 10, 06), DescricaoTransacao = "Descrição teste" }
+                );
+
+            builder.Entity<Informacao>().HasData
+                (
+                    new Informacao { Id = 1, Ativo = true, Id_condominio = 1, DataCadastro = new DateTime(2023,10,06), DataAlteracao = new DateTime(2023, 10, 06), Descricao = "Descrição de informação inicial teste, lorem ipsum", Titulo = "Informação inicial" }
+                );
+        }
+
+        private void SeedMulta(ModelBuilder builder)
+        {
+            builder.Entity<Multa>().HasData
+                (
+                    new Multa { Id = 1, AplicadaEm = new DateTime(2023, 10, 06), DataExpiracao = new DateTime(2023, 11, 06), Id_usuario = 2, Motivo = "Jogou ovo da janela", TaxaJurosDia = 1, ValorMulta = 280.75m }
+                );
+        }
+
 
         private void SeedIdentityUserAndRoles(ModelBuilder builder)
         {
@@ -139,12 +168,6 @@ namespace Infraestructure.Configuration
                     }
                 );
 
-
-            builder.Entity<Condominio>().HasData
-                (
-                    new Condominio { Bairro = "Bairro Morus", CEP = "29101000", Cidade = "Vila Velha", Estado = "ES", Nome = "Condominio Morus", Numero = 1, Porteiro = false, Rua = "Rua Morus", Id = 1 }
-                );
-
             builder.Entity<Usuario>().HasData
                 (
                     new Usuario
@@ -197,8 +220,8 @@ namespace Infraestructure.Configuration
 
         public string ObterStringConexao()
         {
-            //return "Server=db4free.net;Port=3306;Database=morusdb;user=morus_admin;password=Morus@2023;";
-            return "Server=localhost;Database=morus;user=root";
+            return "Server=db4free.net;Port=3306;Database=morusdb;user=morus_admin;password=Morus@2023;";
+            //return "Server=localhost;Database=morus;user=root";
         }
     }
 }

@@ -17,11 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Morus.API", "Morus.API\Moru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Core", "0 - Core", "{60152FA1-C186-41BE-B432-5ADBEA6F149A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{89DD0AB5-7B88-40BB-A4DE-5E6E27DFC45E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{89DD0AB5-7B88-40BB-A4DE-5E6E27DFC45E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Application", "5 - Application", "{FB742108-D660-4FAD-8D10-B723A7E87997}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Application", "4 - Application", "{FB742108-D660-4FAD-8D10-B723A7E87997}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application.cs\Application.csproj", "{913D8681-58D0-471E-BBD8-822471F7EB46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application.cs\Application.csproj", "{913D8681-58D0-471E-BBD8-822471F7EB46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

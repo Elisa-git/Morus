@@ -9,6 +9,6 @@ namespace Domain.Interfaces.InterfaceServices
         Task AtualizarInformacao(Informacao informacaoRequest);
 
         Task<List<Informacao>> ListarInformacoesAtivas();
-
+        Task DeletarInformacao(Informacao informacaoRequest);
     }
 }

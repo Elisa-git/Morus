@@ -18,6 +18,5 @@ namespace Application.NovaPasta1
         public DateTime? DataNascimento { get; set; }
         public TipoUsuario TipoUsuario { get; set; }
         public virtual Condominio? Condominio { get; set; }
-
     }
 }

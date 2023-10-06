@@ -1,9 +1,12 @@
 ﻿using Application.Interfaces;
+using Application.NovaPasta1;
 using AutoMapper;
 using Core.Exceptions;
 using Core.Notificador;
 using Domain.Entities;
+using Domain.Entities.Enum;
 using Domain.Interfaces;
+using Domain.Interfaces.InterfaceServices;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -20,11 +23,13 @@ namespace Morus.API.Controllers
         private readonly IMapper mapper;
         private readonly IUsuario _IUsuario;
         private readonly UserManager<User> _userManager;
+        private readonly IUsuarioService _usuarioService;
         private readonly SignInManager<User> _signInManager;
         public UsuarioController(IMapper mapper,
                                  IUsuario IUsuario,
                                  IUsuarioApplication usuarioApplication,
                                  INotificador notificador,
+                                 IUsuarioService usuarioService,
                                  SignInManager<User> signInManager,
                                  UserManager<User> userManager) : base(notificador)
         {
@@ -33,7 +38,7 @@ namespace Morus.API.Controllers
             _usuarioApplication = usuarioApplication;
             _signInManager = signInManager;
             _userManager = userManager;
-
+            _usuarioService = usuarioService;
         }
 
         //[AllowAnonymous]
@@ -97,7 +102,6 @@ namespace Morus.API.Controllers
             }
         }
 
-
         //[AllowAnonymous]
         //[Produces("application/json")]
         //[HttpPut("/api/AtualizarUsuario")]
@@ -108,25 +112,62 @@ namespace Morus.API.Controllers
         //    return usuarioMap.ListaNotificacoes;
         //}
 
-        [AllowAnonymous]
-        [Produces("application/json")]
-        [HttpDelete("/api/DeletarUsuario")]
-        public async Task<List<Notifies>> DeletarUsuario(UsuarioRequest usuarioRequest)
-        {
-            var usuarioMap = mapper.Map<Usuario>(usuarioRequest);
-            //await _usuarioRepositorio.Delete(usuarioMap);
-            //return usuarioMap.ListaNotificacoes;
-            return null;
-        }
+        //[AllowAnonymous]
+        //[Produces("application/json")]
+        //[HttpDelete("/api/DeletarUsuario")]
+        //public async Task<List<Notifies>> DeletarUsuario(UsuarioRequest usuarioRequest)
+        //{
+        //    var usuarioMap = mapper.Map<Usuario>(usuarioRequest);
+        //    //await _usuarioRepositorio.Delete(usuarioMap);
+        //    //return usuarioMap.ListaNotificacoes;
+        //    return null;
+        //}
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpGet("/api/ListarUsuarios")]
-        public async Task<List<Usuario>> ListarUsuarios()
+        public async Task<IActionResult> ListarUsuarios()
         {
-            var usuarios = await _IUsuario.List();
-            var usuarioMap = mapper.Map<List<Usuario>>(usuarios);
-            return usuarioMap;
+            try
+            {
+                var usuarios = await _usuarioService.ListarUsuariosComCondominio();
+
+                if (usuarios == null)
+                    return CustomResponse(404, true);
+                
+                var usuariosMap = mapper.Map<List<UsuarioRequest>>(usuarios);
+
+                foreach(var u in usuarios)
+                {
+                    var userIdentity = await _userManager.FindByIdAsync(u.IdUserIdentity);
+                    var role = (await _userManager.GetRolesAsync(userIdentity))?.FirstOrDefault();
+
+                    switch (role)
+                    {
+                        case "Sindico":
+                            usuariosMap.FirstOrDefault(m => m.Id == u.Id).Tipo = TipoUsuario.Sindico;
+                            break;
+                        case "Morador":
+                            usuariosMap.FirstOrDefault(m => m.Id == u.Id).Tipo = TipoUsuario.Morador;
+                            break;
+                        case "Admin":
+                            usuariosMap.FirstOrDefault(m => m.Id == u.Id).Tipo = TipoUsuario.Admin;
+                            break;
+                        case "Porteiro":
+                            usuariosMap.FirstOrDefault(m => m.Id == u.Id).Tipo = TipoUsuario.Porteiro;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            
+                return CustomResponse(200, true, usuariosMap);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
 

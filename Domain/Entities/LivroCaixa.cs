@@ -1,11 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core;
+using Domain.Validacoes;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Domain.Entities
 {
     [Table("LivroCaixa")]
-    public class LivroCaixa : Notifies
+    public class LivroCaixa : EntityBase
     {
         [Key]
         [Column("Id")]
@@ -24,7 +26,7 @@ namespace Domain.Entities
         public string NumeroConta { get; set; }
 
         [Column("ValorTransacao")]
-        public double ValorTransacao { get; set; }
+        public decimal ValorTransacao { get; set; }
 
         [Column("DataTransacao")]
         public DateTime DataTransacao { get; set; }
@@ -35,5 +37,11 @@ namespace Domain.Entities
 
         [JsonIgnore]
         public virtual Condominio Condominio { get; set; }
+
+        public override bool EhValido()
+        {
+            ResultadoValidacao = new LivroCaixaValidation().Validate(this);
+            return ResultadoValidacao.IsValid;
+        }
     }
 }
