@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Morus.API.Models
+﻿namespace Morus.API.Models
 {
     public class TaxaMensalRequest
     {

@@ -1,43 +1,46 @@
-﻿using Domain.Interfaces;
+﻿using Core.Exceptions;
+using Core.Notificador;
+using Domain.Entities;
+using Domain.Interfaces;
 using Domain.Interfaces.InterfaceServices;
-using Entities.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Validacoes;
 
 namespace Domain.Services
 {
     public class InformacaoService : IInformacaoService
     {
         private readonly IInformacaoRepositorio informacaoRepositorio;
+        private readonly ValidatorBase<Informacao> _informacaoValidator;
 
-        public InformacaoService(IInformacaoRepositorio informacaoRepositorio)
+        public InformacaoService(IInformacaoRepositorio informacaoRepositorio, INotificador notificador)
         {
             this.informacaoRepositorio = informacaoRepositorio;
+            _informacaoValidator = new ValidatorBase<Informacao>(notificador);
         }
 
         public async Task CadastrarInformacao(Informacao informacaoRequest)
         {
-            var validatitulo = informacaoRequest.ValidarPropriedadeString(informacaoRequest.Titulo, "Titulo");
-            if (validatitulo)
-            {
-                informacaoRequest.DataCadastro = DateTime.Now;
-                informacaoRequest.DataAlteracao = DateTime.Now;
-                informacaoRequest.Ativo = true;
-                await informacaoRepositorio.Add(informacaoRequest);
-            }
+            if (!_informacaoValidator.ValidarEntidade(informacaoRequest))
+                throw new ValidacaoException();
+            
+            informacaoRequest.DataCadastro = DateTime.Now;
+            informacaoRequest.DataAlteracao = DateTime.Now;
+            informacaoRequest.Ativo = true;
+            await informacaoRepositorio.Add(informacaoRequest);
         }
 
         public async Task AtualizarInformacao(Informacao informacaoRequest)
         {
-            var validatitulo = informacaoRequest.ValidarPropriedadeString(informacaoRequest.Titulo, "Titulo");
-            if (validatitulo)
-            {
-                informacaoRequest.DataAlteracao = DateTime.Now;
-                await informacaoRepositorio.Update(informacaoRequest);
-            }
+            if (!_informacaoValidator.ValidarEntidade(informacaoRequest))
+                throw new ValidacaoException();
+            
+            informacaoRequest.DataAlteracao = DateTime.Now;
+            await informacaoRepositorio.Update(informacaoRequest);
+        }
+
+        public async Task DeletarInformacao(Informacao informacaoRequest)
+        { 
+            await informacaoRepositorio.Delete(informacaoRequest);
         }
 
         public async Task<List<Informacao>> ListarInformacoesAtivas()

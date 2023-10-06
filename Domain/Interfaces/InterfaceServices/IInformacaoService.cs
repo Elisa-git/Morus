@@ -1,9 +1,4 @@
-﻿using Entities.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Entities;
 
 namespace Domain.Interfaces.InterfaceServices
 {
@@ -14,6 +9,6 @@ namespace Domain.Interfaces.InterfaceServices
         Task AtualizarInformacao(Informacao informacaoRequest);
 
         Task<List<Informacao>> ListarInformacoesAtivas();
-
+        Task DeletarInformacao(Informacao informacaoRequest);
     }
 }

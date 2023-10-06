@@ -1,12 +1,6 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Entities;
+using Domain.Interfaces;
 using Domain.Interfaces.InterfaceServices;
-using Entities.Entities;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Services
 {
@@ -22,6 +16,16 @@ namespace Domain.Services
         public async Task SalvarUsuario(Usuario usuario)
         {
             await usuarioGenerico.Add(usuario);
+        }
+
+        public async Task<List<Usuario>> ListarUsuarios()
+        {
+            return await usuarioGenerico.List();
+        }
+
+        public async Task<List<Usuario>> ListarUsuariosComCondominio()
+        {
+            return await usuarioGenerico.ListarComCondominio();
         }
     }
 }

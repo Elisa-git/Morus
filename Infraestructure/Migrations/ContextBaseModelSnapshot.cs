@@ -19,7 +19,7 @@ namespace Infraestructure.Migrations
                 .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Entities.Entities.AreaComum", b =>
+            modelBuilder.Entity("Domain.Entities.AreaComum", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,7 +46,7 @@ namespace Infraestructure.Migrations
                     b.ToTable("AreaComum");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Arquivo", b =>
+            modelBuilder.Entity("Domain.Entities.Arquivo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,7 +78,7 @@ namespace Infraestructure.Migrations
                     b.ToTable("Arquivo");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Condominio", b =>
+            modelBuilder.Entity("Domain.Entities.Condominio", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -126,9 +126,23 @@ namespace Infraestructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Condominio");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Bairro = "Bairro Morus",
+                            CEP = "29101000",
+                            Cidade = "Vila Velha",
+                            Estado = "ES",
+                            Nome = "Condominio Morus",
+                            Numero = 1,
+                            Porteiro = false,
+                            Rua = "Rua Morus"
+                        });
                 });
 
-            modelBuilder.Entity("Entities.Entities.Informacao", b =>
+            modelBuilder.Entity("Domain.Entities.Informacao", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -166,9 +180,21 @@ namespace Infraestructure.Migrations
                     b.HasIndex("Id_condominio");
 
                     b.ToTable("Informacao");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Ativo = true,
+                            DataAlteracao = new DateTime(2023, 10, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DataCadastro = new DateTime(2023, 10, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Descricao = "Descrição de informação inicial teste, lorem ipsum",
+                            Id_condominio = 1,
+                            Titulo = "Informação inicial"
+                        });
                 });
 
-            modelBuilder.Entity("Entities.Entities.LivroCaixa", b =>
+            modelBuilder.Entity("Domain.Entities.LivroCaixa", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -203,8 +229,8 @@ namespace Infraestructure.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("Torre");
 
-                    b.Property<double>("ValorTransacao")
-                        .HasColumnType("double")
+                    b.Property<decimal>("ValorTransacao")
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnName("ValorTransacao");
 
                     b.HasKey("Id");
@@ -212,9 +238,22 @@ namespace Infraestructure.Migrations
                     b.HasIndex("Id_condominio");
 
                     b.ToTable("LivroCaixa");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Categoria = "teste",
+                            DataTransacao = new DateTime(2023, 10, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DescricaoTransacao = "Descrição teste",
+                            Id_condominio = 1,
+                            NumeroConta = "123",
+                            Torre = "A",
+                            ValorTransacao = 500.00m
+                        });
                 });
 
-            modelBuilder.Entity("Entities.Entities.Message", b =>
+            modelBuilder.Entity("Domain.Entities.Message", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -251,16 +290,15 @@ namespace Infraestructure.Migrations
                     b.ToTable("Mensagem");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Multa", b =>
+            modelBuilder.Entity("Domain.Entities.Multa", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("Id");
 
-                    b.Property<string>("AplicadaEm")
-                        .IsRequired()
-                        .HasColumnType("longtext")
+                    b.Property<DateTime>("AplicadaEm")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("AplicadaEm");
 
                     b.Property<DateTime>("DataExpiracao")
@@ -280,8 +318,8 @@ namespace Infraestructure.Migrations
                         .HasColumnType("double")
                         .HasColumnName("TaxaJurosDia");
 
-                    b.Property<double>("ValorMulta")
-                        .HasColumnType("double")
+                    b.Property<decimal>("ValorMulta")
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnName("ValorMulta");
 
                     b.HasKey("Id");
@@ -289,9 +327,21 @@ namespace Infraestructure.Migrations
                     b.HasIndex("Id_usuario");
 
                     b.ToTable("Multa");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AplicadaEm = new DateTime(2023, 10, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DataExpiracao = new DateTime(2023, 11, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id_usuario = 2,
+                            Motivo = "Jogou ovo da janela",
+                            TaxaJurosDia = 1.0,
+                            ValorMulta = 280.75m
+                        });
                 });
 
-            modelBuilder.Entity("Entities.Entities.Ocorrencia", b =>
+            modelBuilder.Entity("Domain.Entities.Ocorrencia", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -323,7 +373,7 @@ namespace Infraestructure.Migrations
                     b.ToTable("Ocorrencia");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Reserva", b =>
+            modelBuilder.Entity("Domain.Entities.Reserva", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -355,7 +405,7 @@ namespace Infraestructure.Migrations
                     b.ToTable("Reserva");
                 });
 
-            modelBuilder.Entity("Entities.Entities.TaxaMensal", b =>
+            modelBuilder.Entity("Domain.Entities.TaxaMensal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -399,18 +449,13 @@ namespace Infraestructure.Migrations
                     b.ToTable("TaxaMensal");
                 });
 
-            modelBuilder.Entity("Entities.Entities.User", b =>
+            modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<string>("CPF")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("CPF");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -428,10 +473,6 @@ namespace Infraestructure.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Nome")
-                        .HasColumnType("longtext")
-                        .HasColumnName("Nome");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -453,14 +494,6 @@ namespace Infraestructure.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Tipo")
-                        .HasColumnType("int")
-                        .HasColumnName("Tipo");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("longtext")
-                        .HasColumnName("Token");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");
 
@@ -478,9 +511,75 @@ namespace Infraestructure.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8df23972-8367-4223-891f-a2536b73a32d",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6f045bbf-fddb-4e17-9c7f-b2cc16c6dc77",
+                            Email = "sindico@sindico.com.br",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "SINDICO@SINDICO.COM.BR",
+                            NormalizedUserName = "SINDICO@SINDICO.COM.BR",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIswx0rGRNhPcKmRzpn7o0i3+oW1pIMl6cf9wd+S3WInfuFPYSrE2EwsIDTEnN/W7g==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "e7f55a8a-8ed4-4b49-805d-c3d368b61e80",
+                            TwoFactorEnabled = false,
+                            UserName = "sindico@sindico.com.br"
+                        },
+                        new
+                        {
+                            Id = "ebafef68-4f09-4fc5-834c-2b0871b770c0",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "4c34c2d1-b91d-461c-a855-0f3792140eb3",
+                            Email = "morador@morador.com.br",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MORADOR@MORADOR.COM.BR",
+                            NormalizedUserName = "MORADOR@MORADOR.COM.BR",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFCbu5TQX0ZVwT8joHu4IzzW0RwjvtYvMRUGM55ZXRwsu2SFCf42Xr00Cqpd2lgOEA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "a7161f8a-e2ec-4d0d-a188-bfde5beeaf03",
+                            TwoFactorEnabled = false,
+                            UserName = "morador@morador.com.br"
+                        },
+                        new
+                        {
+                            Id = "6d0ba1ee-344d-4827-ae35-f95f8df993cd",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "c302283f-974b-40d7-9231-4b7c72a01108",
+                            Email = "admin@admin.com.br",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM.BR",
+                            NormalizedUserName = "ADMIN@ADMIN.COM.BR",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJsb6Mt9G/IPEDHzSsOlXGyGcLwdkWfCd5SpqEUDkvHnr/atIaFxP/IC1ZC1SRaKUQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "00cef1ef-157f-49a8-ba41-d8de94364ceb",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.com.br"
+                        },
+                        new
+                        {
+                            Id = "69a5fe94-1d42-48dd-ab10-8f97a3b2140f",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "20482492-a783-4d71-a8ff-a272c2447bbb",
+                            Email = "porteiro@porteiro.com.br",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "PORTEIRO@PORTEIRO.COM.BR",
+                            NormalizedUserName = "PORTEIRO@PORTEIRO.COM.BR",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI9FSXy6GsFGnxCQMT86LRP+SwXqjmX5z0opRXAHctRNdQX1ihXKgEkqMRsm40GwIA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "73c1a8bd-d4b4-4134-83a3-97e114681207",
+                            TwoFactorEnabled = false,
+                            UserName = "porteiro@porteiro.com.br"
+                        });
                 });
 
-            modelBuilder.Entity("Entities.Entities.Usuario", b =>
+            modelBuilder.Entity("Domain.Entities.Usuario", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -500,6 +599,10 @@ namespace Infraestructure.Migrations
                         .HasColumnType("datetime(6)")
                         .HasColumnName("DataNascimento");
 
+                    b.Property<string>("IdUserIdentity")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
                     b.Property<int?>("Id_condominio")
                         .HasColumnType("int")
                         .HasColumnOrder(1);
@@ -508,22 +611,66 @@ namespace Infraestructure.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("Nome");
 
-                    b.Property<int>("Tipo")
-                        .HasColumnType("int")
-                        .HasColumnName("Tipo");
-
                     b.Property<string>("Torre")
                         .HasColumnType("longtext")
                         .HasColumnName("Torre");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IdUserIdentity");
+
                     b.HasIndex("Id_condominio");
 
                     b.ToTable("Usuario");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Apartamento = 1,
+                            CPF = "12345678999",
+                            DataNascimento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdUserIdentity = "8df23972-8367-4223-891f-a2536b73a32d",
+                            Id_condominio = 1,
+                            Nome = "Sindico da Costa Filho",
+                            Torre = "A"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Apartamento = 2,
+                            CPF = "12343223444",
+                            DataNascimento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdUserIdentity = "ebafef68-4f09-4fc5-834c-2b0871b770c0",
+                            Id_condominio = 1,
+                            Nome = "Morador de Carvalho",
+                            Torre = "A"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Apartamento = 3,
+                            CPF = "12343223445",
+                            DataNascimento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdUserIdentity = "69a5fe94-1d42-48dd-ab10-8f97a3b2140f",
+                            Id_condominio = 1,
+                            Nome = "Porteiro Fernandes",
+                            Torre = "A"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Apartamento = 3,
+                            CPF = "12343223456",
+                            DataNascimento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdUserIdentity = "6d0ba1ee-344d-4827-ae35-f95f8df993cd",
+                            Id_condominio = 1,
+                            Nome = "Administrador",
+                            Torre = "A"
+                        });
                 });
 
-            modelBuilder.Entity("Entities.Entities.Votacao", b =>
+            modelBuilder.Entity("Domain.Entities.Votacao", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -563,7 +710,7 @@ namespace Infraestructure.Migrations
                     b.ToTable("Votacao");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Voto", b =>
+            modelBuilder.Entity("Domain.Entities.Voto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -614,6 +761,36 @@ namespace Infraestructure.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "80ffcf89-c78b-4c3f-80a1-5c6af4567a86",
+                            ConcurrencyStamp = "1",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "b6daee1d-a9a1-4c23-9d71-d3a92fceabea",
+                            ConcurrencyStamp = "2",
+                            Name = "Sindico",
+                            NormalizedName = "SINDICO"
+                        },
+                        new
+                        {
+                            Id = "9b9f90d6-25f8-4121-a2dd-0120e8c39a18",
+                            ConcurrencyStamp = "3",
+                            Name = "Morador",
+                            NormalizedName = "MORADOR"
+                        },
+                        new
+                        {
+                            Id = "0cbae1b7-daa8-420e-9e19-aea2bf9784b2",
+                            ConcurrencyStamp = "4",
+                            Name = "Porteiro",
+                            NormalizedName = "PORTEIRO"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -665,12 +842,10 @@ namespace Infraestructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("longtext");
@@ -699,6 +874,28 @@ namespace Infraestructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "8df23972-8367-4223-891f-a2536b73a32d",
+                            RoleId = "b6daee1d-a9a1-4c23-9d71-d3a92fceabea"
+                        },
+                        new
+                        {
+                            UserId = "6d0ba1ee-344d-4827-ae35-f95f8df993cd",
+                            RoleId = "80ffcf89-c78b-4c3f-80a1-5c6af4567a86"
+                        },
+                        new
+                        {
+                            UserId = "ebafef68-4f09-4fc5-834c-2b0871b770c0",
+                            RoleId = "9b9f90d6-25f8-4121-a2dd-0120e8c39a18"
+                        },
+                        new
+                        {
+                            UserId = "69a5fe94-1d42-48dd-ab10-8f97a3b2140f",
+                            RoleId = "0cbae1b7-daa8-420e-9e19-aea2bf9784b2"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -707,12 +904,10 @@ namespace Infraestructure.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Value")
                         .HasColumnType("longtext");
@@ -722,9 +917,9 @@ namespace Infraestructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.Entities.AreaComum", b =>
+            modelBuilder.Entity("Domain.Entities.AreaComum", b =>
                 {
-                    b.HasOne("Entities.Entities.Condominio", "Condominio")
+                    b.HasOne("Domain.Entities.Condominio", "Condominio")
                         .WithMany()
                         .HasForeignKey("Id_condominio")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -733,9 +928,9 @@ namespace Infraestructure.Migrations
                     b.Navigation("Condominio");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Arquivo", b =>
+            modelBuilder.Entity("Domain.Entities.Arquivo", b =>
                 {
-                    b.HasOne("Entities.Entities.Condominio", "Condominio")
+                    b.HasOne("Domain.Entities.Condominio", "Condominio")
                         .WithMany()
                         .HasForeignKey("Id_condominio")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -744,9 +939,9 @@ namespace Infraestructure.Migrations
                     b.Navigation("Condominio");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Informacao", b =>
+            modelBuilder.Entity("Domain.Entities.Informacao", b =>
                 {
-                    b.HasOne("Entities.Entities.Condominio", "Condominio")
+                    b.HasOne("Domain.Entities.Condominio", "Condominio")
                         .WithMany()
                         .HasForeignKey("Id_condominio")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -755,9 +950,9 @@ namespace Infraestructure.Migrations
                     b.Navigation("Condominio");
                 });
 
-            modelBuilder.Entity("Entities.Entities.LivroCaixa", b =>
+            modelBuilder.Entity("Domain.Entities.LivroCaixa", b =>
                 {
-                    b.HasOne("Entities.Entities.Condominio", "Condominio")
+                    b.HasOne("Domain.Entities.Condominio", "Condominio")
                         .WithMany()
                         .HasForeignKey("Id_condominio")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -766,9 +961,9 @@ namespace Infraestructure.Migrations
                     b.Navigation("Condominio");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Message", b =>
+            modelBuilder.Entity("Domain.Entities.Message", b =>
                 {
-                    b.HasOne("Entities.Entities.User", "User")
+                    b.HasOne("Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -777,9 +972,9 @@ namespace Infraestructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Multa", b =>
+            modelBuilder.Entity("Domain.Entities.Multa", b =>
                 {
-                    b.HasOne("Entities.Entities.Usuario", "Usuario")
+                    b.HasOne("Domain.Entities.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("Id_usuario")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -788,9 +983,9 @@ namespace Infraestructure.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Ocorrencia", b =>
+            modelBuilder.Entity("Domain.Entities.Ocorrencia", b =>
                 {
-                    b.HasOne("Entities.Entities.Usuario", "Usuario")
+                    b.HasOne("Domain.Entities.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("Id_usuario")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -799,15 +994,15 @@ namespace Infraestructure.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Reserva", b =>
+            modelBuilder.Entity("Domain.Entities.Reserva", b =>
                 {
-                    b.HasOne("Entities.Entities.AreaComum", "AreaComum")
+                    b.HasOne("Domain.Entities.AreaComum", "AreaComum")
                         .WithMany()
                         .HasForeignKey("Id_AreaComum")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Entities.Usuario", "Usuario")
+                    b.HasOne("Domain.Entities.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("Id_Usuario")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -818,9 +1013,9 @@ namespace Infraestructure.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Entities.Entities.TaxaMensal", b =>
+            modelBuilder.Entity("Domain.Entities.TaxaMensal", b =>
                 {
-                    b.HasOne("Entities.Entities.Condominio", "Condominio")
+                    b.HasOne("Domain.Entities.Condominio", "Condominio")
                         .WithMany()
                         .HasForeignKey("Id_condominio")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -829,18 +1024,26 @@ namespace Infraestructure.Migrations
                     b.Navigation("Condominio");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Usuario", b =>
+            modelBuilder.Entity("Domain.Entities.Usuario", b =>
                 {
-                    b.HasOne("Entities.Entities.Condominio", "Condominio")
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("IdUserIdentity")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Condominio", "Condominio")
                         .WithMany()
                         .HasForeignKey("Id_condominio");
 
                     b.Navigation("Condominio");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Votacao", b =>
+            modelBuilder.Entity("Domain.Entities.Votacao", b =>
                 {
-                    b.HasOne("Entities.Entities.Condominio", "Condominio")
+                    b.HasOne("Domain.Entities.Condominio", "Condominio")
                         .WithMany()
                         .HasForeignKey("Id_condominio")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -849,15 +1052,15 @@ namespace Infraestructure.Migrations
                     b.Navigation("Condominio");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Voto", b =>
+            modelBuilder.Entity("Domain.Entities.Voto", b =>
                 {
-                    b.HasOne("Entities.Entities.Usuario", "Usuario")
+                    b.HasOne("Domain.Entities.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("Id_usuario")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Entities.Votacao", "Votacao")
+                    b.HasOne("Domain.Entities.Votacao", "Votacao")
                         .WithMany()
                         .HasForeignKey("Id_votacao")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -879,7 +1082,7 @@ namespace Infraestructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Entities.Entities.User", null)
+                    b.HasOne("Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -888,7 +1091,7 @@ namespace Infraestructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Entities.Entities.User", null)
+                    b.HasOne("Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -903,7 +1106,7 @@ namespace Infraestructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Entities.User", null)
+                    b.HasOne("Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -912,7 +1115,7 @@ namespace Infraestructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Entities.Entities.User", null)
+                    b.HasOne("Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

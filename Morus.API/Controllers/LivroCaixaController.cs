@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using Core.Exceptions;
+using Core.Notificador;
+using Domain.Entities;
 using Domain.Interfaces;
-using Entities.Entities;
+using Domain.Interfaces.InterfaceServices;
+using Domain.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Morus.API.Models;
 
@@ -10,63 +13,107 @@ namespace Morus.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LivroCaixaController : ControllerBase
+    public class LivroCaixaController : MorusController
     {
-        private readonly ILivroCaixaRepositorio livroCaixaRepositorio;
+        private readonly ILivroCaixaService _livroCaixaService;
         private readonly IMapper mapper;
 
-        public LivroCaixaController(ILivroCaixaRepositorio livroCaixaRepositorio, IMapper mapper)
+        public LivroCaixaController(ILivroCaixaService livroCaixaService, IMapper mapper, INotificador notificador) : base(notificador)
         {
-            this.livroCaixaRepositorio = livroCaixaRepositorio;
+            _livroCaixaService = livroCaixaService;
             this.mapper = mapper;
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPost("/api/CadastrarLivroCaixa")]
-        public IActionResult CadastrarLivroCaixa(LivroCaixaRequest livroCaixaRequest)
+        public async Task<IActionResult> CadastrarLivroCaixa(LivroCaixaRequest livroCaixaRequest)
         {
-            if (livroCaixaRequest.Id_condominio == null)
-                return BadRequest();
-
-            var livroCaixa = mapper.Map<LivroCaixa>(livroCaixaRequest);
-            livroCaixaRepositorio.Add(livroCaixa);
-            livroCaixa.Mensagem = "Livro Caixa foi cadastrado com sucesso";
-
-            return Ok(livroCaixa);
+            try
+            {
+                var ocorrenciaMap = mapper.Map<LivroCaixa>(livroCaixaRequest);
+                await _livroCaixaService.CadastrarLivroCaixa(ocorrenciaMap); 
+                
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPut("/api/EditarLivroCaixa")]
-        public LivroCaixa AtualizarLivroCaixa(LivroCaixaRequest livroCaixaRequest)
+        public async Task<IActionResult> AtualizarLivroCaixa(LivroCaixaRequest livroCaixaRequest)
         {
-            var livroCaixa = mapper.Map<LivroCaixa>(livroCaixaRequest);
-            livroCaixaRepositorio.Update(livroCaixa);
+            try
+            {
+                var ocorrenciaMap = mapper.Map<LivroCaixa>(livroCaixaRequest);
+                await _livroCaixaService.AtualizarLivroCaixa(ocorrenciaMap);
 
-            return livroCaixa;
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpDelete("/api/DeletarLivroCaixa")]
-        public List<Notifies> DeletarLivroCaixa(LivroCaixaRequest livroCaixaRequest)
+        public async Task<IActionResult> DeletarLivroCaixa(LivroCaixaRequest livroCaixaRequest)
         {
-            var livroCaixa = mapper.Map<LivroCaixa>(livroCaixaRequest);
-            livroCaixaRepositorio.Delete(livroCaixa);
-            livroCaixa.Mensagem = "Livro Caixa foi deletado com sucesso";
+            try
+            {
+                var ocorrenciaMap = mapper.Map<LivroCaixa>(livroCaixaRequest);
+                await _livroCaixaService.DeletarLivroCaixa(ocorrenciaMap);
 
-            return livroCaixa.ListaNotificacoes;
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpGet("/api/ListarLivroCaixa")]
-        public async Task<List<LivroCaixaRequest>> ListarLivroCaixa()
+        public async Task<IActionResult> ListarLivroCaixa()
         {
-            var livroCaixa = await livroCaixaRepositorio.List();
-            var livroCaixaMapeado = mapper.Map<List<LivroCaixaRequest>>(livroCaixa);
-            return livroCaixaMapeado;
+            try
+            {
+                var livrosCaixa = await _livroCaixaService.ListarLivrosCaixa();
+                var livrosCaixaMap = mapper.Map<List<LivroCaixaRequest>>(livrosCaixa);
+
+                return CustomResponse(livrosCaixaMap != null ? 200 : 404, true, livrosCaixaMap);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
     }
 }

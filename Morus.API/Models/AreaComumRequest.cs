@@ -1,10 +1,4 @@
-﻿using Entities.Entities;
-using Org.BouncyCastle.Asn1.X509;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
-namespace Morus.API.Models
+﻿namespace Morus.API.Models
 {
     public class AreaComumRequest
     {

@@ -1,7 +1,11 @@
-﻿using AutoMapper;
+﻿using Application.Interfaces;
+using AutoMapper;
+using Core.Exceptions;
+using Core.Notificador;
+using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Interfaces.InterfaceServices;
-using Entities.Entities;
+using Domain.Services;
 using Infraestructure.Repository.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,56 +15,113 @@ namespace Morus.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OcorrenciaController : ControllerBase
+    public class OcorrenciaController : MorusController
     {
         private readonly IOcorrencia _ocorrenciaRepositorio;
+        private readonly IOcorrenciaApplication _ocorrenciaApplication;
+        private readonly IOcorrenciaService _ocorrenciaService;
         private readonly IMapper mapper;
         private readonly IOcorrencia _IOcorrencia;
-        public OcorrenciaController(OcorrenciaRepositorio ocorrenciaRepositorio, IMapper mapper, IOcorrencia IOcorrencia)
+        public OcorrenciaController(OcorrenciaRepositorio ocorrenciaRepositorio,
+                                    IMapper mapper,
+                                    IOcorrencia IOcorrencia,
+                                    IOcorrenciaApplication ocorrenciaApplication,
+                                    INotificador notificador,
+                                    IOcorrenciaService ocorrenciaService) : base(notificador)
         {
             this.mapper = mapper;
             _IOcorrencia = IOcorrencia;
             _ocorrenciaRepositorio = ocorrenciaRepositorio;
+            _ocorrenciaApplication = ocorrenciaApplication;
+            _ocorrenciaService = ocorrenciaService;
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPost("/api/CadastrarOcorrencia")]
-        public async Task<List<Notifies>> CadastrarOcorrencia(OcorrenciaRequest ocorrenciaRequest)
+        public async Task<IActionResult> CadastrarOcorrencia(OcorrenciaRequest ocorrenciaRequest)
         {
-            var ocorrenciaMapeado= mapper.Map<Ocorrencia>(ocorrenciaRequest);
-            await _ocorrenciaRepositorio.Add(ocorrenciaMapeado);
-            return ocorrenciaMapeado.ListaNotificacoes;
+            try
+            {
+                var ocorrenciaMapeado = mapper.Map<Ocorrencia>(ocorrenciaRequest);
+                await _ocorrenciaService.SalvarOcorrencia(ocorrenciaMapeado);
+
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPut("/api/AtualizarOcorrencia")]
-        public async Task<List<Notifies>> AtualizarOcorrencia(OcorrenciaRequest ocorrenciaRequest)
+        public async Task<IActionResult> AtualizarOcorrencia(OcorrenciaRequest ocorrenciaRequest)
         {
-            var ocorrenciaMap = mapper.Map<Ocorrencia>(ocorrenciaRequest);
-            await _ocorrenciaRepositorio.Update(ocorrenciaMap);
-            return ocorrenciaMap.ListaNotificacoes;
+            try
+            {
+                var ocorrenciaMap = mapper.Map<Ocorrencia>(ocorrenciaRequest);
+                await _ocorrenciaService.AtualizarOcorrencia(ocorrenciaMap);
+
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpDelete("/api/DeletarOcorrencia")]
-        public async Task<List<Notifies>> DeletarOcorrencia(OcorrenciaRequest ocorrenciaRequest)
+        public async Task<IActionResult> DeletarOcorrencia(OcorrenciaRequest ocorrenciaRequest)
         {
-            var ocorrenciaMap = mapper.Map<Ocorrencia>(ocorrenciaRequest);
-            await _ocorrenciaRepositorio.Delete(ocorrenciaMap);
-            return ocorrenciaMap.ListaNotificacoes;
+            try
+            {
+                var ocorrenciaMap = mapper.Map<Ocorrencia>(ocorrenciaRequest);
+                await _ocorrenciaService.DeletarOcorrencia(ocorrenciaMap);
+
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpGet("/api/ListarOcorrencias")]
-        public async Task<List<Ocorrencia>> ListarOcorrencias()
+        public async Task<IActionResult> ListarOcorrencias()
         {
-            var ocorrencias = await _IOcorrencia.List();
-            var ocorrenciaMap = mapper.Map<List<Ocorrencia>>(ocorrencias);
-            return ocorrenciaMap;
+            try
+            {
+                var ocorrencias = _ocorrenciaService.ListarOcorrencias();
+                var ocorrenciaMap = mapper.Map<List<Ocorrencia>>(ocorrencias);
+
+                return CustomResponse(ocorrenciaMap != null ? 200 : 404, true, ocorrenciaMap);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
     }
 }
