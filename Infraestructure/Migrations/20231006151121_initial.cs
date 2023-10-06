@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
@@ -36,10 +37,6 @@ namespace Infraestructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
-                    Nome = table.Column<string>(type: "longtext", nullable: true),
-                    CPF = table.Column<string>(type: "longtext", nullable: false),
-                    Token = table.Column<string>(type: "longtext", nullable: true),
-                    Tipo = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
@@ -351,11 +348,17 @@ namespace Infraestructure.Migrations
                     Torre = table.Column<string>(type: "longtext", nullable: true),
                     Apartamento = table.Column<int>(type: "int", nullable: true),
                     DataNascimento = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    Tipo = table.Column<int>(type: "int", nullable: false)
+                    IdUserIdentity = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Usuario", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Usuario_AspNetUsers_IdUserIdentity",
+                        column: x => x.IdUserIdentity,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Usuario_Condominio_Id_condominio",
                         column: x => x.Id_condominio,
@@ -499,10 +502,48 @@ namespace Infraestructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "858b55d1-4674-43d1-9bb8-458ff9e0b18e", "2", "Sindico", "SINDICO" },
-                    { "9677bb4b-920b-429e-a42b-7c089114f601", "3", "Morador", "MORADOR" },
-                    { "a557a33e-df00-49b5-ae48-a7d71853b1af", "4", "Porteiro", "PORTEIRO" },
-                    { "fa14a2b2-2a54-430d-a947-56e73e5b2600", "1", "Admin", "ADMIN" }
+                    { "9ac7c1d9-c285-474a-ae4c-50d657d551b0", "2", "Sindico", "SINDICO" },
+                    { "c34176e8-a4fe-4b15-a1c1-cbd5e52797b6", "3", "Morador", "MORADOR" },
+                    { "c90c029f-2303-4b1f-bce1-486199ca1b8a", "4", "Porteiro", "PORTEIRO" },
+                    { "d8c141ab-32aa-4321-9647-028c2be96d40", "1", "Admin", "ADMIN" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "2553cfa2-4ca4-4cc0-a481-62cef6a164c2", 0, "851c442f-6163-4920-b607-83c617dab4aa", "morador@morador.com.br", false, false, null, "MORADOR@MORADOR.COM.BR", "MORADOR@MORADOR.COM.BR", "AQAAAAEAACcQAAAAEI+P2sCDH3nyjn4qNCJYPrG2yudNViWTZPv0KJpsVwpLad8E8RS87UhX97bkKPkDPg==", null, false, "dbaf6529-8f04-46db-85f9-3465ed6e9486", false, "morador@morador.com.br" },
+                    { "b73fd482-b644-414c-b386-6eb59237ad6b", 0, "180709ad-ae85-4540-a70f-d6848dbef6cb", "admin@admin.com.br", false, false, null, "ADMIN@ADMIN.COM.BR", "ADMIN@ADMIN.COM.BR", "AQAAAAEAACcQAAAAEIgYMQ7fYwXZen4KDXlCGFrysg1s9MdrczmoPXOw4e3UnyokYJZWPj6zsGAldxWkcA==", null, false, "de9cadd5-07a1-4a37-bb42-ae50a77a9eb3", false, "admin@admin.com.br" },
+                    { "f2cd9d29-e23f-40ba-9dee-56126db4c7e1", 0, "f51d2051-5e08-40da-94bf-d31bcbe051c7", "porteiro@porteiro.com.br", false, false, null, "PORTEIRO@PORTEIRO.COM.BR", "PORTEIRO@PORTEIRO.COM.BR", "AQAAAAEAACcQAAAAENMm8DAbNr44hPbL9Vtmr1L6c/zEnHbegeqYLFkx8XI+B3jwYr11jLxMOK7U0ckOqQ==", null, false, "8c4fb3dd-bba3-44ee-b26d-4a81b614d732", false, "porteiro@porteiro.com.br" },
+                    { "faa67754-0756-49a2-880b-d00793e5a59b", 0, "1ea6dd51-c69e-4bb1-8192-b5127b38e5ac", "sindico@sindico.com.br", false, false, null, "SINDICO@SINDICO.COM.BR", "SINDICO@SINDICO.COM.BR", "AQAAAAEAACcQAAAAEFQs7ksx/iDeQEofQ5qT+2zbN7ew0JUiwzYPsyCu8terKqmULurcELj9i3QldTToUw==", null, false, "8c1a658b-03a1-4351-b7c3-3da271d1d8a1", false, "sindico@sindico.com.br" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Condominio",
+                columns: new[] { "Id", "Bairro", "CEP", "Cidade", "Estado", "Nome", "Numero", "Porteiro", "Rua" },
+                values: new object[] { 1, "Bairro Morus", "29101000", "Vila Velha", "ES", "Condominio Morus", 1, false, "Rua Morus" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { "c34176e8-a4fe-4b15-a1c1-cbd5e52797b6", "2553cfa2-4ca4-4cc0-a481-62cef6a164c2" },
+                    { "d8c141ab-32aa-4321-9647-028c2be96d40", "b73fd482-b644-414c-b386-6eb59237ad6b" },
+                    { "c90c029f-2303-4b1f-bce1-486199ca1b8a", "f2cd9d29-e23f-40ba-9dee-56126db4c7e1" },
+                    { "9ac7c1d9-c285-474a-ae4c-50d657d551b0", "faa67754-0756-49a2-880b-d00793e5a59b" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Usuario",
+                columns: new[] { "Id", "Apartamento", "CPF", "DataNascimento", "IdUserIdentity", "Id_condominio", "Nome", "Torre" },
+                values: new object[,]
+                {
+                    { 1, 1, "12345678999", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "faa67754-0756-49a2-880b-d00793e5a59b", 1, "Sindico da Costa Filho", "A" },
+                    { 2, 2, "12343223444", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "2553cfa2-4ca4-4cc0-a481-62cef6a164c2", 1, "Morador de Carvalho", "A" },
+                    { 3, 3, "12343223445", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "f2cd9d29-e23f-40ba-9dee-56126db4c7e1", 1, "Porteiro Fernandes", "A" },
+                    { 4, 3, "12343223456", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "b73fd482-b644-414c-b386-6eb59237ad6b", 1, "Administrador", "A" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -598,6 +639,11 @@ namespace Infraestructure.Migrations
                 column: "Id_condominio");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Usuario_IdUserIdentity",
+                table: "Usuario",
+                column: "IdUserIdentity");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Votacao_Id_condominio",
                 table: "Votacao",
                 column: "Id_condominio");
@@ -662,9 +708,6 @@ namespace Infraestructure.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "AreaComum");
 
             migrationBuilder.DropTable(
@@ -672,6 +715,9 @@ namespace Infraestructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Votacao");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Condominio");

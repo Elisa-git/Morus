@@ -479,19 +479,67 @@ namespace Infraestructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5dea401d-2659-4be6-9b07-d6958c5e4785",
+                            Id = "faa67754-0756-49a2-880b-d00793e5a59b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7dc25ed5-0ca7-471b-93ae-cdd27e63864d",
+                            ConcurrencyStamp = "1ea6dd51-c69e-4bb1-8192-b5127b38e5ac",
                             Email = "sindico@sindico.com.br",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "SINDICO@SINDICO.COM.BR",
                             NormalizedUserName = "SINDICO@SINDICO.COM.BR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM/x9FkPPc8CbJ8NgxiNmZ2S8NDA9ZIHv1X3GxgnZ4umq+9GZOGFJSriJADXeLud8g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFQs7ksx/iDeQEofQ5qT+2zbN7ew0JUiwzYPsyCu8terKqmULurcELj9i3QldTToUw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1bbea323-0287-4f45-833b-13e1f6ec9e87",
+                            SecurityStamp = "8c1a658b-03a1-4351-b7c3-3da271d1d8a1",
                             TwoFactorEnabled = false,
                             UserName = "sindico@sindico.com.br"
+                        },
+                        new
+                        {
+                            Id = "2553cfa2-4ca4-4cc0-a481-62cef6a164c2",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "851c442f-6163-4920-b607-83c617dab4aa",
+                            Email = "morador@morador.com.br",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MORADOR@MORADOR.COM.BR",
+                            NormalizedUserName = "MORADOR@MORADOR.COM.BR",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI+P2sCDH3nyjn4qNCJYPrG2yudNViWTZPv0KJpsVwpLad8E8RS87UhX97bkKPkDPg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "dbaf6529-8f04-46db-85f9-3465ed6e9486",
+                            TwoFactorEnabled = false,
+                            UserName = "morador@morador.com.br"
+                        },
+                        new
+                        {
+                            Id = "b73fd482-b644-414c-b386-6eb59237ad6b",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "180709ad-ae85-4540-a70f-d6848dbef6cb",
+                            Email = "admin@admin.com.br",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM.BR",
+                            NormalizedUserName = "ADMIN@ADMIN.COM.BR",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIgYMQ7fYwXZen4KDXlCGFrysg1s9MdrczmoPXOw4e3UnyokYJZWPj6zsGAldxWkcA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "de9cadd5-07a1-4a37-bb42-ae50a77a9eb3",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.com.br"
+                        },
+                        new
+                        {
+                            Id = "f2cd9d29-e23f-40ba-9dee-56126db4c7e1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f51d2051-5e08-40da-94bf-d31bcbe051c7",
+                            Email = "porteiro@porteiro.com.br",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "PORTEIRO@PORTEIRO.COM.BR",
+                            NormalizedUserName = "PORTEIRO@PORTEIRO.COM.BR",
+                            PasswordHash = "AQAAAAEAACcQAAAAENMm8DAbNr44hPbL9Vtmr1L6c/zEnHbegeqYLFkx8XI+B3jwYr11jLxMOK7U0ckOqQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "8c4fb3dd-bba3-44ee-b26d-4a81b614d732",
+                            TwoFactorEnabled = false,
+                            UserName = "porteiro@porteiro.com.br"
                         });
                 });
 
@@ -546,9 +594,42 @@ namespace Infraestructure.Migrations
                             Apartamento = 1,
                             CPF = "12345678999",
                             DataNascimento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IdUserIdentity = "5dea401d-2659-4be6-9b07-d6958c5e4785",
+                            IdUserIdentity = "faa67754-0756-49a2-880b-d00793e5a59b",
                             Id_condominio = 1,
                             Nome = "Sindico da Costa Filho",
+                            Torre = "A"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Apartamento = 2,
+                            CPF = "12343223444",
+                            DataNascimento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdUserIdentity = "2553cfa2-4ca4-4cc0-a481-62cef6a164c2",
+                            Id_condominio = 1,
+                            Nome = "Morador de Carvalho",
+                            Torre = "A"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Apartamento = 3,
+                            CPF = "12343223445",
+                            DataNascimento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdUserIdentity = "f2cd9d29-e23f-40ba-9dee-56126db4c7e1",
+                            Id_condominio = 1,
+                            Nome = "Porteiro Fernandes",
+                            Torre = "A"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Apartamento = 3,
+                            CPF = "12343223456",
+                            DataNascimento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IdUserIdentity = "b73fd482-b644-414c-b386-6eb59237ad6b",
+                            Id_condominio = 1,
+                            Nome = "Administrador",
                             Torre = "A"
                         });
                 });
@@ -648,28 +729,28 @@ namespace Infraestructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "59c5e6cc-a0bc-4138-a394-38ec09a7cbdd",
+                            Id = "d8c141ab-32aa-4321-9647-028c2be96d40",
                             ConcurrencyStamp = "1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "42224299-f669-44c3-8228-70dcc875321c",
+                            Id = "9ac7c1d9-c285-474a-ae4c-50d657d551b0",
                             ConcurrencyStamp = "2",
                             Name = "Sindico",
                             NormalizedName = "SINDICO"
                         },
                         new
                         {
-                            Id = "7382557c-6724-4825-b311-16889bfb9fce",
+                            Id = "c34176e8-a4fe-4b15-a1c1-cbd5e52797b6",
                             ConcurrencyStamp = "3",
                             Name = "Morador",
                             NormalizedName = "MORADOR"
                         },
                         new
                         {
-                            Id = "5ecaa12d-fb6f-4daf-bdf6-2a7124b04018",
+                            Id = "c90c029f-2303-4b1f-bce1-486199ca1b8a",
                             ConcurrencyStamp = "4",
                             Name = "Porteiro",
                             NormalizedName = "PORTEIRO"
@@ -761,8 +842,23 @@ namespace Infraestructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "5dea401d-2659-4be6-9b07-d6958c5e4785",
-                            RoleId = "42224299-f669-44c3-8228-70dcc875321c"
+                            UserId = "faa67754-0756-49a2-880b-d00793e5a59b",
+                            RoleId = "9ac7c1d9-c285-474a-ae4c-50d657d551b0"
+                        },
+                        new
+                        {
+                            UserId = "b73fd482-b644-414c-b386-6eb59237ad6b",
+                            RoleId = "d8c141ab-32aa-4321-9647-028c2be96d40"
+                        },
+                        new
+                        {
+                            UserId = "2553cfa2-4ca4-4cc0-a481-62cef6a164c2",
+                            RoleId = "c34176e8-a4fe-4b15-a1c1-cbd5e52797b6"
+                        },
+                        new
+                        {
+                            UserId = "f2cd9d29-e23f-40ba-9dee-56126db4c7e1",
+                            RoleId = "c90c029f-2303-4b1f-bce1-486199ca1b8a"
                         });
                 });
 

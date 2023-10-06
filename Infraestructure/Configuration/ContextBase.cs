@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Infraestructure.Configuration
 {
@@ -9,7 +10,6 @@ namespace Infraestructure.Configuration
     {
         public ContextBase(DbContextOptions<ContextBase> opt) : base(opt)
         {
-
         }
 
         public DbSet<Message> Message { get; set; }
@@ -197,7 +197,8 @@ namespace Infraestructure.Configuration
 
         public string ObterStringConexao()
         {
-            return "Server=db4free.net;Port=3306;Database=morusdb;user=morus_admin;password=Morus@2023;";
+            //return "Server=db4free.net;Port=3306;Database=morusdb;user=morus_admin;password=Morus@2023;";
+            return "Server=localhost;Database=morus;user=root";
         }
     }
 }
