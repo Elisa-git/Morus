@@ -1,9 +1,4 @@
-﻿using Entities.Entities;
-using Org.BouncyCastle.Asn1.X509;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using Entities.Entities.Enum;
+﻿using Domain.Entities.Enum;
 
 namespace Morus.API.Models
 {

@@ -7,6 +7,34 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entities\**" />
+    <EmbeddedResource Remove="Entities\**" />
+    <None Remove="Entities\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Entities\AreaComum.cs" />
+    <Compile Include="Entities\Arquivo.cs" />
+    <Compile Include="Entities\Condominio.cs" />
+    <Compile Include="Entities\Enum\StatusReserva.cs" />
+    <Compile Include="Entities\Enum\StatusVotacao.cs" />
+    <Compile Include="Entities\Enum\TipoUsuario.cs" />
+    <Compile Include="Entities\Enum\ValorVotoEnum.cs" />
+    <Compile Include="Entities\Informacao.cs" />
+    <Compile Include="Entities\LivroCaixa.cs" />
+    <Compile Include="Entities\Message.cs" />
+    <Compile Include="Entities\Multa.cs" />
+    <Compile Include="Entities\Notifies.cs" />
+    <Compile Include="Entities\Ocorrencia.cs" />
+    <Compile Include="Entities\Reserva.cs" />
+    <Compile Include="Entities\TaxaMensal.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\Usuario.cs" />
+    <Compile Include="Entities\Votacao.cs" />
+    <Compile Include="Entities\Voto.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.21" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
     <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.5" />
@@ -14,7 +42,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
-    <ProjectReference Include="..\Entities\Entities.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,13 +1,8 @@
 ﻿using AutoMapper;
 using Core.Notificador;
-using Domain.Interfaces;
-using Domain.Interfaces.InterfaceServices;
-using Domain.Services;
-using Entities.Entities;
-using Entities.Entities.Enum;
+using Domain.Entities;
 using Infraestructure.Repository.Repositories;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Morus.API.Models;
 
@@ -21,8 +16,8 @@ namespace Morus.API.Controllers
         private readonly INotificador _notificador;
         private readonly IMapper mapper;
 
-        public CondominioController(CondominioRepositorio condominioRepositorio, IMapper mapper, INotificador notificador) 
-        { 
+        public CondominioController(CondominioRepositorio condominioRepositorio, IMapper mapper, INotificador notificador)
+        {
             _condominioRepositorio = condominioRepositorio;
             _notificador = notificador;
             this.mapper = mapper;

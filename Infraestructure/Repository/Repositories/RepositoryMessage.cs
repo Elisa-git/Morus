@@ -1,15 +1,9 @@
-﻿using Domain.Interfaces;
-using Domain.Services;
-using Entities.Entities;
+﻿using Domain.Entities;
+using Domain.Interfaces;
 using Infraestructure.Configuration;
 using Infraestructure.Repository.Generics;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infraestructure.Repository.Repositories
 {

@@ -1,12 +1,7 @@
-﻿using Entities.Entities;
+﻿using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infraestructure.Configuration
 {
@@ -14,7 +9,7 @@ namespace Infraestructure.Configuration
     {
         public ContextBase(DbContextOptions<ContextBase> opt) : base(opt)
         {
-            
+
         }
 
         public DbSet<Message> Message { get; set; }
@@ -45,25 +40,164 @@ namespace Infraestructure.Configuration
         {
             builder.Entity<User>().ToTable("AspNetUsers").HasKey(t => t.Id);
             base.OnModelCreating(builder);
-            SeedIdentityRoles(builder);
+            SeedIdentityUserAndRoles(builder);
         }
 
-
-        private void SeedIdentityRoles(ModelBuilder builder)
+        private void SeedIdentityUserAndRoles(ModelBuilder builder)
         {
+            string sindicoRoleId = Guid.NewGuid().ToString();
+            string adminRoleId = Guid.NewGuid().ToString();
+            string moradorRoleId = Guid.NewGuid().ToString();
+            string porteiroRoleId = Guid.NewGuid().ToString();
+
+            string emailSindico = "sindico@sindico.com.br";
+            string emailAdmin = "admin@admin.com.br";
+            string emailPorteiro = "porteiro@porteiro.com.br";
+            string emailMorador = "morador@morador.com.br";
+            string senhaPadrao = "Morus@2023";
+
+            string sindicoUserId = Guid.NewGuid().ToString();
+            string adminUserId = Guid.NewGuid().ToString();
+            string moradorUserId = Guid.NewGuid().ToString();
+            string porteiroUserId = Guid.NewGuid().ToString();
+
             builder.Entity<IdentityRole>().HasData
                 (
-                    new IdentityRole() { Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "ADMIN" },
-                    new IdentityRole() { Name = "Sindico", ConcurrencyStamp = "2", NormalizedName = "SINDICO" },
-                    new IdentityRole() { Name = "Morador", ConcurrencyStamp = "3", NormalizedName = "MORADOR" },
-                    new IdentityRole() { Name = "Porteiro", ConcurrencyStamp = "4", NormalizedName = "PORTEIRO" }
+                    new IdentityRole() { Id = adminRoleId, Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "ADMIN" },
+                    new IdentityRole() { Id = sindicoRoleId, Name = "Sindico", ConcurrencyStamp = "2", NormalizedName = "SINDICO" },
+                    new IdentityRole() { Id = moradorRoleId, Name = "Morador", ConcurrencyStamp = "3", NormalizedName = "MORADOR" },
+                    new IdentityRole() { Id = porteiroRoleId, Name = "Porteiro", ConcurrencyStamp = "4", NormalizedName = "PORTEIRO" }
+                );
+
+            var hasher = new PasswordHasher<User>();
+
+            builder.Entity<User>().HasData
+                (
+                    new User
+                    {
+                        Email = emailSindico,
+                        UserName = emailSindico,
+                        NormalizedEmail = emailSindico.ToUpperInvariant(),
+                        NormalizedUserName = emailSindico.ToUpperInvariant(),
+                        Id = sindicoUserId,
+                        SecurityStamp = Guid.NewGuid().ToString(),
+                        PasswordHash = hasher.HashPassword(null, senhaPadrao)
+                    },
+                    new User
+                    {
+                        Email = emailMorador,
+                        UserName = emailMorador,
+                        NormalizedEmail = emailMorador.ToUpperInvariant(),
+                        NormalizedUserName = emailMorador.ToUpperInvariant(),
+                        Id = moradorUserId,
+                        SecurityStamp = Guid.NewGuid().ToString(),
+                        PasswordHash = hasher.HashPassword(null, senhaPadrao)
+                    },
+                    new User
+                    {
+                        Email = emailAdmin,
+                        UserName = emailAdmin,
+                        NormalizedEmail = emailAdmin.ToUpperInvariant(),
+                        NormalizedUserName = emailAdmin.ToUpperInvariant(),
+                        Id = adminUserId,
+                        SecurityStamp = Guid.NewGuid().ToString(),
+                        PasswordHash = hasher.HashPassword(null, senhaPadrao)
+                    },
+                    new User
+                    {
+                        Email = emailPorteiro,
+                        UserName = emailPorteiro,
+                        NormalizedEmail = emailPorteiro.ToUpperInvariant(),
+                        NormalizedUserName = emailPorteiro.ToUpperInvariant(),
+                        Id = porteiroUserId,
+                        SecurityStamp = Guid.NewGuid().ToString(),
+                        PasswordHash = hasher.HashPassword(null, senhaPadrao)
+                    }
+            );
+
+            builder.Entity<IdentityUserRole<string>>().HasData
+                (
+                    new IdentityUserRole<string>
+                    {
+                        RoleId = sindicoRoleId,
+                        UserId = sindicoUserId
+                    },
+                    new IdentityUserRole<string>
+                    {
+                        RoleId = adminRoleId,
+                        UserId = adminUserId
+                    },
+                    new IdentityUserRole<string>
+                    {
+                        RoleId = moradorRoleId,
+                        UserId = moradorUserId
+                    },
+                    new IdentityUserRole<string>
+                    {
+                        RoleId = porteiroRoleId,
+                        UserId = porteiroUserId
+                    }
+                );
+
+
+            builder.Entity<Condominio>().HasData
+                (
+                    new Condominio { Bairro = "Bairro Morus", CEP = "29101000", Cidade = "Vila Velha", Estado = "ES", Nome = "Condominio Morus", Numero = 1, Porteiro = false, Rua = "Rua Morus", Id = 1 }
+                );
+
+            builder.Entity<Usuario>().HasData
+                (
+                    new Usuario
+                    {
+                        Id = 1,
+                        Id_condominio = 1,
+                        IdUserIdentity = sindicoUserId,
+                        Nome = "Sindico da Costa Filho",
+                        Torre = "A",
+                        DataNascimento = new DateTime(1990, 1, 1),
+                        Apartamento = 1,
+                        CPF = "12345678999"
+                    },
+                    new Usuario
+                    {
+                        Id = 2,
+                        Id_condominio = 1,
+                        IdUserIdentity = moradorUserId,
+                        Nome = "Morador de Carvalho",
+                        Torre = "A",
+                        DataNascimento = new DateTime(1990, 1, 1),
+                        Apartamento = 2,
+                        CPF = "12343223444"
+                    },
+                    new Usuario
+                    {
+                        Id = 3,
+                        Id_condominio = 1,
+                        IdUserIdentity = porteiroUserId,
+                        Nome = "Porteiro Fernandes",
+                        Torre = "A",
+                        DataNascimento = new DateTime(1990, 1, 1),
+                        Apartamento = 3,
+                        CPF = "12343223445"
+                    },
+                    new Usuario
+                    {
+                        Id = 4,
+                        Id_condominio = 1,
+                        IdUserIdentity = adminUserId,
+                        Nome = "Administrador",
+                        Torre = "A",
+                        DataNascimento = new DateTime(1990, 1, 1),
+                        Apartamento = 3,
+                        CPF = "12343223456"
+                    }
                 );
         }
 
 
         public string ObterStringConexao()
         {
-            return "server=localhost;database=morus;user=root;password=12345678";
+            return "Server=db4free.net;Port=3306;Database=morusdb;user=morus_admin;password=Morus@2023;";
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core.Notificador
+﻿namespace Core.Notificador
 {
     public sealed class Notificador : INotificador
     {
@@ -14,7 +8,7 @@ namespace Core.Notificador
         {
             _notificacoes = new List<Notificacao>();
         }
-        public void Notificar(Notificacao notificacao) 
+        public void Notificar(Notificacao notificacao)
             => _notificacoes.Add(notificacao);
 
         public void Notificar(string mensagem)

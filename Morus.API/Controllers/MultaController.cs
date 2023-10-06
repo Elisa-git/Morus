@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
+using Domain.Entities;
 using Domain.Interfaces;
-using Domain.Interfaces.InterfaceServices;
-using Entities.Entities;
 using Infraestructure.Repository.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +27,7 @@ namespace Morus.API.Controllers
         [HttpPost("/api/CadastrarMulta")]
         public async Task<List<Notifies>> CadastrarMulta(MultaRequest multaRequest)
         {
-            var multaMapeado= mapper.Map<Multa>(multaRequest);
+            var multaMapeado = mapper.Map<Multa>(multaRequest);
             await _multaRepositorio.Add(multaMapeado);
             return multaMapeado.ListaNotificacoes;
         }
@@ -70,7 +69,7 @@ namespace Morus.API.Controllers
         {
             var multas = await _IMulta.List();
             var multaMap = mapper.Map<List<Multa>>(multas);
-            
+
             return multaMap;
         }
     }

@@ -1,15 +1,9 @@
 ﻿using Application.Interfaces;
 using Core.Exceptions;
 using Core.Notificador;
+using Domain.Entities;
 using Domain.Interfaces;
-using Entities.Entities;
-using Entities.Validacoes;
-using Infraestructure.Repository.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Validacoes;
 
 namespace Application
 {

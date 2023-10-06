@@ -1,13 +1,12 @@
 ﻿using Application.Interfaces;
 using AutoMapper;
+using Core.Exceptions;
 using Core.Notificador;
+using Domain.Entities;
 using Domain.Interfaces;
-using Domain.Interfaces.InterfaceServices;
-using Entities.Entities;
 using FluentValidation;
-using Infraestructure.Repository.Repositories;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Morus.API.Models;
 
@@ -20,35 +19,84 @@ namespace Morus.API.Controllers
         private readonly IUsuarioApplication _usuarioApplication;
         private readonly IMapper mapper;
         private readonly IUsuario _IUsuario;
-        public UsuarioController(IMapper mapper, IUsuario IUsuario, IUsuarioApplication usuarioApplication, INotificador notificador) : base(notificador)
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        public UsuarioController(IMapper mapper,
+                                 IUsuario IUsuario,
+                                 IUsuarioApplication usuarioApplication,
+                                 INotificador notificador,
+                                 SignInManager<User> signInManager,
+                                 UserManager<User> userManager) : base(notificador)
         {
             this.mapper = mapper;
             _IUsuario = IUsuario;
             _usuarioApplication = usuarioApplication;
+            _signInManager = signInManager;
+            _userManager = userManager;
+
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
+        //[Produces("application/json")]
+        //[HttpPost("/api/CadastrarUsuario")]
+        //public async Task<IActionResult> CadastrarUsuario(UsuarioRequest usuarioRequest)
+        //{
+        //    try
+        //    {
+        //        var usuarioMapeado = mapper.Map<Usuario>(usuarioRequest);
+        //        await _usuarioApplication.Cadastrar(usuarioMapeado);
+
+        //        return CustomResponse(200, true);
+        //    }
+        //    catch (ValidationException)
+        //    {
+        //        return CustomResponse(400, false);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        _notificador.NotificarMensagemErroInterno();
+        //        return CustomResponse(500, false);
+        //    }
+        //}
+
+        //[AllowAnonymous]
         [Produces("application/json")]
-        [HttpPost("/api/CadastrarUsuario")]
-        public async Task<IActionResult> CadastrarUsuario(UsuarioRequest usuarioRequest)
+        [HttpPost("/api/CadastrarUsuarioMorador")]
+        [Authorize(Roles = "Sindico")]
+        public async Task<IActionResult> CadastrarMorador(CadastrarMoradorRequest cadastrarMoradorRequest)
         {
             try
             {
-                var usuarioMapeado = mapper.Map<Usuario>(usuarioRequest);
-                await _usuarioApplication.Cadastrar(usuarioMapeado);
+                var hasher = new PasswordHasher<User>();
+                var user = new User
+                {
+                    Email = cadastrarMoradorRequest.Email,
+                    UserName = cadastrarMoradorRequest.Email,
+                    NormalizedEmail = cadastrarMoradorRequest.Email.ToUpperInvariant(),
+                    NormalizedUserName = cadastrarMoradorRequest.Email.ToUpperInvariant(),
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    PasswordHash = hasher.HashPassword(null, cadastrarMoradorRequest.Senha)
+                };
+                var usuarioMapeado = mapper.Map<Usuario>(cadastrarMoradorRequest);
 
-                return CustomResponse(200, true);
+                return CustomResponse(200, (await _usuarioApplication.CadastrarMorador(user, usuarioMapeado)));
             }
-            catch(ValidationException)
+            catch (ValidationException)
             {
                 return CustomResponse(400, false);
             }
-            catch(Exception)
+            catch (RegisterException e)
+            {
+                _notificador.Notificar(e.Message);
+                return CustomResponse(403, false);
+            }
+            catch (Exception e)
             {
                 _notificador.NotificarMensagemErroInterno();
                 return CustomResponse(500, false);
             }
         }
+
 
         //[AllowAnonymous]
         //[Produces("application/json")]
@@ -80,5 +128,11 @@ namespace Morus.API.Controllers
             var usuarioMap = mapper.Map<List<Usuario>>(usuarios);
             return usuarioMap;
         }
+
+
+        //[AllowAnonymous]
+        //[Produces("application/json")]
+        //[HttpPost]
+        //public async Task<IActionResult>> Loging
     }
 }

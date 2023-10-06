@@ -2,9 +2,8 @@
 using AutoMapper;
 using Core.Exceptions;
 using Core.Notificador;
+using Domain.Entities;
 using Domain.Interfaces;
-using Domain.Interfaces.InterfaceServices;
-using Entities.Entities;
 using Infraestructure.Repository.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,16 +34,16 @@ namespace Morus.API.Controllers
         {
             try
             {
-                var ocorrenciaMapeado= mapper.Map<Ocorrencia>(ocorrenciaRequest);
+                var ocorrenciaMapeado = mapper.Map<Ocorrencia>(ocorrenciaRequest);
                 await _ocorrenciaApplication.CadastrarOcorrencia(ocorrenciaMapeado);
 
                 return CustomResponse(200, true);
             }
-            catch(ValidacaoException e)
+            catch (ValidacaoException e)
             {
                 return CustomResponse(400, false);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _notificador.NotificarMensagemErroInterno();
                 return CustomResponse(500, false);

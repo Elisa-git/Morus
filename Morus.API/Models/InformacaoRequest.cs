@@ -1,9 +1,4 @@
-﻿using Entities.Entities;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
-
-namespace Morus.API.Models
+﻿namespace Morus.API.Models
 {
     public class InformacaoRequest
     {
