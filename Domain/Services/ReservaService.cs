@@ -18,6 +18,7 @@ namespace Domain.Services
         private readonly IReservaRepositorio reservaRepositorio;
         private readonly ValidatorBase<Reserva> reservaValidator;
         private readonly IUsuarioService usuarioServico;
+        private readonly INotificador notificador;
 
         public ReservaService(
             IReservaRepositorio reservaRepositorio,
@@ -28,6 +29,7 @@ namespace Domain.Services
             this.reservaRepositorio = reservaRepositorio;
             this.reservaValidator = new ValidatorBase<Reserva>(notificador);
             this.usuarioServico = usuarioServico;
+            this.notificador = notificador;
         }
 
         public async Task CadastrarReserva(Reserva reservaRequest)
@@ -39,10 +41,16 @@ namespace Domain.Services
                 throw new ValidacaoException();
 
             if (!UsuarioExiste(reservaRequest))
-                throw new ValidacaoException("O morador informado não existe");
+            {
+                this.notificador.Notificar("O morador informado não existe");
+                throw new ValidacaoException();
+            }
             
             if (ValidarDisponibilidadeReserva(reservaRequest))
-                throw new ValidacaoException("Já existem reservas para esse local nesta data");
+            {
+                this.notificador.Notificar("Já existem reservas para esse local nesta data");
+                throw new ValidacaoException();
+            }
 
             reservaRequest.DataCadastro = DateTime.Now;
             reservaRequest.DataAlteracao = DateTime.Now;
@@ -59,13 +67,22 @@ namespace Domain.Services
                 throw new ValidacaoException();
 
             if (!ValidarDonoReserva(reservaRequest) || userLogado.Equals(TipoUsuario.Sindico.ToString()) || userLogado.Equals(TipoUsuario.Admin.ToString()))
-                throw new ValidacaoException("Somente o dono da reserva e o síndico podem fazer alterações");
+            {
+                this.notificador.Notificar("Somente o dono da reserva e o síndico podem fazer alterações");
+                throw new ValidacaoException();
+            }
 
             if (!UsuarioExiste(reservaRequest))
-                throw new ValidacaoException("O morador informado não existe");
+            {
+                this.notificador.Notificar("O morador informado não existe");
+                throw new ValidacaoException();
+            }
 
             if (ValidarDisponibilidadeReserva(reservaRequest))
-                throw new ValidacaoException("Já existem reservas para esse local nesta data");
+            {
+                this.notificador.Notificar("Já existem reservas para esse local nesta data");
+                throw new ValidacaoException();
+            }
 
             reservaRequest.DataAlteracao = DateTime.Now;
             await reservaRepositorio.Update(reservaRequest);
@@ -73,8 +90,11 @@ namespace Domain.Services
 
         public async Task DeletarReserva(Reserva reservaRequest, string userLogado)
         {
-            if (!ValidarDonoReserva(reservaRequest) || userLogado.Equals(TipoUsuario.Sindico.ToString()) || userLogado.Equals(TipoUsuario.Admin.ToString()))
-                throw new ValidacaoException("Somente o dono da reserva e o síndico podem excluir a Reserva");
+            if (!ValidarDonoReserva(reservaRequest) || userLogado.Equals(TipoUsuario.Sindico.ToString()) || userLogado.Equals(TipoUsuario.Admin.ToString())) 
+            { 
+                this.notificador.Notificar("Somente o dono da reserva e o síndico podem excluir a Reserva");
+                throw new ValidacaoException();
+            }
 
             await reservaRepositorio.Delete(reservaRequest);
         }
