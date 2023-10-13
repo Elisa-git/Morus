@@ -11,18 +11,18 @@ namespace Domain.Entities
         [Key]
         [Column("Id")]
         public int Id { get; set; }
-        public ValorVotoEnum ValorVoto { get; set; }
+        public bool? ValorVoto { get; set; }
 
         [ForeignKey("Votacao")]
         [Column(Order = 1)]
-        public int Id_votacao { get; set; }
+        public int IdVotacao { get; set; }
 
         [JsonIgnore]
         public virtual Votacao Votacao { get; set; }
 
         [ForeignKey("Usuario")]
         [Column(Order = 2)]
-        public int Id_usuario { get; set; }
+        public int IdUsuario { get; set; }
 
         [JsonIgnore]
         public virtual Usuario Usuario { get; set; }

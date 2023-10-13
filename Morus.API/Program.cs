@@ -73,22 +73,22 @@ builder.Services.AddAuthentication(opt =>
     opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 });
 
-
 //builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ContextBase>();
 
 // INTERFACE E REPOSITORIO
 builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
 builder.Services.AddSingleton<IMessage, RepositoryMessage>();
-builder.Services.AddSingleton<ICondominio, CondominioRepositorio>();
-builder.Services.AddSingleton<IUsuario, UsuarioRepositorio>();
-builder.Services.AddSingleton<IInformacaoRepositorio, InformacaoRepositorio>();
-builder.Services.AddSingleton<IMulta, MultaRepositorio>();
-builder.Services.AddSingleton<IOcorrencia, OcorrenciaRepositorio>();
-builder.Services.AddSingleton<ILivroCaixaRepositorio, LivroCaixaRepositorio>();
-builder.Services.AddSingleton<IVotacaoRepositorio, VotacaoRepositorio>();
-builder.Services.AddSingleton<IAreaComumRepositorio, AreaComumRepositorio>();
-builder.Services.AddSingleton<ITaxaMensalRepositorio, TaxaMensalRepositorio>();
-builder.Services.AddSingleton<IReservaRepositorio, ReservaRepositorio>();
+builder.Services.AddTransient<ICondominio, CondominioRepositorio>();
+builder.Services.AddTransient<IUsuario, UsuarioRepositorio>();
+builder.Services.AddTransient<IInformacaoRepositorio, InformacaoRepositorio>();
+builder.Services.AddTransient<IMulta, MultaRepositorio>();
+builder.Services.AddTransient<IOcorrencia, OcorrenciaRepositorio>();
+builder.Services.AddTransient<ILivroCaixaRepositorio, LivroCaixaRepositorio>();
+builder.Services.AddTransient<IAreaComumRepositorio, AreaComumRepositorio>();
+builder.Services.AddTransient<ITaxaMensalRepositorio, TaxaMensalRepositorio>();
+builder.Services.AddTransient<IReservaRepositorio, ReservaRepositorio>();
+builder.Services.AddTransient<IVotacaoRepositorio, VotacaoRepositorio>();
+builder.Services.AddTransient<IVotoRepositorio, VotoRepositorio>();
 
 builder.Services.AddScoped<CondominioRepositorio, CondominioRepositorio>();
 builder.Services.AddScoped<UsuarioRepositorio, UsuarioRepositorio>();
@@ -100,6 +100,9 @@ builder.Services.AddScoped<ReservaRepositorio, ReservaRepositorio>();
 
 builder.Services.AddScoped<IOcorrenciaApplication, OcorrenciaApplication>();
 builder.Services.AddScoped<IUsuarioApplication, UsuarioApplication>();
+builder.Services.AddScoped<IUserLogadoApplication, UserLogadoApplication>();
+builder.Services.AddScoped<IInformacaoApplication, InformacaoApplication>();
+builder.Services.AddScoped<IVotacaoApplication, VotacaoApplication>();
 
 builder.Services.AddScoped<INotificador, Notificador>();
 
@@ -116,6 +119,7 @@ builder.Services.AddScoped<ILivroCaixaService, LivroCaixaService>();
 builder.Services.AddScoped<ITaxaMensalService, TaxaMensalService>();
 builder.Services.AddScoped<IVotacaoService, VotacaoService>();
 builder.Services.AddScoped<IAreaComumService, AreaComumService>();
+builder.Services.AddScoped<IVotacaoService, VotacaoService>();
 builder.Services.AddScoped<IReservaService, ReservaService>();
 
 // JWT
@@ -174,6 +178,8 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<AreaComumRequest, AreaComum>();
     cfg.CreateMap<CadastrarMoradorRequest, Usuario>();
     cfg.CreateMap<Usuario, UsuarioLogadoResponse>();
+    cfg.CreateMap<Votacao, CadastrarVotacaoRequest>().ReverseMap();
+    cfg.CreateMap<Voto, RegistrarVotoRequest>().ReverseMap();
     cfg.CreateMap<Reserva, ReservaRequest>();
     cfg.CreateMap<ReservaRequest, Reserva>();
 });
@@ -190,11 +196,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-var devClient = "http://localhost:4200";
+//var devClient = "http://localhost:5173";
 app.UseCors(x => x
     .AllowAnyOrigin()
     .AllowAnyMethod()
-    .AllowAnyHeader().WithOrigins(devClient));
+    .AllowAnyHeader());//.WithOrigins(devClient));
 
 app.UseHttpsRedirection();
 

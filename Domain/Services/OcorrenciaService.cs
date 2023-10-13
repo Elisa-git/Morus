@@ -20,7 +20,7 @@ namespace Domain.Services
 
         public async Task SalvarOcorrencia(Ocorrencia ocorrencia)
         {
-            if (_ocorrenciaValidator.ValidarEntidade(ocorrencia))
+            if (!_ocorrenciaValidator.ValidarEntidade(ocorrencia))
                 throw new ValidacaoException();
 
             await ocorrenciaGenerico.Add(ocorrencia);

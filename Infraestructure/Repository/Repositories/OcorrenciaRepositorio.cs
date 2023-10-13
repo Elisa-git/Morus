@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Google.Protobuf;
 using Infraestructure.Configuration;
 using Infraestructure.Repository.Generics;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,14 @@ namespace Infraestructure.Repository.Repositories
             using (var banco = new ContextBase(_OptionsBuilder))
             {
                 return await banco.Ocorrencia.Where(exMessage).AsNoTracking().ToListAsync();
+            }
+        }
+
+        public async Task<List<Ocorrencia>> ListarPorCondominio(int idCondominio)
+        {
+            using (var banco = new ContextBase(_OptionsBuilder))
+            {
+                return await banco.Ocorrencia.AsNoTracking().Include(o => o.Usuario).Where(u => u.Usuario.Id_condominio == idCondominio).ToListAsync();
             }
         }
     }

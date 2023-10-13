@@ -7,6 +7,7 @@ namespace Application.Interfaces
     {
         Task Cadastrar(Usuario usuario);
         Task<bool> CadastrarMorador(User userIdentity, Usuario usuarioSistema);
+        Task<List<Usuario>> ListarUsuarios();
         Task<UsuarioLoginResponse> ObterDadosUsuarioLogin(string idUsuarioIdentity);
     }
 }

@@ -36,7 +36,7 @@ namespace Morus.API.Controllers
             _ocorrenciaService = ocorrenciaService;
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [Produces("application/json")]
         [HttpPost("/api/CadastrarOcorrencia")]
         public async Task<IActionResult> CadastrarOcorrencia(OcorrenciaRequest ocorrenciaRequest)
@@ -44,7 +44,7 @@ namespace Morus.API.Controllers
             try
             {
                 var ocorrenciaMapeado = mapper.Map<Ocorrencia>(ocorrenciaRequest);
-                await _ocorrenciaService.SalvarOcorrencia(ocorrenciaMapeado);
+                await _ocorrenciaApplication.CadastrarOcorrencia(ocorrenciaMapeado);
 
                 return CustomResponse(200, true);
             }
@@ -59,7 +59,7 @@ namespace Morus.API.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [Produces("application/json")]
         [HttpPut("/api/AtualizarOcorrencia")]
         public async Task<IActionResult> AtualizarOcorrencia(OcorrenciaRequest ocorrenciaRequest)
@@ -82,7 +82,7 @@ namespace Morus.API.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [Produces("application/json")]
         [HttpDelete("/api/DeletarOcorrencia")]
         public async Task<IActionResult> DeletarOcorrencia(OcorrenciaRequest ocorrenciaRequest)
@@ -105,14 +105,14 @@ namespace Morus.API.Controllers
             }
         }
 
-        [AllowAnonymous]
         [Produces("application/json")]
         [HttpGet("/api/ListarOcorrencias")]
+        [Authorize]
         public async Task<IActionResult> ListarOcorrencias()
         {
             try
             {
-                var ocorrencias = _ocorrenciaService.ListarOcorrencias();
+                var ocorrencias = await _ocorrenciaApplication.ListarOcorrencias();
                 var ocorrenciaMap = mapper.Map<List<Ocorrencia>>(ocorrencias);
 
                 return CustomResponse(ocorrenciaMap != null ? 200 : 404, true, ocorrenciaMap);

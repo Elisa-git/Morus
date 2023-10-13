@@ -1,4 +1,9 @@
-﻿using Core.Exceptions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Core.Exceptions;
 using Core.Notificador;
 using Domain.Entities;
 using Domain.Interfaces;
@@ -18,14 +23,6 @@ namespace Domain.Services
             _votacaoValidator = new ValidatorBase<Votacao>(notificador);
         }
 
-        public async Task CadastrarVotacao(Votacao votacao)
-        {
-            if (_votacaoValidator.ValidarEntidade(votacao))
-                throw new ValidacaoException();
-
-            await votacaoRepositorio.Add(votacao);
-        }
-
         public async Task AtualizarVotacao(Votacao votacao)
         {
             if (_votacaoValidator.ValidarEntidade(votacao))
@@ -42,6 +39,22 @@ namespace Domain.Services
         public async Task<List<Votacao>> ListarVotacoes()
         {
             return await votacaoRepositorio.List();
+        }
+
+        public async Task<List<Votacao>> ListarPorCondominio(int idCondominio)
+        {
+            return await votacaoRepositorio.ListarVotacoes(v => v.IdCondominio == idCondominio);
+        }
+
+        public async Task CadastrarVotacao(Votacao votacao)
+        {
+            votacao.Ativa = true;
+            votacao.DataCriacao = DateTime.Now;
+
+            if (!_votacaoValidator.ValidarEntidade(votacao))
+                throw new ValidacaoException();
+
+            await votacaoRepositorio.Add(votacao);
         }
     }
 }

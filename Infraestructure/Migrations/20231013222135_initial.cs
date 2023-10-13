@@ -340,7 +340,7 @@ namespace Infraestructure.Migrations
                 name: "Usuario",
                 columns: table => new
                 {
-                    Id_condominio = table.Column<int>(type: "int", nullable: true),
+                    Id_condominio = table.Column<int>(type: "int", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(type: "longtext", nullable: true),
@@ -363,7 +363,8 @@ namespace Infraestructure.Migrations
                         name: "FK_Usuario_Condominio_Id_condominio",
                         column: x => x.Id_condominio,
                         principalTable: "Condominio",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -371,21 +372,21 @@ namespace Infraestructure.Migrations
                 name: "Votacao",
                 columns: table => new
                 {
-                    Id_condominio = table.Column<int>(type: "int", nullable: false),
+                    IdCondominio = table.Column<int>(type: "int", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Tema = table.Column<string>(type: "longtext", nullable: false),
                     Descricao = table.Column<string>(type: "longtext", nullable: false),
                     DataCriacao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DataExpiracao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Ativa = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Votacao", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Votacao_Condominio_Id_condominio",
-                        column: x => x.Id_condominio,
+                        name: "FK_Votacao_Condominio_IdCondominio",
+                        column: x => x.IdCondominio,
                         principalTable: "Condominio",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -421,7 +422,7 @@ namespace Infraestructure.Migrations
                 name: "Ocorrencia",
                 columns: table => new
                 {
-                    Id_usuario = table.Column<int>(type: "int", nullable: false),
+                    Id_usuario = table.Column<int>(type: "int", nullable: true),
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Titulo = table.Column<string>(type: "longtext", nullable: false),
@@ -435,8 +436,7 @@ namespace Infraestructure.Migrations
                         name: "FK_Ocorrencia_Usuario_Id_usuario",
                         column: x => x.Id_usuario,
                         principalTable: "Usuario",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -449,7 +449,10 @@ namespace Infraestructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     DataReserva = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Ativo = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    DataAlteracao = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -473,24 +476,24 @@ namespace Infraestructure.Migrations
                 name: "Voto",
                 columns: table => new
                 {
-                    Id_votacao = table.Column<int>(type: "int", nullable: false),
-                    Id_usuario = table.Column<int>(type: "int", nullable: false),
+                    IdVotacao = table.Column<int>(type: "int", nullable: false),
+                    IdUsuario = table.Column<int>(type: "int", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    ValorVoto = table.Column<int>(type: "int", nullable: false)
+                    ValorVoto = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Voto", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Voto_Usuario_Id_usuario",
-                        column: x => x.Id_usuario,
+                        name: "FK_Voto_Usuario_IdUsuario",
+                        column: x => x.IdUsuario,
                         principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Voto_Votacao_Id_votacao",
-                        column: x => x.Id_votacao,
+                        name: "FK_Voto_Votacao_IdVotacao",
+                        column: x => x.IdVotacao,
                         principalTable: "Votacao",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -502,10 +505,10 @@ namespace Infraestructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0cbae1b7-daa8-420e-9e19-aea2bf9784b2", "4", "Porteiro", "PORTEIRO" },
-                    { "80ffcf89-c78b-4c3f-80a1-5c6af4567a86", "1", "Admin", "ADMIN" },
-                    { "9b9f90d6-25f8-4121-a2dd-0120e8c39a18", "3", "Morador", "MORADOR" },
-                    { "b6daee1d-a9a1-4c23-9d71-d3a92fceabea", "2", "Sindico", "SINDICO" }
+                    { "35806d57-f4f1-4701-b401-f8c0bf867bf5", "4", "Porteiro", "PORTEIRO" },
+                    { "8e4f71d9-64d1-4143-a169-8330104d71bd", "1", "Admin", "ADMIN" },
+                    { "a94070f1-d673-4366-b305-6ecc2f9908c4", "2", "Sindico", "SINDICO" },
+                    { "bc275402-795b-4554-bd73-3aa73357b593", "3", "Morador", "MORADOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -513,26 +516,32 @@ namespace Infraestructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "69a5fe94-1d42-48dd-ab10-8f97a3b2140f", 0, "20482492-a783-4d71-a8ff-a272c2447bbb", "porteiro@porteiro.com.br", false, false, null, "PORTEIRO@PORTEIRO.COM.BR", "PORTEIRO@PORTEIRO.COM.BR", "AQAAAAEAACcQAAAAEI9FSXy6GsFGnxCQMT86LRP+SwXqjmX5z0opRXAHctRNdQX1ihXKgEkqMRsm40GwIA==", null, false, "73c1a8bd-d4b4-4134-83a3-97e114681207", false, "porteiro@porteiro.com.br" },
-                    { "6d0ba1ee-344d-4827-ae35-f95f8df993cd", 0, "c302283f-974b-40d7-9231-4b7c72a01108", "admin@admin.com.br", false, false, null, "ADMIN@ADMIN.COM.BR", "ADMIN@ADMIN.COM.BR", "AQAAAAEAACcQAAAAEJsb6Mt9G/IPEDHzSsOlXGyGcLwdkWfCd5SpqEUDkvHnr/atIaFxP/IC1ZC1SRaKUQ==", null, false, "00cef1ef-157f-49a8-ba41-d8de94364ceb", false, "admin@admin.com.br" },
-                    { "8df23972-8367-4223-891f-a2536b73a32d", 0, "6f045bbf-fddb-4e17-9c7f-b2cc16c6dc77", "sindico@sindico.com.br", false, false, null, "SINDICO@SINDICO.COM.BR", "SINDICO@SINDICO.COM.BR", "AQAAAAEAACcQAAAAEIswx0rGRNhPcKmRzpn7o0i3+oW1pIMl6cf9wd+S3WInfuFPYSrE2EwsIDTEnN/W7g==", null, false, "e7f55a8a-8ed4-4b49-805d-c3d368b61e80", false, "sindico@sindico.com.br" },
-                    { "ebafef68-4f09-4fc5-834c-2b0871b770c0", 0, "4c34c2d1-b91d-461c-a855-0f3792140eb3", "morador@morador.com.br", false, false, null, "MORADOR@MORADOR.COM.BR", "MORADOR@MORADOR.COM.BR", "AQAAAAEAACcQAAAAEFCbu5TQX0ZVwT8joHu4IzzW0RwjvtYvMRUGM55ZXRwsu2SFCf42Xr00Cqpd2lgOEA==", null, false, "a7161f8a-e2ec-4d0d-a188-bfde5beeaf03", false, "morador@morador.com.br" }
+                    { "b87f7a19-acff-467a-aca3-811506a0dab6", 0, "c5391184-c2b4-42f9-aeb2-237df1b58c52", "morador@morador.com.br", false, false, null, "MORADOR@MORADOR.COM.BR", "MORADOR@MORADOR.COM.BR", "AQAAAAEAACcQAAAAEJUeCRsF5q7kgcRD338okRqyz3r9zn5ixj0ZPwY3ehuVsTuWAeI6ieDkWfyvsTrTTQ==", null, false, "11b50531-409b-4174-bc5f-6adcf4e4a7c2", false, "morador@morador.com.br" },
+                    { "c1792041-d15e-49f9-b068-e65e90e09f19", 0, "95e878ff-efae-4821-849f-56c71b072f66", "sindicoDois@sindicoDois.com.br", false, false, null, "SINDICODOIS@SINDICODOIS.COM.BR", "SINDICODOIS@SINDICODOIS.COM.BR", "AQAAAAEAACcQAAAAEKO7dFfMbKL0wCwU3/EZ++eQRNa5Wzcr4FGsy5rpbQO6xzAFJpxaspgeQrSbHp2ycg==", null, false, "875089a0-7b3a-45ca-98b8-fb09ed688647", false, "sindicoDois@sindicoDois.com.br" },
+                    { "c671d41c-d509-4db4-bbeb-4dbc1c9ad7f5", 0, "0a6d41eb-744a-428b-941b-a2899715347c", "admin@admin.com.br", false, false, null, "ADMIN@ADMIN.COM.BR", "ADMIN@ADMIN.COM.BR", "AQAAAAEAACcQAAAAEAUGBUY4JnGDZ+K0io0iZFcaYMRMWM9Ro5iBE8O0PnA0SDyeBcsYhQlAm3hvDXihxw==", null, false, "893e4ecd-65f4-4c53-960b-42f3ece1e13e", false, "admin@admin.com.br" },
+                    { "e53efc56-9715-4d4c-9e13-9b990362d057", 0, "ca8c955e-7daa-4f2b-af01-8eabe8ec4388", "sindico@sindico.com.br", false, false, null, "SINDICO@SINDICO.COM.BR", "SINDICO@SINDICO.COM.BR", "AQAAAAEAACcQAAAAEAlydZoramd03jlHwYr9XiUDeIHedeayNqa7aDp+ga48dxb+7pOhdsM0X/UNQHCjPg==", null, false, "33bb0563-f7b8-42a6-9b9c-b00d30559380", false, "sindico@sindico.com.br" },
+                    { "ee9afa26-875c-462e-a2a7-00f4590df9ff", 0, "f0b1144d-1860-4f4d-935b-878ac5ed8556", "porteiro@porteiro.com.br", false, false, null, "PORTEIRO@PORTEIRO.COM.BR", "PORTEIRO@PORTEIRO.COM.BR", "AQAAAAEAACcQAAAAEPH+IEntzWbvg240CmxCVC8BlhjNkJ3l9p/QnBCX6T/z/IngeRPJriaUAa3gBluVmQ==", null, false, "baca4ca0-523f-46ce-b32c-69876304a604", false, "porteiro@porteiro.com.br" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Condominio",
                 columns: new[] { "Id", "Bairro", "CEP", "Cidade", "Estado", "Nome", "Numero", "Porteiro", "Rua" },
-                values: new object[] { 1, "Bairro Morus", "29101000", "Vila Velha", "ES", "Condominio Morus", 1, false, "Rua Morus" });
+                values: new object[,]
+                {
+                    { 1, "Bairro Morus", "29101000", "Vila Velha", "ES", "Condominio Morus", 1, false, "Rua Morus" },
+                    { 2, "Bairro", "29101001", "Vila Velha", "ES", "Condominio Dois", 2, false, "Rua Dois" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "0cbae1b7-daa8-420e-9e19-aea2bf9784b2", "69a5fe94-1d42-48dd-ab10-8f97a3b2140f" },
-                    { "80ffcf89-c78b-4c3f-80a1-5c6af4567a86", "6d0ba1ee-344d-4827-ae35-f95f8df993cd" },
-                    { "b6daee1d-a9a1-4c23-9d71-d3a92fceabea", "8df23972-8367-4223-891f-a2536b73a32d" },
-                    { "9b9f90d6-25f8-4121-a2dd-0120e8c39a18", "ebafef68-4f09-4fc5-834c-2b0871b770c0" }
+                    { "bc275402-795b-4554-bd73-3aa73357b593", "b87f7a19-acff-467a-aca3-811506a0dab6" },
+                    { "a94070f1-d673-4366-b305-6ecc2f9908c4", "c1792041-d15e-49f9-b068-e65e90e09f19" },
+                    { "8e4f71d9-64d1-4143-a169-8330104d71bd", "c671d41c-d509-4db4-bbeb-4dbc1c9ad7f5" },
+                    { "a94070f1-d673-4366-b305-6ecc2f9908c4", "e53efc56-9715-4d4c-9e13-9b990362d057" },
+                    { "35806d57-f4f1-4701-b401-f8c0bf867bf5", "ee9afa26-875c-462e-a2a7-00f4590df9ff" }
                 });
 
             migrationBuilder.InsertData(
@@ -550,10 +559,11 @@ namespace Infraestructure.Migrations
                 columns: new[] { "Id", "Apartamento", "CPF", "DataNascimento", "IdUserIdentity", "Id_condominio", "Nome", "Torre" },
                 values: new object[,]
                 {
-                    { 1, 1, "12345678999", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "8df23972-8367-4223-891f-a2536b73a32d", 1, "Sindico da Costa Filho", "A" },
-                    { 2, 2, "12343223444", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ebafef68-4f09-4fc5-834c-2b0871b770c0", 1, "Morador de Carvalho", "A" },
-                    { 3, 3, "12343223445", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "69a5fe94-1d42-48dd-ab10-8f97a3b2140f", 1, "Porteiro Fernandes", "A" },
-                    { 4, 3, "12343223456", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "6d0ba1ee-344d-4827-ae35-f95f8df993cd", 1, "Administrador", "A" }
+                    { 1, 1, "12345678999", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "e53efc56-9715-4d4c-9e13-9b990362d057", 1, "Sindico da Costa Filho", "A" },
+                    { 2, 2, "12343223444", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "b87f7a19-acff-467a-aca3-811506a0dab6", 1, "Morador de Carvalho", "A" },
+                    { 3, 3, "12343223445", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ee9afa26-875c-462e-a2a7-00f4590df9ff", 1, "Porteiro Fernandes", "A" },
+                    { 4, 3, "12343223456", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "c671d41c-d509-4db4-bbeb-4dbc1c9ad7f5", 1, "Administrador", "A" },
+                    { 5, 4, "12343223336", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "c1792041-d15e-49f9-b068-e65e90e09f19", 2, "Sindico Dois", "A" }
                 });
 
             migrationBuilder.InsertData(
@@ -659,19 +669,19 @@ namespace Infraestructure.Migrations
                 column: "IdUserIdentity");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Votacao_Id_condominio",
+                name: "IX_Votacao_IdCondominio",
                 table: "Votacao",
-                column: "Id_condominio");
+                column: "IdCondominio");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Voto_Id_usuario",
+                name: "IX_Voto_IdUsuario",
                 table: "Voto",
-                column: "Id_usuario");
+                column: "IdUsuario");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Voto_Id_votacao",
+                name: "IX_Voto_IdVotacao",
                 table: "Voto",
-                column: "Id_votacao");
+                column: "IdVotacao");
         }
 
         /// <inheritdoc />
