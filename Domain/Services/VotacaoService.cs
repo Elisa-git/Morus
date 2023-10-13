@@ -36,7 +36,7 @@ namespace Domain.Services
             await votacaoRepositorio.Delete(votacao);
         }
 
-        public async Task<List<Votacao>> ListarVotacaos()
+        public async Task<List<Votacao>> ListarVotacoes()
         {
             return await votacaoRepositorio.List();
         }

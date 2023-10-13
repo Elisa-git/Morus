@@ -5,6 +5,7 @@ using Core.Notificador;
 using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Interfaces.InterfaceServices;
+using Domain.Services;
 using Infraestructure.Repository.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,8 @@ using Morus.API.Models;
 
 namespace Morus.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class VotacaoController : MorusController
     {
         private readonly IVotacaoRepositorio _votacaoRepositorio;
@@ -28,6 +31,7 @@ namespace Morus.API.Controllers
             _votacaoRepositorio = votacaoRepositorio;
             _votacaoApplication = votacaoApplication;
             _votacaoService = votacaoService;
+            this.mapper = mapper;
         }
 
         [Authorize]
@@ -39,28 +43,8 @@ namespace Morus.API.Controllers
             {
                 var ocorrenciaMapeado = mapper.Map<Votacao>(votacaoRequest);
                 await _votacaoApplication.CadastrarVotacao(ocorrenciaMapeado);
-
+                
                 return CustomResponse(200, true);
-            }
-            catch (ValidacaoException e)
-            {
-                return CustomResponse(400, false);
-            }
-            catch (Exception e)
-            {
-                _notificador.NotificarMensagemErroInterno();
-                return CustomResponse(500, false);
-            }
-        }
-
-        [Authorize]
-        [Produces("application/json")]
-        [HttpPost("/api/ListarVotacoes")]
-        public async Task<IActionResult> ListarVotacoes()
-        {
-            try
-            {
-                return CustomResponse(200, true, (await _votacaoApplication.ListarVotacoesCondominio()));
             }
             catch (ValidacaoException e)
             {
@@ -104,6 +88,74 @@ namespace Morus.API.Controllers
             {
                 var response = await _votacaoApplication.ContadorVotacao(idVotacao);
                 return CustomResponse(200, true, response);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
+        }
+
+        [AllowAnonymous]
+        [Produces("application/json")]
+        [HttpPut("/api/EditarVotacao")]
+        public async Task<IActionResult> AtualizarVotacao(VotacaoRequest votacaoRequest)
+        {
+            try
+            {
+                var ocorrenciaMap = mapper.Map<Votacao>(votacaoRequest);
+                await _votacaoService.AtualizarVotacao(ocorrenciaMap);
+
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
+        }
+
+        [AllowAnonymous]
+        [Produces("application/json")]
+        [HttpDelete("/api/DeletarVotacao")]
+        public async Task<IActionResult> DeletarVotacao(VotacaoRequest votacaoRequest)
+        {
+            try
+            {
+                var ocorrenciaMap = mapper.Map<Votacao>(votacaoRequest);
+                await _votacaoService.DeletarVotacao(ocorrenciaMap);
+
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
+        }
+
+        [Authorize]
+        [Produces("application/json")]
+        [HttpGet("/api/ListarVotacao")]
+        public async Task<IActionResult> ListarVotacao()
+        {
+            try
+            {
+                var votacoes = await _votacaoApplication.ListarVotacoesCondominio();
+
+                return CustomResponse(votacoes != null ? 200 : 404, true, votacoes);
             }
             catch (ValidacaoException e)
             {

@@ -25,7 +25,7 @@ namespace Infraestructure.Repository.Repositories
         public async Task<List<Votacao>> ListarVotacoes(Expression<Func<Votacao, bool>> exInformacao)
         {
             using (var banco = new ContextBase(_OptionsBuilder))
-            {
+        {
                 return await banco.Votacao.Where(exInformacao).AsNoTracking().ToListAsync();
             }
         }

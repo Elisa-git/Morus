@@ -86,6 +86,7 @@ builder.Services.AddTransient<IOcorrencia, OcorrenciaRepositorio>();
 builder.Services.AddTransient<ILivroCaixaRepositorio, LivroCaixaRepositorio>();
 builder.Services.AddTransient<IAreaComumRepositorio, AreaComumRepositorio>();
 builder.Services.AddTransient<ITaxaMensalRepositorio, TaxaMensalRepositorio>();
+builder.Services.AddTransient<IReservaRepositorio, ReservaRepositorio>();
 builder.Services.AddTransient<IVotacaoRepositorio, VotacaoRepositorio>();
 builder.Services.AddTransient<IVotoRepositorio, VotoRepositorio>();
 
@@ -95,6 +96,7 @@ builder.Services.AddScoped<InformacaoRepositorio, InformacaoRepositorio>();
 builder.Services.AddScoped<MultaRepositorio, MultaRepositorio>();
 builder.Services.AddScoped<OcorrenciaRepositorio, OcorrenciaRepositorio>();
 builder.Services.AddScoped<AreaComumRepositorio, AreaComumRepositorio>();
+builder.Services.AddScoped<ReservaRepositorio, ReservaRepositorio>();
 
 builder.Services.AddScoped<IOcorrenciaApplication, OcorrenciaApplication>();
 builder.Services.AddScoped<IUsuarioApplication, UsuarioApplication>();
@@ -115,8 +117,10 @@ builder.Services.AddScoped<IMultaService, MultaService>();
 builder.Services.AddScoped<IOcorrenciaService, OcorrenciaService>();
 builder.Services.AddScoped<ILivroCaixaService, LivroCaixaService>();
 builder.Services.AddScoped<ITaxaMensalService, TaxaMensalService>();
+builder.Services.AddScoped<IVotacaoService, VotacaoService>();
 builder.Services.AddScoped<IAreaComumService, AreaComumService>();
 builder.Services.AddScoped<IVotacaoService, VotacaoService>();
+builder.Services.AddScoped<IReservaService, ReservaService>();
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -168,12 +172,16 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<LivroCaixaRequest, LivroCaixa>();
     cfg.CreateMap<TaxaMensal, TaxaMensalRequest>();
     cfg.CreateMap<TaxaMensalRequest, TaxaMensal>();
+    cfg.CreateMap<Votacao, VotacaoRequest>();
+    cfg.CreateMap<VotacaoRequest, Votacao>();
     cfg.CreateMap<AreaComum, AreaComumRequest>();
     cfg.CreateMap<AreaComumRequest, AreaComum>();
     cfg.CreateMap<CadastrarMoradorRequest, Usuario>();
     cfg.CreateMap<Usuario, UsuarioLogadoResponse>();
     cfg.CreateMap<Votacao, CadastrarVotacaoRequest>().ReverseMap();
     cfg.CreateMap<Voto, RegistrarVotoRequest>().ReverseMap();
+    cfg.CreateMap<Reserva, ReservaRequest>();
+    cfg.CreateMap<ReservaRequest, Reserva>();
 });
 
 IMapper mapper = config.CreateMapper();

@@ -38,8 +38,8 @@ namespace Domain.Entities
 
         public override bool EhValido()
         {
-            //para implementação seguir modelo de ocorrencia
-            return true;
+            ResultadoValidacao = new VotacaoValidation().Validate(this);
+            return ResultadoValidacao.IsValid;
         }
     }
 }
