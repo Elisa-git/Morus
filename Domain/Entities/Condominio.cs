@@ -1,14 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
     [Table("Condominio")]
-    public class Condominio
+    public class Condominio : EntityBase
     {
         [Key]
         [Column("Id")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Column("Nome")]
         public string Nome { get; set; }
@@ -33,5 +34,11 @@ namespace Domain.Entities
 
         [Column("Porteiro")]
         public bool Porteiro { get; set; }
+
+        public override bool EhValido()
+        {
+            //para fazer validação seguir modelo em Ocorrencia
+            return true;
+        }
     }
 }

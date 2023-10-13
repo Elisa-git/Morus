@@ -123,14 +123,14 @@ namespace Morus.API.Controllers
         //    return null;
         //}
 
-        [AllowAnonymous]
+        [Authorize]
         [Produces("application/json")]
         [HttpGet("/api/ListarUsuarios")]
         public async Task<IActionResult> ListarUsuarios()
         {
             try
             {
-                var usuarios = await _usuarioService.ListarUsuariosComCondominio();
+                var usuarios = await _usuarioApplication.ListarUsuarios();
 
                 if (usuarios == null)
                     return CustomResponse(404, true);

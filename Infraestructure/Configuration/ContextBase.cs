@@ -49,7 +49,8 @@ namespace Infraestructure.Configuration
         {
             builder.Entity<Condominio>().HasData
                 (
-                    new Condominio { Id = 1, Bairro = "Bairro Morus", CEP = "29101000", Cidade = "Vila Velha", Estado = "ES", Nome = "Condominio Morus", Numero = 1, Porteiro = false, Rua = "Rua Morus" }
+                    new Condominio { Id = 1, Bairro = "Bairro Morus", CEP = "29101000", Cidade = "Vila Velha", Estado = "ES", Nome = "Condominio Morus", Numero = 1, Porteiro = false, Rua = "Rua Morus" },
+                    new Condominio { Id = 2, Bairro = "Bairro", CEP = "29101001", Cidade = "Vila Velha", Estado = "ES", Nome = "Condominio Dois", Numero = 2, Porteiro = false, Rua = "Rua Dois" }
                 );
 
             builder.Entity<LivroCaixa>().HasData
@@ -85,7 +86,10 @@ namespace Infraestructure.Configuration
             string emailMorador = "morador@morador.com.br";
             string senhaPadrao = "Morus@2023";
 
+            string emailSindicoDois = "sindicoDois@sindicoDois.com.br";
+
             string sindicoUserId = Guid.NewGuid().ToString();
+            string sindicoDoisUserId = Guid.NewGuid().ToString();
             string adminUserId = Guid.NewGuid().ToString();
             string moradorUserId = Guid.NewGuid().ToString();
             string porteiroUserId = Guid.NewGuid().ToString();
@@ -109,6 +113,16 @@ namespace Infraestructure.Configuration
                         NormalizedEmail = emailSindico.ToUpperInvariant(),
                         NormalizedUserName = emailSindico.ToUpperInvariant(),
                         Id = sindicoUserId,
+                        SecurityStamp = Guid.NewGuid().ToString(),
+                        PasswordHash = hasher.HashPassword(null, senhaPadrao)
+                    },
+                    new User
+                    {
+                        Email = emailSindicoDois,
+                        UserName = emailSindicoDois,
+                        NormalizedEmail = emailSindicoDois.ToUpperInvariant(),
+                        NormalizedUserName = emailSindicoDois.ToUpperInvariant(),
+                        Id = sindicoDoisUserId,
                         SecurityStamp = Guid.NewGuid().ToString(),
                         PasswordHash = hasher.HashPassword(null, senhaPadrao)
                     },
@@ -150,6 +164,11 @@ namespace Infraestructure.Configuration
                     {
                         RoleId = sindicoRoleId,
                         UserId = sindicoUserId
+                    },
+                    new IdentityUserRole<string>
+                    {
+                        RoleId = sindicoRoleId,
+                        UserId = sindicoDoisUserId
                     },
                     new IdentityUserRole<string>
                     {
@@ -220,8 +239,8 @@ namespace Infraestructure.Configuration
 
         public string ObterStringConexao()
         {
-            return "Server=db4free.net;Port=3306;Database=morusdb;user=morus_admin;password=Morus@2023;";
-            //return "Server=localhost;Database=morus;user=root";
+            //return "Server=db4free.net;Port=3306;Database=morusdb;user=morus_admin;password=Morus@2023;";
+            return "Server=localhost;Database=morus;user=root;password=root";
         }
     }
 }

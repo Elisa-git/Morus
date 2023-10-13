@@ -73,7 +73,6 @@ builder.Services.AddAuthentication(opt =>
     opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 });
 
-
 //builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ContextBase>();
 
 // INTERFACE E REPOSITORIO
@@ -97,6 +96,8 @@ builder.Services.AddScoped<AreaComumRepositorio, AreaComumRepositorio>();
 
 builder.Services.AddScoped<IOcorrenciaApplication, OcorrenciaApplication>();
 builder.Services.AddScoped<IUsuarioApplication, UsuarioApplication>();
+builder.Services.AddScoped<IUserLogadoApplication, UserLogadoApplication>();
+builder.Services.AddScoped<IInformacaoApplication, InformacaoApplication>();
 
 builder.Services.AddScoped<INotificador, Notificador>();
 
@@ -181,7 +182,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-var devClient = "http://localhost:4200";
+var devClient = "http://localhost:5173";
 app.UseCors(x => x
     .AllowAnyOrigin()
     .AllowAnyMethod()

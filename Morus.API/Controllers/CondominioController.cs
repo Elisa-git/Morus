@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Notificador;
 using Domain.Entities;
+using Domain.Interfaces.InterfaceServices;
 using Infraestructure.Repository.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,40 +11,34 @@ namespace Morus.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CondominioController : ControllerBase
+    public class CondominioController : MorusController
     {
         private readonly CondominioRepositorio _condominioRepositorio;
-        private readonly INotificador _notificador;
+        private readonly ICondominioService _condominioService;
         private readonly IMapper mapper;
 
-        public CondominioController(CondominioRepositorio condominioRepositorio, IMapper mapper, INotificador notificador)
+        public CondominioController(CondominioRepositorio condominioRepositorio, ICondominioService condominioService, IMapper mapper, INotificador notificador) : base(notificador)
         {
             _condominioRepositorio = condominioRepositorio;
-            _notificador = notificador;
+            _condominioService = condominioService;
             this.mapper = mapper;
         }
 
-        [AllowAnonymous]
+    [AllowAnonymous]
         [Produces("application/json")]
         [HttpPost("/api/CadastrarCondominio")]
-        public async Task<List<Notifies>> CadastrarCondominio(CondominioRequest condominioRequest)
+        public async Task<IActionResult> CadastrarCondominio(CondominioRequest condominioRequest)
         {
-            //var condominioMapeado = mapper.Map<Condominio>(condominio);
-            //return Ok(condominioService.SalvarCondominio(condominioMapeado));
-
-            condominioRequest.UserId = await RetornarIdUsuarioLogado();
-            var condominioMapeado = mapper.Map<Condominio>(condominioRequest);
-            return null;
-            //var mensagens = condominioMapeado.Validar();
-            //if (mensagens.Any())
-            //    mensagens.ForEach(m => _notificador.Notificar(new Notificacao(m)));
-
-
-
-
-            //await _condominioRepositorio.Add(condominioMapeado);
-
-            //return condominioMapeado.ListaNotificacoes;
+            try
+            {
+                var condominioMapeado = mapper.Map<Condominio>(condominioRequest);
+                await _condominioService.SalvarCondominio(condominioMapeado);
+                return CustomResponse(200, true);
+            }
+            catch (Exception e)
+            {
+                return CustomResponse(500, false);
+            }
 
         }
 

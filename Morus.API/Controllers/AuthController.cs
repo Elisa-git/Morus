@@ -49,6 +49,8 @@ namespace Morus.API.Controllers
                 var userCurrent = await _userManager.FindByEmailAsync(login.email);
                 var idUsuario = userCurrent.Id;
                 var rolesUserCurrent = (await _userManager.GetRolesAsync(userCurrent))?.FirstOrDefault();
+                
+
 
                 if (rolesUserCurrent == null)
                 {

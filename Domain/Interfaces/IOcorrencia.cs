@@ -7,5 +7,6 @@ namespace Domain.Interfaces
     public interface IOcorrencia : IGeneric<Ocorrencia>
     {
         Task<List<Ocorrencia>> ListarMessage(Expression<Func<Ocorrencia, bool>> exMessage);
+        Task<List<Ocorrencia>> ListarPorCondominio(int idCondominio);
     }
 }
