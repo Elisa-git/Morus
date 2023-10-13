@@ -1,4 +1,6 @@
-﻿using Domain.Entities.Enum;
+﻿using Core;
+using Domain.Entities.Enum;
+using Domain.Validacoes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -6,7 +8,7 @@ using System.Text.Json.Serialization;
 namespace Domain.Entities
 {
     [Table("Votacao")]
-    public class Votacao
+    public class Votacao : EntityBase
     {
         [Key]
         [Column("Id")]
@@ -33,5 +35,11 @@ namespace Domain.Entities
 
         [JsonIgnore]
         public virtual Condominio Condominio { get; set; }
+
+        public override bool EhValido()
+        {
+            ResultadoValidacao = new VotacaoValidation().Validate(this);
+            return ResultadoValidacao.IsValid;
+        }
     }
 }

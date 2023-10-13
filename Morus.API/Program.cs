@@ -85,6 +85,7 @@ builder.Services.AddSingleton<IInformacaoRepositorio, InformacaoRepositorio>();
 builder.Services.AddSingleton<IMulta, MultaRepositorio>();
 builder.Services.AddSingleton<IOcorrencia, OcorrenciaRepositorio>();
 builder.Services.AddSingleton<ILivroCaixaRepositorio, LivroCaixaRepositorio>();
+builder.Services.AddSingleton<IVotacaoRepositorio, VotacaoRepositorio>();
 builder.Services.AddSingleton<IAreaComumRepositorio, AreaComumRepositorio>();
 builder.Services.AddSingleton<ITaxaMensalRepositorio, TaxaMensalRepositorio>();
 
@@ -111,6 +112,7 @@ builder.Services.AddScoped<IMultaService, MultaService>();
 builder.Services.AddScoped<IOcorrenciaService, OcorrenciaService>();
 builder.Services.AddScoped<ILivroCaixaService, LivroCaixaService>();
 builder.Services.AddScoped<ITaxaMensalService, TaxaMensalService>();
+builder.Services.AddScoped<IVotacaoService, VotacaoService>();
 builder.Services.AddScoped<IAreaComumService, AreaComumService>();
 
 // JWT
@@ -163,6 +165,8 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<LivroCaixaRequest, LivroCaixa>();
     cfg.CreateMap<TaxaMensal, TaxaMensalRequest>();
     cfg.CreateMap<TaxaMensalRequest, TaxaMensal>();
+    cfg.CreateMap<Votacao, VotacaoRequest>();
+    cfg.CreateMap<VotacaoRequest, Votacao>();
     cfg.CreateMap<AreaComum, AreaComumRequest>();
     cfg.CreateMap<AreaComumRequest, AreaComum>();
     cfg.CreateMap<CadastrarMoradorRequest, Usuario>();
