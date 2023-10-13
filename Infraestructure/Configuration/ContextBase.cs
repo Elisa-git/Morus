@@ -232,6 +232,17 @@ namespace Infraestructure.Configuration
                         DataNascimento = new DateTime(1990, 1, 1),
                         Apartamento = 3,
                         CPF = "12343223456"
+                    },
+                    new Usuario
+                    {
+                        Id = 5,
+                        Id_condominio = 2,
+                        IdUserIdentity = sindicoDoisUserId,
+                        Nome = "Sindico Dois",
+                        Torre = "A",
+                        DataNascimento = new DateTime(1990, 1, 1),
+                        Apartamento = 4,
+                        CPF = "12343223336"
                     }
                 );
         }
