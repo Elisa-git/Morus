@@ -113,7 +113,7 @@ namespace Morus.API.Controllers
             try
             {
                 var ocorrencias = await _ocorrenciaApplication.ListarOcorrencias();
-                var ocorrenciaMap = mapper.Map<List<Ocorrencia>>(ocorrencias);
+                var ocorrenciaMap = mapper.Map<List<OcorrenciaRequest>>(ocorrencias);
 
                 return CustomResponse(ocorrenciaMap != null ? 200 : 404, true, ocorrenciaMap);
             }
