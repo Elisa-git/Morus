@@ -60,8 +60,8 @@ namespace Morus.API.Controllers
             try
             {
                 var informacaoMapeada = mapper.Map<Informacao>(informacaoRequest);
-                
-                await informacaoService.AtualizarInformacao(informacaoMapeada);
+                await informacaoApplication.AtualizarInformacao(informacaoMapeada);
+
 
                 return CustomResponse(200, true);
             }

@@ -9,6 +9,7 @@ namespace Application.Interfaces
 {
     public interface IInformacaoApplication
     {
+        Task AtualizarInformacao(Informacao informacaoMapeada);
         Task CadastrarInformacao(Informacao informacaoMapeada);
         Task<List<Informacao>> ListarInformacoesCondominio();
     }

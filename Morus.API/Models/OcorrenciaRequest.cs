@@ -7,5 +7,6 @@
         public string Descricao { get; set; }
         public DateTime DataCadastro { get; set; }
         public int Id_usuario { get; set; }
+        public bool Resolvido { get; set; }
     }
 }

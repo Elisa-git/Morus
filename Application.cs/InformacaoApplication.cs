@@ -22,6 +22,14 @@ namespace Application
             _userLogadoApplication = userLogadoApplication;
         }
 
+        public async Task AtualizarInformacao(Informacao informacaoMapeada)
+        {
+            var usuarioLogado = await _userLogadoApplication.ObterUsuarioLogado();
+            informacaoMapeada.Id_condominio = usuarioLogado.Id_condominio;
+
+            await _informacaoService.AtualizarInformacao(informacaoMapeada);
+        }
+
         public async Task CadastrarInformacao(Informacao informacaoMapeada)
         {
             var usuarioLogado = await _userLogadoApplication.ObterUsuarioLogado();

@@ -15,8 +15,5 @@
         public double ValorTransacao { get; set; }
 
         public DateTime DataTransacao { get; set; }
-
-        public int Id_condominio { get; set; }
-
     }
 }

@@ -26,6 +26,9 @@ namespace Domain.Entities
         [Column(Order = 1)]
         public int? Id_usuario { get; set; }
 
+        [Column("Resolvido")]
+        public bool Resolvido { get; set; }
+
         [JsonIgnore]
         public virtual Usuario Usuario { get; set; }
 
