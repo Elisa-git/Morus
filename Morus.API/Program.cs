@@ -169,7 +169,6 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<MultaRequest, Multa>();
     cfg.CreateMap<Ocorrencia, OcorrenciaRequest>();
     cfg.CreateMap<OcorrenciaRequest, Ocorrencia>();
-    cfg.CreateMap<LivroCaixa, LivroCaixaRequest>().ReverseMap();
     cfg.CreateMap<TaxaMensal, TaxaMensalRequest>();
     cfg.CreateMap<TaxaMensalRequest, TaxaMensal>();
     cfg.CreateMap<Votacao, VotacaoRequest>();
@@ -182,6 +181,7 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<Voto, RegistrarVotoRequest>().ReverseMap();
     cfg.CreateMap<Reserva, ReservaRequest>();
     cfg.CreateMap<ReservaRequest, Reserva>();
+    cfg.CreateMap<LivroCaixa, LivroCaixaRequest>().ReverseMap();
 });
 
 IMapper mapper = config.CreateMapper();

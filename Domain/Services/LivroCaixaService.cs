@@ -28,7 +28,7 @@ namespace Domain.Services
 
         public async Task AtualizarLivroCaixa(LivroCaixa livroCaixa)
         {
-            if (_livroCaixaValidator.ValidarEntidade(livroCaixa))
+            if (!_livroCaixaValidator.ValidarEntidade(livroCaixa))
                 throw new ValidacaoException();
 
             await livroCaixaRepositorio.Update(livroCaixa);

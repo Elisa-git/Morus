@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Infraestructure.Repository.Repositories;
 using Domain.Services;
+using Core.Exceptions;
 
 namespace Application
 {
@@ -20,6 +21,7 @@ namespace Application
         private readonly ValidatorBase<LivroCaixa> _livroCaixaValidator;
         private readonly ILivroCaixaService _livroCaixaService;
         private readonly IUserLogadoApplication _userLogadoApplication;
+        private readonly INotificador _notificador;
 
         public LivroCaixaApplication(ILivroCaixaRepositorio livroCaixaRepositorio, INotificador notificador, ILivroCaixaService livroCaixaService, IUserLogadoApplication userLogadoApplication)
         {
@@ -27,6 +29,7 @@ namespace Application
             _livroCaixaValidator = new ValidatorBase<LivroCaixa>(notificador);
             _livroCaixaService = livroCaixaService;
             _userLogadoApplication = userLogadoApplication;
+            _notificador = notificador;
         }
         public async Task CadastrarLivroCaixa(LivroCaixa livroCaixa)
         {
@@ -48,6 +51,25 @@ namespace Application
         {
             var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
             return await _livroCaixaService.ListarPorCondominio(userLogado.IdCondominio);
+        }
+
+        public async Task DeletarLivroCaixa(int id)
+        {
+            var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
+            var livroCaixa = await _livroCaixaRepositorio.GetEntityById(id);
+
+            if (livroCaixa == null)
+            {
+                _notificador.Notificar("Livro Caixa inexistente.");
+                throw new ValidacaoException("");
+            }
+            if (userLogado.IdCondominio != livroCaixa.IdCondominio)
+            {
+                _notificador.Notificar("Usuário não tem permissão para deletar Livro Caixa solicitado.");
+                throw new InvalidOperationException();
+            }
+
+            await _livroCaixaService.DeletarLivroCaixa(livroCaixa);
         }
     }
 }

@@ -97,15 +97,18 @@ namespace Morus.API.Controllers
 
         [AllowAnonymous]
         [Produces("application/json")]
-        [HttpDelete("/api/DeletarInformacao")]
-        public async Task<IActionResult> DeletarInformacao(InformacaoRequest message)
+        [HttpDelete("/api/DeletarInformacao/{id:int}")]
+        public async Task<IActionResult> DeletarInformacao(int id)
         {
             try
             {
-                var informacaoMapeada = mapper.Map<Informacao>(message);
-                await informacaoService.DeletarInformacao(informacaoMapeada);
+                await informacaoApplication.DeletarInformacao(id);
 
                 return CustomResponse(200, true);
+            }
+            catch(InvalidOperationException)
+            {
+                return CustomResponse(403, false);
             }
             catch (Exception e)
             {

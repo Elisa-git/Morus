@@ -56,7 +56,19 @@ namespace Morus.API.Controllers
         {
             try
             {
-                var livroCaixaMap = mapper.Map<LivroCaixa>(livroCaixaRequest);
+                //Daniel: mapeamento manual como ajuste Paleativo pois estava tomando null reference exception ao tentar mapear com automapper, sem tempo pra analisar. 
+                var livroCaixaMap = new LivroCaixa
+                {
+                    Id = livroCaixaRequest.Id,
+                    Categoria = livroCaixaRequest.Categoria,
+                    DataTransacao = livroCaixaRequest.DataTransacao,
+                    DescricaoTransacao = livroCaixaRequest.DescricaoTransacao,
+                    NumeroConta = livroCaixaRequest.NumeroConta,
+                    Torre = livroCaixaRequest.Torre,
+                    ValorTransacao = livroCaixaRequest.ValorTransacao
+                };
+
+                //var livroCaixaMap = mapper.Map<LivroCaixa>(livroCaixaRequest);
                 await _livroCaixaApplication.AtualizarLivroCaixa(livroCaixaMap);
 
                 return CustomResponse(200, true);
@@ -74,13 +86,12 @@ namespace Morus.API.Controllers
 
         [Authorize]
         [Produces("application/json")]
-        [HttpDelete("/api/DeletarLivroCaixa")]
-        public async Task<IActionResult> DeletarLivroCaixa(LivroCaixaRequest livroCaixaRequest)
+        [HttpDelete("/api/DeletarLivroCaixa/{id:int}")]
+        public async Task<IActionResult> DeletarLivroCaixa(int id)
         {
             try
             {
-                var livroCaixaMap = mapper.Map<LivroCaixa>(livroCaixaRequest);
-                await _livroCaixaService.DeletarLivroCaixa(livroCaixaMap);
+                await _livroCaixaApplication.DeletarLivroCaixa(id);
 
                 return CustomResponse(200, true);
             }
