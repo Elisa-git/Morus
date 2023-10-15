@@ -25,7 +25,7 @@ namespace Application
         public async Task AtualizarInformacao(Informacao informacaoMapeada)
         {
             var usuarioLogado = await _userLogadoApplication.ObterUsuarioLogado();
-            informacaoMapeada.Id_condominio = usuarioLogado.Id_condominio;
+            informacaoMapeada.IdCondominio = usuarioLogado.IdCondominio;
 
             await _informacaoService.AtualizarInformacao(informacaoMapeada);
         }
@@ -33,7 +33,7 @@ namespace Application
         public async Task CadastrarInformacao(Informacao informacaoMapeada)
         {
             var usuarioLogado = await _userLogadoApplication.ObterUsuarioLogado();
-            informacaoMapeada.Id_condominio = usuarioLogado.Id_condominio;
+            informacaoMapeada.IdCondominio = usuarioLogado.IdCondominio;
 
             await _informacaoService.CadastrarInformacao(informacaoMapeada);
         }
@@ -41,7 +41,7 @@ namespace Application
         public async Task<List<Informacao>> ListarInformacoesCondominio()
         {
             var usuarioLogado = await _userLogadoApplication.ObterUsuarioLogado();
-            return await _informacaoService.ListarInformacoesAtivasPorCondominio(usuarioLogado.Id_condominio);
+            return await _informacaoService.ListarInformacoesAtivasPorCondominio(usuarioLogado.IdCondominio);
         }
     }
 }

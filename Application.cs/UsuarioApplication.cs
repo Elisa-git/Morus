@@ -54,7 +54,7 @@ namespace Application
         public async Task<bool> CadastrarMorador(User userIdentity, Usuario usuarioSistema)
         {
             var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
-            usuarioSistema.Id_condominio = userLogado.Id_condominio;
+            usuarioSistema.IdCondominio = userLogado.IdCondominio;
 
             var user = await _userManager.FindByEmailAsync(userIdentity.Email);
             if (user != null)
@@ -95,7 +95,7 @@ namespace Application
         public async Task<List<Usuario>> ListarUsuarios()
         {
             var usuarioLogado = await _userLogadoApplication.ObterUsuarioLogado();
-            return await _usuarioRepository.ListarMessageIncludeCondominio(w => w.Id_condominio == usuarioLogado.Id_condominio);
+            return await _usuarioRepository.ListarMessageIncludeCondominio(w => w.IdCondominio == usuarioLogado.IdCondominio);
         }
     }
 }

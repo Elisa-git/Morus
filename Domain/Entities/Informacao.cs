@@ -21,7 +21,7 @@ namespace Domain.Entities
 
         [ForeignKey("Condominio")]
         [Column(Order = 1)]
-        public int Id_condominio { get; set; }
+        public int IdCondominio { get; set; }
 
         [JsonIgnore]
         public virtual Condominio Condominio { get; set; }

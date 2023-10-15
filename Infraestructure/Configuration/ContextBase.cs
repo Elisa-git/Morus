@@ -60,7 +60,7 @@ namespace Infraestructure.Configuration
 
             builder.Entity<Informacao>().HasData
                 (
-                    new Informacao { Id = 1, Ativo = true, Id_condominio = 1, DataCadastro = new DateTime(2023,10,06), DataAlteracao = new DateTime(2023, 10, 06), Descricao = "Descrição de informação inicial teste, lorem ipsum", Titulo = "Informação inicial" }
+                    new Informacao { Id = 1, Ativo = true, IdCondominio = 1, DataCadastro = new DateTime(2023,10,06), DataAlteracao = new DateTime(2023, 10, 06), Descricao = "Descrição de informação inicial teste, lorem ipsum", Titulo = "Informação inicial" }
                 );
         }
 
@@ -192,7 +192,7 @@ namespace Infraestructure.Configuration
                     new Usuario
                     {
                         Id = 1,
-                        Id_condominio = 1,
+                        IdCondominio = 1,
                         IdUserIdentity = sindicoUserId,
                         Nome = "Sindico da Costa Filho",
                         Torre = "A",
@@ -203,7 +203,7 @@ namespace Infraestructure.Configuration
                     new Usuario
                     {
                         Id = 2,
-                        Id_condominio = 1,
+                        IdCondominio = 1,
                         IdUserIdentity = moradorUserId,
                         Nome = "Morador de Carvalho",
                         Torre = "A",
@@ -214,7 +214,7 @@ namespace Infraestructure.Configuration
                     new Usuario
                     {
                         Id = 3,
-                        Id_condominio = 1,
+                        IdCondominio = 1,
                         IdUserIdentity = porteiroUserId,
                         Nome = "Porteiro Fernandes",
                         Torre = "A",
@@ -225,7 +225,7 @@ namespace Infraestructure.Configuration
                     new Usuario
                     {
                         Id = 4,
-                        Id_condominio = 1,
+                        IdCondominio = 1,
                         IdUserIdentity = adminUserId,
                         Nome = "Administrador",
                         Torre = "A",
@@ -236,7 +236,7 @@ namespace Infraestructure.Configuration
                     new Usuario
                     {
                         Id = 5,
-                        Id_condominio = 2,
+                        IdCondominio = 2,
                         IdUserIdentity = sindicoDoisUserId,
                         Nome = "Sindico Dois",
                         Torre = "A",

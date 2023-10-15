@@ -84,13 +84,12 @@ namespace Morus.API.Controllers
 
         [Authorize]
         [Produces("application/json")]
-        [HttpDelete("/api/DeletarOcorrencia")]
-        public async Task<IActionResult> DeletarOcorrencia(OcorrenciaRequest ocorrenciaRequest)
+        [HttpDelete("/api/DeletarOcorrencia/{id:int}")]
+        public async Task<IActionResult> DeletarOcorrencia(int id)
         {
             try
             {
-                var ocorrenciaMap = mapper.Map<Ocorrencia>(ocorrenciaRequest);
-                await _ocorrenciaService.DeletarOcorrencia(ocorrenciaMap);
+                await _ocorrenciaApplication.DeletarOcorrencia(id);
 
                 return CustomResponse(200, true);
             }

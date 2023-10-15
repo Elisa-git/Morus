@@ -24,7 +24,7 @@ namespace Domain.Entities
 
         [ForeignKey("Usuario")]
         [Column(Order = 1)]
-        public int? Id_usuario { get; set; }
+        public int? IdUsuario { get; set; }
 
         [Column("Resolvido")]
         public bool Resolvido { get; set; }

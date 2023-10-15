@@ -28,7 +28,7 @@ namespace Domain.Services
 
         public async Task AtualizarOcorrencia(Ocorrencia ocorrencia)
         {
-            if (_ocorrenciaValidator.ValidarEntidade(ocorrencia))
+            if (!_ocorrenciaValidator.ValidarEntidade(ocorrencia))
                 throw new ValidacaoException();
 
             await ocorrenciaGenerico.Update(ocorrencia);

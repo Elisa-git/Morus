@@ -31,7 +31,7 @@ namespace Application
         public async Task CadastrarLivroCaixa(LivroCaixa livroCaixa)
         {
             var usuarioLogado = await _userLogadoApplication.ObterUsuarioLogado();
-            livroCaixa.IdCondominio = usuarioLogado.Id_condominio;
+            livroCaixa.IdCondominio = usuarioLogado.IdCondominio;
 
             await _livroCaixaService.CadastrarLivroCaixa(livroCaixa);
         }
@@ -39,7 +39,7 @@ namespace Application
         public async Task AtualizarLivroCaixa(LivroCaixa livroCaixa)
         {
             var usuarioLogado = await _userLogadoApplication.ObterUsuarioLogado();
-            livroCaixa.IdCondominio = usuarioLogado.Id_condominio;
+            livroCaixa.IdCondominio = usuarioLogado.IdCondominio;
 
             await _livroCaixaService.AtualizarLivroCaixa(livroCaixa);
         }
@@ -47,7 +47,7 @@ namespace Application
         public async Task<List<LivroCaixa>> ListarLivroCaixas()
         {
             var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
-            return await _livroCaixaService.ListarPorCondominio(userLogado.Id_condominio);
+            return await _livroCaixaService.ListarPorCondominio(userLogado.IdCondominio);
         }
     }
 }

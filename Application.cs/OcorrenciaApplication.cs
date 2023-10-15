@@ -14,6 +14,7 @@ namespace Application
         private readonly ValidatorBase<Ocorrencia> _ocorrenciaValidator;
         private readonly IOcorrenciaService _ocorrenciaService;
         private readonly IUserLogadoApplication _userLogadoApplication;
+        private readonly INotificador _notificador;
 
         public OcorrenciaApplication(IOcorrencia ocorrenciaRepositorio, INotificador notificador, IOcorrenciaService ocorrenciaService, IUserLogadoApplication userLogadoApplication)
         {
@@ -21,6 +22,7 @@ namespace Application
             _ocorrenciaValidator = new ValidatorBase<Ocorrencia>(notificador);
             _ocorrenciaService = ocorrenciaService;
             _userLogadoApplication = userLogadoApplication;
+            _notificador = notificador;
         }
         public async Task CadastrarOcorrencia(Ocorrencia ocorrencia)
         {
@@ -31,7 +33,21 @@ namespace Application
         {
             var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
             
-            return await _ocorrenciaRepositorio.ListarPorCondominio(userLogado.Id_condominio);
+            return await _ocorrenciaRepositorio.ListarPorCondominio(userLogado.IdCondominio);
+        }
+
+        public async Task DeletarOcorrencia(int id)
+        {
+            var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
+            var ocorrencia = await _ocorrenciaRepositorio.GetEntityById(id);
+
+            if (ocorrencia == null)
+            {
+                _notificador.Notificar("Ocorrência inexistente.");
+                throw new ValidacaoException("");
+            }
+
+            await _ocorrenciaService.DeletarOcorrencia(ocorrencia);
         }
     }
 }
