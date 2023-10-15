@@ -123,5 +123,24 @@ namespace Morus.API.Controllers
                 return CustomResponse(500, false);
             }
         }
+
+        //[Produces("application/json")]
+        //[HttpGet("/api/FiltrasOcorrencias")]
+        //[Authorize]
+        //public async Task<IActionResult> FiltrasOcorrencias([FromQuery] )
+        //{
+        //    try
+        //    {
+        //        var ocorrencias = await _ocorrenciaApplication.ListarOcorrencias();
+        //        var ocorrenciaMap = mapper.Map<List<Ocorrencia>>(ocorrencias);
+
+        //        return CustomResponse(ocorrenciaMap != null ? 200 : 404, true, ocorrenciaMap);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        _notificador.NotificarMensagemErroInterno();
+        //        return CustomResponse(500, false);
+        //    }
+        //}
     }
 }

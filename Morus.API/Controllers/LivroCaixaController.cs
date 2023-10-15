@@ -103,9 +103,9 @@ namespace Morus.API.Controllers
             try
             {
                 var livrosCaixa = await _livroCaixaApplication.ListarLivroCaixas();
-                var livrosCaixaMap = mapper.Map<List<LivroCaixaRequest>>(livrosCaixa);
+                //var livrosCaixaMap = mapper.Map<List<LivroCaixaRequest>>(livrosCaixa);
 
-                return CustomResponse(livrosCaixaMap != null ? 200 : 404, true, livrosCaixaMap);
+                return CustomResponse(livrosCaixa != null ? 200 : 404, true, livrosCaixa);
             }
             catch (ValidacaoException e)
             {
