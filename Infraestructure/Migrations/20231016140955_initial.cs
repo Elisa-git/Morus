@@ -294,9 +294,9 @@ namespace Infraestructure.Migrations
                     DescricaoTransacao = table.Column<string>(type: "longtext", nullable: false),
                     Categoria = table.Column<string>(type: "longtext", nullable: false),
                     Torre = table.Column<string>(type: "longtext", nullable: false),
-                    NumeroConta = table.Column<string>(type: "longtext", nullable: false),
                     ValorTransacao = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DataTransacao = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    DataTransacao = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    TipoTransacao = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -506,10 +506,10 @@ namespace Infraestructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1e224608-cad2-4816-b0de-7dd18eb8ebac", "1", "Admin", "ADMIN" },
-                    { "8cc09ca1-7a48-41b3-8dd9-f46917da2b80", "2", "Sindico", "SINDICO" },
-                    { "f3dd2470-6934-44e2-94bd-215c5cf5c4de", "3", "Morador", "MORADOR" },
-                    { "fff68c6d-c013-4f7d-8031-9142917c7d50", "4", "Porteiro", "PORTEIRO" }
+                    { "400ffd9b-f776-41f3-b7de-feeaf6feed80", "4", "Porteiro", "PORTEIRO" },
+                    { "63604a83-4c2d-46ef-941f-47af31447dbb", "2", "Sindico", "SINDICO" },
+                    { "840ca5b9-e6ac-4835-a0ce-8fff2fe583bd", "1", "Admin", "ADMIN" },
+                    { "af84c261-27ea-43bb-9e99-7197bb998c73", "3", "Morador", "MORADOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -517,11 +517,11 @@ namespace Infraestructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "160cb186-08b5-46f3-ac9b-484cdd5725f7", 0, "4cd20ef6-d0f5-4766-ab4a-d94a7e54bd28", "morador@morador.com.br", false, false, null, "MORADOR@MORADOR.COM.BR", "MORADOR@MORADOR.COM.BR", "AQAAAAEAACcQAAAAEF5+ynVE4lBytEPPxw4wOM7lvbm0Uu1zNplSrF1Cb2R0GzjByNAnXdVMQSiM7e4Wcg==", null, false, "5acfd0f6-1805-485d-95c7-50b15a6e6b8f", false, "morador@morador.com.br" },
-                    { "17654046-22ef-408e-a0c8-42398196866d", 0, "0a4ec530-f45c-4875-bb2c-1e2e19db055e", "admin@admin.com.br", false, false, null, "ADMIN@ADMIN.COM.BR", "ADMIN@ADMIN.COM.BR", "AQAAAAEAACcQAAAAEJBfrofSdNkJl5cuKLU3i+ao2N1uY5RKdIIuWlLRHECnSMV19HQ2TG8dlsDIZtj6pQ==", null, false, "43b8027d-bbd2-4418-96ab-c7ccf8a886df", false, "admin@admin.com.br" },
-                    { "37646646-f4c4-4e25-8c2d-643da75e94e7", 0, "58254343-999c-4b56-a244-c6f37dde53a3", "sindico@sindico.com.br", false, false, null, "SINDICO@SINDICO.COM.BR", "SINDICO@SINDICO.COM.BR", "AQAAAAEAACcQAAAAEOXsWkq9vzhpf0vlvkPEgtLkrK4q2XRXJelmlIx760+st3i6NJ8YhQ7l7Ly4hH4l6Q==", null, false, "9a553124-fbc3-4e3e-9173-8a18f37cb454", false, "sindico@sindico.com.br" },
-                    { "4e68e093-dd2c-4d13-b074-827d52e035e6", 0, "3f3ce330-bdbb-4ff5-ba8a-59237e1f02ab", "sindicoDois@sindicoDois.com.br", false, false, null, "SINDICODOIS@SINDICODOIS.COM.BR", "SINDICODOIS@SINDICODOIS.COM.BR", "AQAAAAEAACcQAAAAELt0uXEpAnsfrdR7Roq8UKtVuFH1NmU9j5NbWB9mgyezlz97LczHsevC3rKYCbtDxw==", null, false, "6380f075-9650-4787-a850-9d9dff5bba65", false, "sindicoDois@sindicoDois.com.br" },
-                    { "e759afec-ea94-4e87-b5b7-6ef8875b5b49", 0, "ad0b9c7c-a4a4-4c57-93ef-2fa1730d9155", "porteiro@porteiro.com.br", false, false, null, "PORTEIRO@PORTEIRO.COM.BR", "PORTEIRO@PORTEIRO.COM.BR", "AQAAAAEAACcQAAAAEMw8OlPvGiVgCrupAd0DtZdp3V15r436ldbAVG1sChJUnQuv7Fd9cWSQi6hi6zHX/w==", null, false, "c8cec098-58c5-47ca-8993-0cfe36f35a5c", false, "porteiro@porteiro.com.br" }
+                    { "05f525a7-8ebc-445b-bf51-7474fdfb8370", 0, "b7fbf4bb-38a7-4109-892f-b31d48a2bf31", "admin@admin.com.br", false, false, null, "ADMIN@ADMIN.COM.BR", "ADMIN@ADMIN.COM.BR", "AQAAAAEAACcQAAAAEP2kJbe9/MdZHDwfMUq1kBk9Ul+9unSywsDFOwYTyiJ5Hkt2ivLBt6u+xSv3aB6HNQ==", null, false, "45236a7b-3133-4997-95df-7102c2025463", false, "admin@admin.com.br" },
+                    { "0c418fba-a7b5-4de9-9d18-51cd37607afa", 0, "550fff57-dca8-417b-8bfe-6a35f6b8917c", "sindico@sindico.com.br", false, false, null, "SINDICO@SINDICO.COM.BR", "SINDICO@SINDICO.COM.BR", "AQAAAAEAACcQAAAAEOi7pea3fPIklb2yGvQB3ZrSwaA8oeyuz3SsYUZ+QUgeRhw6KBzoYESTzcQWvaYE/A==", null, false, "49724437-c9bb-4f03-b408-08c20c5d45a4", false, "sindico@sindico.com.br" },
+                    { "3b896fcd-6417-41ad-8a33-df872b805e0f", 0, "716d891d-e66e-4db4-afbd-8441c977c325", "sindicoDois@sindicoDois.com.br", false, false, null, "SINDICODOIS@SINDICODOIS.COM.BR", "SINDICODOIS@SINDICODOIS.COM.BR", "AQAAAAEAACcQAAAAEBo2J13dOysnp6oAY57QGL1aj2Bo6tnw2Dls5oEKft7+auyBLLiIOVz5MTfFiGAEIA==", null, false, "585f21b0-244f-4395-afd7-77e7ef271acb", false, "sindicoDois@sindicoDois.com.br" },
+                    { "9410da37-b9b6-4aa5-9312-bbb6b3c30b6f", 0, "7b1775de-f5f5-44f8-8c9e-d65ce2f01757", "morador@morador.com.br", false, false, null, "MORADOR@MORADOR.COM.BR", "MORADOR@MORADOR.COM.BR", "AQAAAAEAACcQAAAAEK1X6nO9wWPeU52oBMxoW5IEg1MfM8PDK7szFC9iQyD3jNodjFDz5fLKLKDULqvSUg==", null, false, "dbcb5abb-ff53-470d-b35a-7b5e8062df93", false, "morador@morador.com.br" },
+                    { "e5716577-2ace-4bca-8a7a-0cf3ed6c0af6", 0, "6a5d44e1-0ae2-4457-b6e0-2e855072386c", "porteiro@porteiro.com.br", false, false, null, "PORTEIRO@PORTEIRO.COM.BR", "PORTEIRO@PORTEIRO.COM.BR", "AQAAAAEAACcQAAAAEHezVpAoC56dVAQp/qH+bc8tBY4K+rWRe5QAcEF5tPWhCI1bc30QnEBuWVVTInEwDQ==", null, false, "3ccf46fa-f4f6-429c-b663-f125390d0961", false, "porteiro@porteiro.com.br" }
                 });
 
             migrationBuilder.InsertData(
@@ -538,11 +538,11 @@ namespace Infraestructure.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "f3dd2470-6934-44e2-94bd-215c5cf5c4de", "160cb186-08b5-46f3-ac9b-484cdd5725f7" },
-                    { "1e224608-cad2-4816-b0de-7dd18eb8ebac", "17654046-22ef-408e-a0c8-42398196866d" },
-                    { "8cc09ca1-7a48-41b3-8dd9-f46917da2b80", "37646646-f4c4-4e25-8c2d-643da75e94e7" },
-                    { "8cc09ca1-7a48-41b3-8dd9-f46917da2b80", "4e68e093-dd2c-4d13-b074-827d52e035e6" },
-                    { "fff68c6d-c013-4f7d-8031-9142917c7d50", "e759afec-ea94-4e87-b5b7-6ef8875b5b49" }
+                    { "840ca5b9-e6ac-4835-a0ce-8fff2fe583bd", "05f525a7-8ebc-445b-bf51-7474fdfb8370" },
+                    { "63604a83-4c2d-46ef-941f-47af31447dbb", "0c418fba-a7b5-4de9-9d18-51cd37607afa" },
+                    { "63604a83-4c2d-46ef-941f-47af31447dbb", "3b896fcd-6417-41ad-8a33-df872b805e0f" },
+                    { "af84c261-27ea-43bb-9e99-7197bb998c73", "9410da37-b9b6-4aa5-9312-bbb6b3c30b6f" },
+                    { "400ffd9b-f776-41f3-b7de-feeaf6feed80", "e5716577-2ace-4bca-8a7a-0cf3ed6c0af6" }
                 });
 
             migrationBuilder.InsertData(
@@ -552,19 +552,19 @@ namespace Infraestructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "LivroCaixa",
-                columns: new[] { "Id", "Categoria", "DataTransacao", "DescricaoTransacao", "IdCondominio", "NumeroConta", "Torre", "ValorTransacao" },
-                values: new object[] { 1, "teste", new DateTime(2023, 10, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "Descrição teste", 1, "123", "A", 500.00m });
+                columns: new[] { "Id", "Categoria", "DataTransacao", "DescricaoTransacao", "IdCondominio", "TipoTransacao", "Torre", "ValorTransacao" },
+                values: new object[] { 1, "teste", new DateTime(2023, 10, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "Descrição teste", 1, 0, "A", 500.00m });
 
             migrationBuilder.InsertData(
                 table: "Usuario",
                 columns: new[] { "Id", "Apartamento", "CPF", "DataNascimento", "IdCondominio", "IdUserIdentity", "Nome", "Torre" },
                 values: new object[,]
                 {
-                    { 1, 1, "12345678999", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "37646646-f4c4-4e25-8c2d-643da75e94e7", "Sindico da Costa Filho", "A" },
-                    { 2, 2, "12343223444", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "160cb186-08b5-46f3-ac9b-484cdd5725f7", "Morador de Carvalho", "A" },
-                    { 3, 3, "12343223445", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "e759afec-ea94-4e87-b5b7-6ef8875b5b49", "Porteiro Fernandes", "A" },
-                    { 4, 3, "12343223456", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "17654046-22ef-408e-a0c8-42398196866d", "Administrador", "A" },
-                    { 5, 4, "12343223336", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "4e68e093-dd2c-4d13-b074-827d52e035e6", "Sindico Dois", "A" }
+                    { 1, 1, "12345678999", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "0c418fba-a7b5-4de9-9d18-51cd37607afa", "Sindico da Costa Filho", "A" },
+                    { 2, 2, "12343223444", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "9410da37-b9b6-4aa5-9312-bbb6b3c30b6f", "Morador de Carvalho", "A" },
+                    { 3, 3, "12343223445", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "e5716577-2ace-4bca-8a7a-0cf3ed6c0af6", "Porteiro Fernandes", "A" },
+                    { 4, 3, "12343223456", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "05f525a7-8ebc-445b-bf51-7474fdfb8370", "Administrador", "A" },
+                    { 5, 4, "12343223336", new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "3b896fcd-6417-41ad-8a33-df872b805e0f", "Sindico Dois", "A" }
                 });
 
             migrationBuilder.InsertData(

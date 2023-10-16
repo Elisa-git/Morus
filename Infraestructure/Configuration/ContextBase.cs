@@ -55,7 +55,7 @@ namespace Infraestructure.Configuration
 
             builder.Entity<LivroCaixa>().HasData
                 (
-                    new LivroCaixa { Id = 1, Categoria = "teste", IdCondominio = 1, Torre = "A", ValorTransacao = 500.00m, NumeroConta = "123", DataTransacao = new DateTime(2023, 10, 06), DescricaoTransacao = "Descrição teste" }
+                    new LivroCaixa { Id = 1, Categoria = "teste", IdCondominio = 1, Torre = "A", ValorTransacao = 500.00m, TipoTransacao = Domain.Entities.Enum.TipoTransacao.ENTRADA, DataTransacao = new DateTime(2023, 10, 06), DescricaoTransacao = "Descrição teste" }
                 );
 
             builder.Entity<Informacao>().HasData

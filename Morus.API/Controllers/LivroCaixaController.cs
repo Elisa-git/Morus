@@ -63,7 +63,7 @@ namespace Morus.API.Controllers
                     Categoria = livroCaixaRequest.Categoria,
                     DataTransacao = livroCaixaRequest.DataTransacao,
                     DescricaoTransacao = livroCaixaRequest.DescricaoTransacao,
-                    NumeroConta = livroCaixaRequest.NumeroConta,
+                    TipoTransacao = livroCaixaRequest.TipoTransacao,
                     Torre = livroCaixaRequest.Torre,
                     ValorTransacao = livroCaixaRequest.ValorTransacao
                 };

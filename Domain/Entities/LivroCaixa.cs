@@ -1,4 +1,5 @@
 ﻿using Core;
+using Domain.Entities.Enum;
 using Domain.Validacoes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,14 +23,14 @@ namespace Domain.Entities
         [Column("Torre")]
         public string Torre { get; set; }
 
-        [Column("NumeroConta")]
-        public string NumeroConta { get; set; }
-
         [Column("ValorTransacao")]
         public decimal ValorTransacao { get; set; }
 
         [Column("DataTransacao")]
         public DateTime DataTransacao { get; set; }
+
+        [Column("TipoTransacao")]
+        public TipoTransacao TipoTransacao { get; set; }
 
         [ForeignKey("Condominio")]
         [Column(Order = 1)]
