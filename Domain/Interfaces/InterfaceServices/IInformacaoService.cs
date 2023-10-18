@@ -10,5 +10,6 @@ namespace Domain.Interfaces.InterfaceServices
 
         Task<List<Informacao>> ListarInformacoesAtivas();
         Task DeletarInformacao(Informacao informacaoRequest);
+        Task<List<Informacao>> ListarInformacoesAtivasPorCondominio(int idCondominio);
     }
 }

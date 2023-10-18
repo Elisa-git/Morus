@@ -24,7 +24,7 @@ namespace Domain.Entities
 
         [ForeignKey("Usuario")]
         [Column(Order = 1)]
-        public int Id_usuario { get; set; }
+        public int? Id_usuario { get; set; }
 
         [JsonIgnore]
         public virtual Usuario Usuario { get; set; }

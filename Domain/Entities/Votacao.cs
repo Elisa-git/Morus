@@ -26,12 +26,12 @@ namespace Domain.Entities
         [Column("DataExpiracao")]
         public DateTime DataExpiracao { get; set; }
 
-        [Column("Status")]
-        public StatusVotacao Status { get; set; }
+        [Column("Ativa")]
+        public bool Ativa { get; set; }
 
         [ForeignKey("Condominio")]
         [Column(Order = 1)]
-        public int Id_condominio { get; set; }
+        public int IdCondominio { get; set; }
 
         [JsonIgnore]
         public virtual Condominio Condominio { get; set; }

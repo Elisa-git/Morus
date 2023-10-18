@@ -12,7 +12,7 @@ namespace Domain.Validacoes
     {
         public InformacaoValidation()
         {
-
+            RuleFor(i => i.Id_condominio).NotEmpty().GreaterThan(0).WithMessage("Condomínio inválido para cadastro de informação");
         }
     }
 }

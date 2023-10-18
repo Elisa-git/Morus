@@ -33,7 +33,7 @@ namespace Domain.Entities
 
         [ForeignKey("Condominio")]
         [Column(Order = 1)]
-        public int? Id_condominio { get; set; }
+        public int Id_condominio { get; set; }
 
         [ForeignKey("User")]
         public string IdUserIdentity { get; set; }

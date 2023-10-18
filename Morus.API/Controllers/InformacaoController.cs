@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using Application;
+using Application.Interfaces;
+using AutoMapper;
 using Core.Exceptions;
 using Core.Notificador;
 using Domain.Entities;
@@ -17,24 +19,25 @@ namespace Morus.API.Controllers
         private readonly IMapper mapper;
         private readonly IInformacaoRepositorio informaoRepositorio;
         private readonly IInformacaoService informacaoService;
+        private readonly IInformacaoApplication informacaoApplication;
 
-        public InformacaoController(IMapper mapper, IInformacaoRepositorio informaoRepositorio, IInformacaoService informacaoService, INotificador notificador) : base(notificador)
+        public InformacaoController(IMapper mapper, IInformacaoRepositorio informaoRepositorio, IInformacaoService informacaoService, INotificador notificador, IInformacaoApplication informacaoApplication) : base(notificador)
         {
             this.mapper = mapper;
             this.informaoRepositorio = informaoRepositorio;
             this.informacaoService = informacaoService;
+            this.informacaoApplication = informacaoApplication;
         }
 
-        [AllowAnonymous]
         [Produces("application/json")]
         [HttpPost("/api/CadastrarInformacao")]
+        [Authorize]
         public async Task<IActionResult> CadastrarInformacao(InformacaoRequest informacaoRequest)
         {
             try
             {
-                informacaoRequest.UserId = await RetornarIdUsuarioLogado();
                 var informacaoMapeada = mapper.Map<Informacao>(informacaoRequest);
-                await informacaoService.CadastrarInformacao(informacaoMapeada);
+                await informacaoApplication.CadastrarInformacao(informacaoMapeada);
 
                 return CustomResponse(200, true);
             } 
@@ -73,15 +76,15 @@ namespace Morus.API.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [Produces("application/json")]
         [HttpGet("/api/ListarInformacao")]
         public async Task<IActionResult> ListarInformacao()
         {
             try
             {
-                var informacao = await informacaoService.ListarInformacoesAtivas();
-                var informacaoMapeada = mapper.Map<List<InformacaoRequest>>(informacao);
+                var informacoes = await informacaoApplication.ListarInformacoesCondominio();
+                var informacaoMapeada = mapper.Map<List<InformacaoRequest>>(informacoes);
 
                 return CustomResponse(informacaoMapeada != null ? 200 : 404, true, informacaoMapeada);
             }

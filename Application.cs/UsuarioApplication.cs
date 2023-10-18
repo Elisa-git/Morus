@@ -18,7 +18,7 @@ namespace Application
         private readonly ValidatorBase<Usuario> _usuarioValidation;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUserLogadoApplication _userLogadoApplication;
         private readonly ICondominio _condominioRepository;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
@@ -28,7 +28,7 @@ namespace Application
                                   RoleManager<IdentityRole> roleManager,
                                   UserManager<User> userManager,
                                   SignInManager<User> signInManager,
-                                  IHttpContextAccessor httpContextAccessor,
+                                  IUserLogadoApplication userLogadoApplication,
                                   ICondominio condominioRepository,
                                   IMapper mapper)
         {
@@ -37,7 +37,7 @@ namespace Application
             _usuarioValidation = new ValidatorBase<Usuario>(notificador);
             _signInManager = signInManager;
             _userManager = userManager;
-            _httpContextAccessor = httpContextAccessor;
+            _userLogadoApplication = userLogadoApplication;
             _condominioRepository = condominioRepository;
             _roleManager = roleManager;
             _mapper = mapper;
@@ -53,8 +53,8 @@ namespace Application
 
         public async Task<bool> CadastrarMorador(User userIdentity, Usuario usuarioSistema)
         {
-            var idUsuarioLogado = _httpContextAccessor?.HttpContext?.User.Claims.FirstOrDefault(c => c.Type.Equals("idUsuario", StringComparison.InvariantCultureIgnoreCase))?.Value;
-            usuarioSistema.Id_condominio = (await _usuarioRepository.ListarMessage(w => w.IdUserIdentity.Equals(idUsuarioLogado)))?.FirstOrDefault()?.Id_condominio;
+            var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
+            usuarioSistema.Id_condominio = userLogado.Id_condominio;
 
             var user = await _userManager.FindByEmailAsync(userIdentity.Email);
             if (user != null)
@@ -90,6 +90,12 @@ namespace Application
             var usuarioLogin = (await _usuarioRepository.ListarMessageIncludeCondominio(w => w.IdUserIdentity == idUsuarioIdentity))?.FirstOrDefault();
 
             return new UsuarioLoginResponse { Usuario = _mapper.Map<UsuarioLogadoResponse>(usuarioLogin) };
+        }
+
+        public async Task<List<Usuario>> ListarUsuarios()
+        {
+            var usuarioLogado = await _userLogadoApplication.ObterUsuarioLogado();
+            return await _usuarioRepository.ListarMessageIncludeCondominio(w => w.Id_condominio == usuarioLogado.Id_condominio);
         }
     }
 }

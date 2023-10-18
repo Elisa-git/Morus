@@ -47,5 +47,10 @@ namespace Domain.Services
         {
             return await informacaoRepositorio.ListarInformacoes(n => n.Ativo);
         }
+
+        public async Task<List<Informacao>> ListarInformacoesAtivasPorCondominio(int idCondominio)
+        {
+            return await informacaoRepositorio.ListarInformacoes(n => n.Ativo && n.Id_condominio == idCondominio);
+        }
     }
 }
