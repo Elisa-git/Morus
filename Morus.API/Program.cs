@@ -89,6 +89,7 @@ builder.Services.AddSingleton<IVotacaoRepositorio, VotacaoRepositorio>();
 builder.Services.AddSingleton<IAreaComumRepositorio, AreaComumRepositorio>();
 builder.Services.AddSingleton<ITaxaMensalRepositorio, TaxaMensalRepositorio>();
 builder.Services.AddSingleton<IReservaRepositorio, ReservaRepositorio>();
+builder.Services.AddSingleton<IArquivoRepositorio, ArquivoRepositorio>();
 
 builder.Services.AddScoped<CondominioRepositorio, CondominioRepositorio>();
 builder.Services.AddScoped<UsuarioRepositorio, UsuarioRepositorio>();
@@ -97,6 +98,7 @@ builder.Services.AddScoped<MultaRepositorio, MultaRepositorio>();
 builder.Services.AddScoped<OcorrenciaRepositorio, OcorrenciaRepositorio>();
 builder.Services.AddScoped<AreaComumRepositorio, AreaComumRepositorio>();
 builder.Services.AddScoped<ReservaRepositorio, ReservaRepositorio>();
+builder.Services.AddScoped<ArquivoRepositorio, ArquivoRepositorio>();
 
 builder.Services.AddScoped<IOcorrenciaApplication, OcorrenciaApplication>();
 builder.Services.AddScoped<IUsuarioApplication, UsuarioApplication>();
@@ -117,6 +119,7 @@ builder.Services.AddScoped<ITaxaMensalService, TaxaMensalService>();
 builder.Services.AddScoped<IVotacaoService, VotacaoService>();
 builder.Services.AddScoped<IAreaComumService, AreaComumService>();
 builder.Services.AddScoped<IReservaService, ReservaService>();
+builder.Services.AddScoped<IArquivoService, ArquivoService>();
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -176,6 +179,8 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<Usuario, UsuarioLogadoResponse>();
     cfg.CreateMap<Reserva, ReservaRequest>();
     cfg.CreateMap<ReservaRequest, Reserva>();
+    cfg.CreateMap<Arquivo, ArquivoRequest>();
+    cfg.CreateMap<ArquivoRequest, Arquivo>();
 });
 
 IMapper mapper = config.CreateMapper();
