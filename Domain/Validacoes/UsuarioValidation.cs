@@ -8,7 +8,7 @@ namespace Domain.Validacoes
         public UsuarioValidation()
         {
             RuleFor(u => u.CPF).NotEmpty().WithMessage("CPF deve ser informado");
-            RuleFor(u => u.Id_condominio).NotEmpty().GreaterThan(0).WithMessage("Condominio deve ser informado");
+            RuleFor(u => u.IdCondominio).NotEmpty().GreaterThan(0).WithMessage("Condominio deve ser informado");
         }
     }
 }

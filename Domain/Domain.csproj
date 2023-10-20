@@ -18,6 +18,7 @@
     <Compile Include="Entities\Condominio.cs" />
     <Compile Include="Entities\Enum\StatusReserva.cs" />
     <Compile Include="Entities\Enum\StatusVotacao.cs" />
+    <Compile Include="Entities\Enum\TipoTransacao.cs" />
     <Compile Include="Entities\Enum\TipoUsuario.cs" />
     <Compile Include="Entities\Enum\ValorVotoEnum.cs" />
     <Compile Include="Entities\Informacao.cs" />

@@ -60,14 +60,33 @@ namespace Morus.API.Controllers
             try
             {
                 var informacaoMapeada = mapper.Map<Informacao>(informacaoRequest);
-                
-                await informacaoService.AtualizarInformacao(informacaoMapeada);
+                await informacaoApplication.AtualizarInformacao(informacaoMapeada);
+
 
                 return CustomResponse(200, true);
             }
             catch (ValidacaoException)
             {
                 return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
+        }
+
+        [Authorize]
+        [Produces("application/json")]
+        [HttpGet("/api/ObterInformacaoPorId/{id:int}")]
+        public async Task<IActionResult> ObterInformacaoPorId(int id)
+        {
+            try
+            {
+                var informacao = await informacaoApplication.ObterPorId(id);
+                var informacaoMapeada = mapper.Map<InformacaoRequest>(informacao);
+
+                return CustomResponse(informacaoMapeada != null ? 200 : 404, true, informacaoMapeada);
             }
             catch (Exception e)
             {
@@ -97,15 +116,18 @@ namespace Morus.API.Controllers
 
         [AllowAnonymous]
         [Produces("application/json")]
-        [HttpDelete("/api/DeletarInformacao")]
-        public async Task<IActionResult> DeletarInformacao(InformacaoRequest message)
+        [HttpDelete("/api/DeletarInformacao/{id:int}")]
+        public async Task<IActionResult> DeletarInformacao(int id)
         {
             try
             {
-                var informacaoMapeada = mapper.Map<Informacao>(message);
-                await informacaoService.DeletarInformacao(informacaoMapeada);
+                await informacaoApplication.DeletarInformacao(id);
 
                 return CustomResponse(200, true);
+            }
+            catch(InvalidOperationException)
+            {
+                return CustomResponse(403, false);
             }
             catch (Exception e)
             {

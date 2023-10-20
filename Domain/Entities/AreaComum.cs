@@ -23,6 +23,5 @@ namespace Domain.Entities
 
         [JsonIgnore]
         public virtual Condominio Condominio { get; set; }
-
     }
 }

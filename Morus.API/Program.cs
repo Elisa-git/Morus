@@ -105,6 +105,7 @@ builder.Services.AddScoped<IUsuarioApplication, UsuarioApplication>();
 builder.Services.AddScoped<IUserLogadoApplication, UserLogadoApplication>();
 builder.Services.AddScoped<IInformacaoApplication, InformacaoApplication>();
 builder.Services.AddScoped<IVotacaoApplication, VotacaoApplication>();
+builder.Services.AddScoped<ILivroCaixaApplication, LivroCaixaApplication>();
 
 builder.Services.AddScoped<INotificador, Notificador>();
 
@@ -171,8 +172,6 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<MultaRequest, Multa>();
     cfg.CreateMap<Ocorrencia, OcorrenciaRequest>();
     cfg.CreateMap<OcorrenciaRequest, Ocorrencia>();
-    cfg.CreateMap<LivroCaixa, LivroCaixaRequest>();
-    cfg.CreateMap<LivroCaixaRequest, LivroCaixa>();
     cfg.CreateMap<TaxaMensal, TaxaMensalRequest>();
     cfg.CreateMap<TaxaMensalRequest, TaxaMensal>();
     cfg.CreateMap<Votacao, VotacaoRequest>();
@@ -187,6 +186,7 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<ReservaRequest, Reserva>();
     cfg.CreateMap<Arquivo, ArquivoRequest>();
     cfg.CreateMap<ArquivoRequest, Arquivo>();
+    cfg.CreateMap<LivroCaixa, LivroCaixaRequest>().ReverseMap();
 });
 
 IMapper mapper = config.CreateMapper();

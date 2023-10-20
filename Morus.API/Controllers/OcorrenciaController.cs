@@ -84,13 +84,12 @@ namespace Morus.API.Controllers
 
         [Authorize]
         [Produces("application/json")]
-        [HttpDelete("/api/DeletarOcorrencia")]
-        public async Task<IActionResult> DeletarOcorrencia(OcorrenciaRequest ocorrenciaRequest)
+        [HttpDelete("/api/DeletarOcorrencia/{id:int}")]
+        public async Task<IActionResult> DeletarOcorrencia(int id)
         {
             try
             {
-                var ocorrenciaMap = mapper.Map<Ocorrencia>(ocorrenciaRequest);
-                await _ocorrenciaService.DeletarOcorrencia(ocorrenciaMap);
+                await _ocorrenciaApplication.DeletarOcorrencia(id);
 
                 return CustomResponse(200, true);
             }
@@ -113,7 +112,45 @@ namespace Morus.API.Controllers
             try
             {
                 var ocorrencias = await _ocorrenciaApplication.ListarOcorrencias();
+                var ocorrenciaMap = mapper.Map<List<OcorrenciaRequest>>(ocorrencias);
+
+                return CustomResponse(ocorrenciaMap != null ? 200 : 404, true, ocorrenciaMap);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
+        }
+
+        [Produces("application/json")]
+        [HttpGet("/api/ObterOcorrenciasPorStatus")]
+        [Authorize]
+        public async Task<IActionResult> ObterPorStatus([FromQuery] bool resolvido)
+        {
+            try
+            {
+                var ocorrencias = await _ocorrenciaApplication.ListarOcorrenciasFiltro(resolvido);
                 var ocorrenciaMap = mapper.Map<List<Ocorrencia>>(ocorrencias);
+
+                return CustomResponse(ocorrenciaMap != null ? 200 : 404, true, ocorrenciaMap);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
+        }
+
+        [Produces("application/json")]
+        [HttpGet("/api/ObterOcorrenciasPorId/{id:int}")]
+        [Authorize]
+        public async Task<IActionResult> ObterPorId(int id)
+        {
+            try
+            {
+                var ocorrencia = await _ocorrenciaApplication.ObterPorId(id);
+                var ocorrenciaMap = mapper.Map<List<OcorrenciaRequest>>(ocorrencia);
 
                 return CustomResponse(ocorrenciaMap != null ? 200 : 404, true, ocorrenciaMap);
             }

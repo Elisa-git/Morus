@@ -12,7 +12,7 @@ namespace Domain.Validacoes
     {
         public LivroCaixaValidation()
         {
-            RuleFor(l => l.Id_condominio).NotEmpty().GreaterThan(0).WithMessage("Id do condomínio deve ser informado");
+            RuleFor(l => l.IdCondominio).NotEmpty().GreaterThan(0).WithMessage("Id do condomínio deve ser informado");
         }
     }
 }
