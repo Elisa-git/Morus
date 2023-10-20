@@ -5,6 +5,8 @@ using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Interfaces.InterfaceServices;
 using Domain.Validacoes;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Application
 {
@@ -32,9 +34,17 @@ namespace Application
         public async Task<List<Ocorrencia>> ListarOcorrencias()
         {
             var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
-            
+
             return await _ocorrenciaRepositorio.ListarPorCondominio(userLogado.IdCondominio);
         }
+
+        public async Task<List<Ocorrencia>> ListarOcorrenciasFiltro(bool resolvido)
+        {
+            var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
+
+            return await _ocorrenciaRepositorio.ListarPorCondominioMessage(userLogado.IdCondominio, o => o.Resolvido == resolvido);
+        }
+
 
         public async Task DeletarOcorrencia(int id)
         {

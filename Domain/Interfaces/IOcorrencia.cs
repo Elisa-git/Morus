@@ -8,5 +8,6 @@ namespace Domain.Interfaces
     {
         Task<List<Ocorrencia>> ListarMessage(Expression<Func<Ocorrencia, bool>> exMessage);
         Task<List<Ocorrencia>> ListarPorCondominio(int idCondominio);
+        Task<List<Ocorrencia>> ListarPorCondominioMessage(int idCondominio, Expression<Func<Ocorrencia, bool>> exMessage);
     }
 }

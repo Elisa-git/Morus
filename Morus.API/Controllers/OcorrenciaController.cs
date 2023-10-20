@@ -123,23 +123,23 @@ namespace Morus.API.Controllers
             }
         }
 
-        //[Produces("application/json")]
-        //[HttpGet("/api/FiltrasOcorrencias")]
-        //[Authorize]
-        //public async Task<IActionResult> FiltrasOcorrencias([FromQuery] )
-        //{
-        //    try
-        //    {
-        //        var ocorrencias = await _ocorrenciaApplication.ListarOcorrencias();
-        //        var ocorrenciaMap = mapper.Map<List<Ocorrencia>>(ocorrencias);
+        [Produces("application/json")]
+        [HttpGet("/api/ObterOcorrenciasPorStatus")]
+        [Authorize]
+        public async Task<IActionResult> ObterOcorrenciasPorStatus([FromQuery] bool resolvido)
+        {
+            try
+            {
+                var ocorrencias = await _ocorrenciaApplication.ListarOcorrenciasFiltro(resolvido);
+                var ocorrenciaMap = mapper.Map<List<Ocorrencia>>(ocorrencias);
 
-        //        return CustomResponse(ocorrenciaMap != null ? 200 : 404, true, ocorrenciaMap);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        _notificador.NotificarMensagemErroInterno();
-        //        return CustomResponse(500, false);
-        //    }
-        //}
+                return CustomResponse(ocorrenciaMap != null ? 200 : 404, true, ocorrenciaMap);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
+        }
     }
 }

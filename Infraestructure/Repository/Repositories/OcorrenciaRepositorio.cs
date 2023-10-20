@@ -31,5 +31,13 @@ namespace Infraestructure.Repository.Repositories
                 return await banco.Ocorrencia.AsNoTracking().Include(o => o.Usuario).Where(u => u.Usuario.IdCondominio == idCondominio).ToListAsync();
             }
         }
+
+        public async Task<List<Ocorrencia>> ListarPorCondominioMessage(int idCondominio, Expression<Func<Ocorrencia, bool>> exMessage)
+        {
+            using (var banco = new ContextBase(_OptionsBuilder))
+            {
+                return await banco.Ocorrencia.AsNoTracking().Include(o => o.Usuario).Where(u => u.Usuario.IdCondominio == idCondominio).Where(exMessage).ToListAsync();
+            }
+        }
     }
 }
