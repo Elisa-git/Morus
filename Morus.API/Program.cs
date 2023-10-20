@@ -89,6 +89,7 @@ builder.Services.AddTransient<ITaxaMensalRepositorio, TaxaMensalRepositorio>();
 builder.Services.AddTransient<IReservaRepositorio, ReservaRepositorio>();
 builder.Services.AddTransient<IVotacaoRepositorio, VotacaoRepositorio>();
 builder.Services.AddTransient<IVotoRepositorio, VotoRepositorio>();
+builder.Services.AddSingleton<IArquivoRepositorio, ArquivoRepositorio>();
 
 builder.Services.AddScoped<CondominioRepositorio, CondominioRepositorio>();
 builder.Services.AddScoped<UsuarioRepositorio, UsuarioRepositorio>();
@@ -97,6 +98,7 @@ builder.Services.AddScoped<MultaRepositorio, MultaRepositorio>();
 builder.Services.AddScoped<OcorrenciaRepositorio, OcorrenciaRepositorio>();
 builder.Services.AddScoped<AreaComumRepositorio, AreaComumRepositorio>();
 builder.Services.AddScoped<ReservaRepositorio, ReservaRepositorio>();
+builder.Services.AddScoped<ArquivoRepositorio, ArquivoRepositorio>();
 
 builder.Services.AddScoped<IOcorrenciaApplication, OcorrenciaApplication>();
 builder.Services.AddScoped<IUsuarioApplication, UsuarioApplication>();
@@ -122,6 +124,7 @@ builder.Services.AddScoped<IVotacaoService, VotacaoService>();
 builder.Services.AddScoped<IAreaComumService, AreaComumService>();
 builder.Services.AddScoped<IVotacaoService, VotacaoService>();
 builder.Services.AddScoped<IReservaService, ReservaService>();
+builder.Services.AddScoped<IArquivoService, ArquivoService>();
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -181,6 +184,8 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<Voto, RegistrarVotoRequest>().ReverseMap();
     cfg.CreateMap<Reserva, ReservaRequest>();
     cfg.CreateMap<ReservaRequest, Reserva>();
+    cfg.CreateMap<Arquivo, ArquivoRequest>();
+    cfg.CreateMap<ArquivoRequest, Arquivo>();
     cfg.CreateMap<LivroCaixa, LivroCaixaRequest>().ReverseMap();
 });
 

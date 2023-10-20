@@ -1,11 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core;
+using Domain.Validacoes;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Domain.Entities
 {
     [Table("Arquivo")]
-    public class Arquivo
+    public class Arquivo : EntityBase
     {
         [Key]
         [Column("Id")]
@@ -26,6 +28,12 @@ namespace Domain.Entities
 
         [JsonIgnore]
         public virtual Condominio Condominio { get; set; }
+
+        public override bool EhValido()
+        {
+            ResultadoValidacao = new ArquivoValidation().Validate(this);
+            return ResultadoValidacao.IsValid;
+        }
 
     }
 }
