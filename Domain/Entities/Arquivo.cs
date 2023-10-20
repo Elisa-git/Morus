@@ -16,8 +16,11 @@ namespace Domain.Entities
         [Column("Classificacao")]
         public string Classificacao { get; set; }
 
+        [Column("Documento")]
+        public byte[] Documento { get; set; }
+        
         [Column("TamanhoArquivo")]
-        public string TamanhoArquivo { get; set; }
+        public long TamanhoArquivo { get; set; }
 
         [Column("DataUpload")]
         public DateTime DataUpload { get; set; }
