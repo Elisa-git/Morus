@@ -42,15 +42,15 @@ namespace Morus.API.Controllers
                     throw new ValidacaoException();
                 }
 
-                var documentoMapeado =  await _arquivoService.UploadArquivo(arquivoRequest.Documento);
+                var documentoMapeado = await _arquivoService.UploadArquivo(arquivoRequest.Documento);
                 arquivoRequest.Documento = null;
 
                 var arquivoMap = mapper.Map<Arquivo>(arquivoRequest);
                 arquivoMap.Documento = documentoMapeado;
                 arquivoMap.TamanhoArquivo = tamanhoArquivo;
 
-                await _arquivoService.SalvarArquivo(arquivoMap); 
-                
+                await _arquivoService.SalvarArquivo(arquivoMap);
+
                 return CustomResponse(200, true);
             }
             catch (ValidacaoException e)
@@ -135,15 +135,13 @@ namespace Morus.API.Controllers
 
         [AllowAnonymous]
         [Produces("application/json")]
-        [HttpGet("/api/ListarPdfs")]
-        public async Task<IActionResult> ListarPdfs()
+        [HttpGet("/api/DownloadArquivo")]
+        public async Task<IActionResult> DownloadArquivo(int id)
         {
             try
             {
-                var arquivos = await _arquivoService.ListarArquivos();
-                // await _arquivoService.ListarPdfs();
-                var arquivosMap = mapper.Map<List<ArquivoRequest>>(arquivos);
-                return CustomResponse(arquivosMap != null ? 200 : 404, true, arquivosMap);
+                await _arquivoService.DownloadArquivo(id);
+                return CustomResponse(200, true);
             }
             catch (ValidacaoException e)
             {

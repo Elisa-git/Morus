@@ -28,7 +28,7 @@ namespace Domain.Services
 
         public async Task AtualizarLivroCaixa(LivroCaixa livroCaixa)
         {
-            if (_livroCaixaValidator.ValidarEntidade(livroCaixa))
+            if (!_livroCaixaValidator.ValidarEntidade(livroCaixa))
                 throw new ValidacaoException();
 
             await livroCaixaRepositorio.Update(livroCaixa);
@@ -42,6 +42,11 @@ namespace Domain.Services
         public async Task<List<LivroCaixa>> ListarLivrosCaixa()
         {
             return await livroCaixaRepositorio.List();
+        }
+
+        public async Task<List<LivroCaixa>> ListarPorCondominio(int idCondominio)
+        {
+            return await livroCaixaRepositorio.ListarQuery(l => l.IdCondominio == idCondominio);
         }
     }
 }

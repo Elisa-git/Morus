@@ -35,12 +35,22 @@ namespace Domain.Services
             return arquivoBytes;
         }
 
+        public async Task<MemoryStream> DownloadArquivo(int id)
+        {
+            Arquivo arquivoRecuperado = ListarArquivos().Result.FirstOrDefault(x => x.Id.Equals(id));
+
+            byte[] myByteArray = arquivoRecuperado.Documento;
+            MemoryStream stream = new MemoryStream(myByteArray);
+
+            return stream;
+        }
+
         public async Task SalvarArquivo(Arquivo arquivo)
         {
             if (!_arquivoValidator.ValidarEntidade(arquivo))
                 throw new ValidacaoException();
 
-            arquivo.DataUpload = DateTime.Now; 
+            arquivo.DataUpload = DateTime.Now;
             await arquivoRepositorio.Add(arquivo);
         }
 
@@ -61,5 +71,7 @@ namespace Domain.Services
         {
             return await arquivoRepositorio.List();
         }
+
+
     }
 }

@@ -10,7 +10,7 @@ namespace Morus.API.Controllers
         {
             _notificador = notificador;
         }
-        protected ActionResult CustomResponse(int statusCode, bool success, object data = null)
+        protected ActionResult CustomResponse(int statusCode, bool success, object? data = null)
         {
             return StatusCode(statusCode, new
             {

@@ -36,14 +36,14 @@ namespace Application
         public async Task CadastrarVotacao(Votacao votacao)
         {
             var usuarioLogado = await _userLogadoApplication.ObterUsuarioLogado();
-            votacao.IdCondominio = usuarioLogado.Id_condominio;
+            votacao.IdCondominio = usuarioLogado.IdCondominio;
 
             await _votacaoService.CadastrarVotacao(votacao);
         }
         public async Task<List<Votacao>> ListarVotacoesCondominio()
         {
             var usuarioLogado = await _userLogadoApplication.ObterUsuarioLogado();
-            return await _votacaoService.ListarPorCondominio(usuarioLogado.Id_condominio);
+            return await _votacaoService.ListarPorCondominio(usuarioLogado.IdCondominio);
         }
 
         public async Task RegistrarVoto(Voto voto)

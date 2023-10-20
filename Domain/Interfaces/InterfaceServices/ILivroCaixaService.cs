@@ -8,5 +8,6 @@ namespace Domain.Interfaces.InterfaceServices
         Task CadastrarLivroCaixa(LivroCaixa livroCaixa);
         Task DeletarLivroCaixa(LivroCaixa livroCaixa);
         Task<List<LivroCaixa>> ListarLivrosCaixa();
+        Task<List<LivroCaixa>> ListarPorCondominio(int idCondominio);
     }
 }
