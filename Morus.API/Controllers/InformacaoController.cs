@@ -78,6 +78,25 @@ namespace Morus.API.Controllers
 
         [Authorize]
         [Produces("application/json")]
+        [HttpGet("/api/ObterInformacaoPorId/{id:int}")]
+        public async Task<IActionResult> ObterInformacaoPorId(int id)
+        {
+            try
+            {
+                var informacao = await informacaoApplication.ObterPorId(id);
+                var informacaoMapeada = mapper.Map<InformacaoRequest>(informacao);
+
+                return CustomResponse(informacaoMapeada != null ? 200 : 404, true, informacaoMapeada);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
+        }
+
+        [Authorize]
+        [Produces("application/json")]
         [HttpGet("/api/ListarInformacao")]
         public async Task<IActionResult> ListarInformacao()
         {

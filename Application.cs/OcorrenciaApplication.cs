@@ -59,5 +59,11 @@ namespace Application
 
             await _ocorrenciaService.DeletarOcorrencia(ocorrencia);
         }
+
+        public async Task<Ocorrencia> ObterPorId(int id)
+        {
+            var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
+            return await _ocorrenciaRepositorio.GetEntityById(id);
+        }
     }
 }

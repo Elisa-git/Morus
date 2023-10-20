@@ -62,6 +62,13 @@ namespace Infraestructure.Configuration
                 (
                     new Informacao { Id = 1, Ativo = true, IdCondominio = 1, DataCadastro = new DateTime(2023,10,06), DataAlteracao = new DateTime(2023, 10, 06), Descricao = "Descrição de informação inicial teste, lorem ipsum", Titulo = "Informação inicial" }
                 );
+
+            builder.Entity<AreaComum>().HasData
+                (
+                    new AreaComum { Id = 1, Id_condominio = 1, Limite = 30, Nome = "Churrasqueira" },
+                    new AreaComum { Id = 2, Id_condominio = 1, Limite = 70, Nome = "Salão de Festas" },
+                    new AreaComum { Id = 3, Id_condominio = 1, Limite = 15, Nome = "Quadra poliesportiva" }
+                );
         }
 
         private void SeedMulta(ModelBuilder builder)

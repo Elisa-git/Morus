@@ -9,5 +9,6 @@ namespace Application.Interfaces
         Task DeletarOcorrencia(int id);
         public Task<List<Ocorrencia>> ListarOcorrencias();
         Task<List<Ocorrencia>> ListarOcorrenciasFiltro(bool resolvido);
+        Task<Ocorrencia> ObterPorId(int id);
     }
 }

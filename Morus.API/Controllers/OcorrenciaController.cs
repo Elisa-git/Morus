@@ -126,12 +126,31 @@ namespace Morus.API.Controllers
         [Produces("application/json")]
         [HttpGet("/api/ObterOcorrenciasPorStatus")]
         [Authorize]
-        public async Task<IActionResult> ObterOcorrenciasPorStatus([FromQuery] bool resolvido)
+        public async Task<IActionResult> ObterPorStatus([FromQuery] bool resolvido)
         {
             try
             {
                 var ocorrencias = await _ocorrenciaApplication.ListarOcorrenciasFiltro(resolvido);
                 var ocorrenciaMap = mapper.Map<List<Ocorrencia>>(ocorrencias);
+
+                return CustomResponse(ocorrenciaMap != null ? 200 : 404, true, ocorrenciaMap);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
+        }
+
+        [Produces("application/json")]
+        [HttpGet("/api/ObterOcorrenciasPorId/{id:int}")]
+        [Authorize]
+        public async Task<IActionResult> ObterPorId(int id)
+        {
+            try
+            {
+                var ocorrencia = await _ocorrenciaApplication.ObterPorId(id);
+                var ocorrenciaMap = mapper.Map<List<OcorrenciaRequest>>(ocorrencia);
 
                 return CustomResponse(ocorrenciaMap != null ? 200 : 404, true, ocorrenciaMap);
             }

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Infraestructure.Repository.Repositories;
 using Domain.Services;
 using Core.Exceptions;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Application
 {
@@ -70,6 +71,20 @@ namespace Application
             }
 
             await _livroCaixaService.DeletarLivroCaixa(livroCaixa);
+        }
+
+        public async Task<LivroCaixa> ObterPorId(int id)
+        {
+            var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
+            var livroCaixa = await _livroCaixaRepositorio.GetEntityById(id);
+
+            if (livroCaixa.IdCondominio != userLogado.IdCondominio)
+            {
+                _notificador.Notificar("Usuário não tem permissão para obter Livro Caixa solicitado.");
+                throw new InvalidOperationException();
+            }
+
+            return livroCaixa;
         }
     }
 }

@@ -108,6 +108,28 @@ namespace Morus.API.Controllers
 
         [Authorize]
         [Produces("application/json")]
+        [HttpGet("/api/ObterLivroCaixaPorId/{id:int}")]
+        public async Task<IActionResult> ObterLivroCaixaPorId(int id)
+        {
+            try
+            {
+                var livroCaixa = await _livroCaixaApplication.ObterPorId(id);
+
+                return CustomResponse(livroCaixa != null ? 200 : 404, true, livroCaixa);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
+        }
+
+        [Authorize]
+        [Produces("application/json")]
         [HttpGet("/api/ListarLivroCaixa")]
         public async Task<IActionResult> ListarLivroCaixa()
         {

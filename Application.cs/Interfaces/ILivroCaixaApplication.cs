@@ -13,5 +13,6 @@ namespace Application.Interfaces
         Task CadastrarLivroCaixa(LivroCaixa livroCaixa);
         Task DeletarLivroCaixa(int id);
         Task<List<LivroCaixa>> ListarLivroCaixas();
+        Task<LivroCaixa> ObterPorId(int id);
     }
 }

@@ -68,5 +68,19 @@ namespace Application
 
             await _informacaoService.DeletarInformacao(informacao);
         }
+
+        public async Task<Informacao> ObterPorId(int id)
+        {
+            var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
+            var informacao = await _informacaoRepositorio.GetEntityById(id);
+
+            if (informacao.IdCondominio != userLogado.IdCondominio)
+            {
+                _notificador.Notificar("Usuário não tem permissão para obter informação solicitada.");
+                throw new InvalidOperationException();
+            }
+
+            return informacao;
+        }
     }
 }
