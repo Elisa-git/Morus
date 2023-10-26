@@ -24,6 +24,7 @@ namespace Morus.API.Controllers
         {
             _livroCaixaService = livroCaixaService;
             _livroCaixaApplication = livroCaixaApplication;
+            this.mapper = mapper;
         }
 
         [Authorize]
