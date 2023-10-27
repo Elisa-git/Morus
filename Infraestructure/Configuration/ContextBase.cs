@@ -258,7 +258,7 @@ namespace Infraestructure.Configuration
         public string ObterStringConexao()
         {
             // return "Server=db4free.net;Port=3306;Database=morusdb;user=morus_admin;password=Morus@2023;";
-            return "Server=localhost;Database=morus;user=root;password=root";
+            return "Server=localhost;Database=morus;user=root";
         }
     }
 }
