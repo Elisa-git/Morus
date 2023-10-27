@@ -66,6 +66,12 @@ namespace Domain.Services
             if (!reservaValidator.ValidarEntidade(reservaRequest))
                 throw new ValidacaoException();
 
+            if (reservaRequest.Id == null)
+            {
+                this.notificador.Notificar("Informe o Id");
+                throw new ValidacaoException();
+            }
+
             if (!ValidarDonoReserva(reservaRequest) || userLogado.Equals(TipoUsuario.Sindico.ToString()) || userLogado.Equals(TipoUsuario.Admin.ToString()))
             {
                 this.notificador.Notificar("Somente o dono da reserva e o síndico podem fazer alterações");

@@ -1,4 +1,5 @@
 ﻿using Core;
+using Domain.Validacoes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -37,8 +38,8 @@ namespace Domain.Entities
 
         public override bool EhValido()
         {
-            //para fazer validação seguir modelo em Ocorrencia
-            return true;
+            ResultadoValidacao = new CondominioValidation().Validate(this);
+            return ResultadoValidacao.IsValid;
         }
     }
 }

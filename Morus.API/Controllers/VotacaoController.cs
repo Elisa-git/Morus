@@ -107,6 +107,12 @@ namespace Morus.API.Controllers
         {
             try
             {
+                if (votacaoRequest.Id == null)
+                {
+                    _notificador.Notificar("Informe o Id");
+                    throw new ValidacaoException();
+                }
+
                 var ocorrenciaMap = mapper.Map<Votacao>(votacaoRequest);
                 await _votacaoService.AtualizarVotacao(ocorrenciaMap);
 

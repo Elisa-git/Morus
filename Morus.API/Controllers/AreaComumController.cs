@@ -1,6 +1,9 @@
-﻿using AutoMapper;
+﻿using AutoMapper;using Core.Exceptions;
+using Core.Notificador;
 using Domain.Entities;
 using Domain.Interfaces;
+using Domain.Interfaces.InterfaceServices;
+using Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Morus.API.Models;
@@ -9,63 +12,102 @@ namespace Morus.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AreaComumController : ControllerBase
+    public class AreaComumController : MorusController
     {
         private readonly IAreaComumRepositorio areaComumRepositorio;
+        private readonly IAreaComumService areaComumService;
         private readonly IMapper mapper;
 
-        public AreaComumController(IAreaComumRepositorio areaComumRepositorio, IMapper mapper)
+        public AreaComumController(IAreaComumRepositorio areaComumRepositorio, IAreaComumService areaComumService, IMapper mapper, INotificador notificador) : base(notificador)
         {
             this.areaComumRepositorio = areaComumRepositorio;
+            this.areaComumService = areaComumService;
             this.mapper = mapper;
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPost("/api/CadastrarAreaComum")]
-        public IActionResult CadastrarAreaComum(AreaComumRequest areaComumRequest)
+        public async Task<IActionResult> CadastrarAreaComum(AreaComumRequest areaComumRequest)
         {
-            if (areaComumRequest.Id_condominio == null)
-                return BadRequest();
+            try
+            {
+                var areaComum = mapper.Map<AreaComum>(areaComumRequest);
+                await areaComumService.CadastrarAreaComum(areaComum);
 
-            var areaComum = mapper.Map<AreaComum>(areaComumRequest);
-            areaComumRepositorio.Add(areaComum);
-            areaComum.Mensagem = "Área Comum foi cadastrado com sucesso";
-
-            return Ok(areaComum);
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPut("/api/EditarAreaComum")]
-        public AreaComum AtualizarAreaComum(AreaComumRequest areaComumRequest)
+        public async Task<IActionResult> AtualizarAreaComum(AreaComumRequest areaComumRequest)
         {
-            var areaComum = mapper.Map<AreaComum>(areaComumRequest);
-            areaComumRepositorio.Update(areaComum);
+            try
+            {
+                var areaComumMapeada = mapper.Map<AreaComum>(areaComumRequest);
+                await areaComumService.AtualizarAreaComum(areaComumMapeada);
 
-            return areaComum;
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpDelete("/api/DeletarAreaComum")]
-        public List<Notifies> DeletarAreaComum(AreaComumRequest areaComumRequest)
+        public async Task<IActionResult> DeletarAreaComum(AreaComumRequest areaComumRequest)
         {
-            var areaComum = mapper.Map<AreaComum>(areaComumRequest);
-            areaComumRepositorio.Delete(areaComum);
-            areaComum.Mensagem = "Área Comum foi deletado com sucesso";
+            try
+            {
+                var areaComum = mapper.Map<AreaComum>(areaComumRequest);
+                areaComumRepositorio.Delete(areaComum);
 
-            return areaComum.ListaNotificacoes;
+                return CustomResponse(200, true);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
+
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpGet("/api/ListarAreasComuns")]
-        public async Task<List<AreaComumRequest>> ListarAreasComuns()
+        public async Task<IActionResult> ListarAreasComuns()
         {
-            var areaComum = await areaComumRepositorio.List();
-            var areaComumMapeado = mapper.Map<List<AreaComumRequest>>(areaComum);
-            return areaComumMapeado;
+            try
+            {
+                var areaComum = await areaComumService.ListarAreaComum();
+                var areaComumMapeada = mapper.Map<List<AreaComumRequest>>(areaComum);
+
+                return CustomResponse(areaComumMapeada != null ? 200 : 404, true, areaComumMapeada);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
     }
 }

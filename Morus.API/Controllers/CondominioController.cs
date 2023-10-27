@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Exceptions;
 using Core.Notificador;
 using Domain.Entities;
 using Domain.Interfaces.InterfaceServices;
@@ -24,7 +25,7 @@ namespace Morus.API.Controllers
             this.mapper = mapper;
         }
 
-    [AllowAnonymous]
+        [AllowAnonymous]
         [Produces("application/json")]
         [HttpPost("/api/CadastrarCondominio")]
         public async Task<IActionResult> CadastrarCondominio(CondominioRequest condominioRequest)
@@ -45,12 +46,30 @@ namespace Morus.API.Controllers
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPut("/api/AtualizarCondominio")]
-        public async Task<List<Notifies>> AtualizarCondominio(CondominioRequest condominioRequest)
+        public async Task<IActionResult> AtualizarCondominio(CondominioRequest condominioRequest)
         {
-            var condominioMapeado = mapper.Map<Condominio>(condominioRequest);
-            await _condominioRepositorio.Update(condominioMapeado);
-            //return condominioMapeado.ListaNotificacoes;
-            return null;
+            try
+            {
+                if (condominioRequest.Id == null)
+                {
+                    _notificador.Notificar("Informe o Id");
+                    throw new ValidacaoException();
+                }
+
+                var condominioMapeado = mapper.Map<Condominio>(condominioRequest);
+                await _condominioService.AtualizarCondominio(condominioMapeado);
+
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         private async Task<string> RetornarIdUsuarioLogado()
