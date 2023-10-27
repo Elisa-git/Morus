@@ -11,7 +11,7 @@ namespace Domain.Entities
     {
         [Key]
         [Column("Id")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Column("Nome")]
         public string Nome { get; set; }
@@ -21,7 +21,7 @@ namespace Domain.Entities
 
         [ForeignKey("Condominio")]
         [Column(Order = 1)]
-        public int Id_condominio { get; set; }
+        public int IdCondominio { get; set; }
 
         [JsonIgnore]
         public virtual Condominio Condominio { get; set; }

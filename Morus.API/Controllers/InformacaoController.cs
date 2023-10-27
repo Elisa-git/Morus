@@ -59,7 +59,7 @@ namespace Morus.API.Controllers
         {
             try
             {
-                if (informacaoRequest.Id == null)
+                if (informacaoRequest.Id == null || informacaoRequest.Id == 0)
                 {
                     _notificador.Notificar("Informe o Id");
                     throw new ValidacaoException();

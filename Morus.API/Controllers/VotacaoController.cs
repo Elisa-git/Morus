@@ -34,7 +34,7 @@ namespace Morus.API.Controllers
             this.mapper = mapper;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Sindico")]
         [Produces("application/json")]
         [HttpPost("/api/CadastrarVotacao")]
         public async Task<IActionResult> CadastrarVotacao(CadastrarVotacaoRequest votacaoRequest)
@@ -100,14 +100,14 @@ namespace Morus.API.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Sindico")]
         [Produces("application/json")]
         [HttpPut("/api/EditarVotacao")]
         public async Task<IActionResult> AtualizarVotacao(VotacaoRequest votacaoRequest)
         {
             try
             {
-                if (votacaoRequest.Id == null)
+                if (votacaoRequest.Id == null || votacaoRequest.Id == 0)
                 {
                     _notificador.Notificar("Informe o Id");
                     throw new ValidacaoException();
@@ -129,15 +129,36 @@ namespace Morus.API.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Sindico")]
         [Produces("application/json")]
-        [HttpDelete("/api/DeletarVotacao")]
-        public async Task<IActionResult> DeletarVotacao(VotacaoRequest votacaoRequest)
+        [HttpDelete("/api/DeletarVotacao/{id:int}")]
+        public async Task<IActionResult> DeletarVotacao(int id)
         {
             try
             {
-                var ocorrenciaMap = mapper.Map<Votacao>(votacaoRequest);
-                await _votacaoService.DeletarVotacao(ocorrenciaMap);
+                await _votacaoApplication.DeletarVotacaoPorId(id);
+
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
+        }
+
+        [Authorize]
+        [Produces("application/json")]
+        [HttpDelete("/api/ObterVotacaoPorId/{id:int}")]
+        public async Task<IActionResult> ObterVotacaoPorId(int id)
+        {
+            try
+            {
+                await _votacaoApplication.ObterPorId(id);
 
                 return CustomResponse(200, true);
             }

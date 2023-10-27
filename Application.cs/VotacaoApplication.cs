@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.ViewModels;
 using Core.Exceptions;
+using Infraestructure.Repository.Repositories;
+using Domain.Services;
 
 namespace Application
 {
@@ -86,6 +88,33 @@ namespace Application
                 QtdVotosFavoraveis = votos.Count(v => v.ValorVoto == true),
                 QtdVotosNulos = votos.Count(v => v.ValorVoto == null)
             };
+        }
+
+        public async Task DeletarVotacaoPorId(int id)
+        {
+            var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
+            var votacao = await ObterPorId(id);
+
+            await _votacaoService.DeletarVotacao(votacao);
+        }
+
+        public async Task<Votacao> ObterPorId(int id)
+        {
+            var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
+            var votacao = await _votacaoRepositorio.GetEntityById(id);
+
+            if (votacao == null)
+            {
+                _notificador.Notificar("Votação inexistente.");
+                throw new ValidacaoException("");
+            }
+            if (userLogado.IdCondominio != votacao.IdCondominio)
+            {
+                _notificador.Notificar("Usuário não tem permissão para acessar votação solicitada.");
+                throw new InvalidOperationException();
+            }
+
+            return votacao;
         }
     }
 }

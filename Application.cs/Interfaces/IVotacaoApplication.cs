@@ -12,7 +12,9 @@ namespace Application.Interfaces
     {
         Task CadastrarVotacao(Votacao votacao);
         Task<VotacaoContadorResponse> ContadorVotacao(int idVotacao);
+        Task DeletarVotacaoPorId(int id);
         Task<List<Votacao>> ListarVotacoesCondominio();
+        Task<Votacao> ObterPorId(int id);
         Task RegistrarVoto(Voto voto);
     }
 }

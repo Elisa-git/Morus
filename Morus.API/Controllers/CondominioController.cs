@@ -40,7 +40,6 @@ namespace Morus.API.Controllers
             {
                 return CustomResponse(500, false);
             }
-
         }
 
         [AllowAnonymous]
@@ -50,7 +49,7 @@ namespace Morus.API.Controllers
         {
             try
             {
-                if (condominioRequest.Id == null)
+                if (condominioRequest.Id == null || condominioRequest.Id == 0)
                 {
                     _notificador.Notificar("Informe o Id");
                     throw new ValidacaoException();

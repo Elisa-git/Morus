@@ -106,6 +106,7 @@ builder.Services.AddScoped<IUserLogadoApplication, UserLogadoApplication>();
 builder.Services.AddScoped<IInformacaoApplication, InformacaoApplication>();
 builder.Services.AddScoped<IVotacaoApplication, VotacaoApplication>();
 builder.Services.AddScoped<ILivroCaixaApplication, LivroCaixaApplication>();
+builder.Services.AddScoped<IAreaComumApplication, AreaComumApplication>();
 
 builder.Services.AddScoped<INotificador, Notificador>();
 

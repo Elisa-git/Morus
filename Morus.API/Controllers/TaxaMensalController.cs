@@ -54,7 +54,7 @@ namespace Morus.API.Controllers
         {
             try
             {
-                if (taxaMensalRequest.Id == null)
+                if (taxaMensalRequest.Id == null || taxaMensalRequest.Id == 0)
                 {
                     _notificador.Notificar("Informe o Id");
                     throw new ValidacaoException();

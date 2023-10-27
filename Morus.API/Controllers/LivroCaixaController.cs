@@ -57,25 +57,13 @@ namespace Morus.API.Controllers
         {
             try
             {
-                if (livroCaixaRequest.Id == null)
+                if (livroCaixaRequest.Id == null || livroCaixaRequest.Id == 0)
                 {
                     _notificador.Notificar("Informe o Id");
                     throw new ValidacaoException();
                 }
 
-                //Daniel: mapeamento manual como ajuste Paleativo pois estava tomando null reference exception ao tentar mapear com automapper, sem tempo pra analisar. 
-                var livroCaixaMap = new LivroCaixa
-                {
-                    Id = livroCaixaRequest.Id,
-                    Categoria = livroCaixaRequest.Categoria,
-                    DataTransacao = livroCaixaRequest.DataTransacao,
-                    DescricaoTransacao = livroCaixaRequest.DescricaoTransacao,
-                    TipoTransacao = livroCaixaRequest.TipoTransacao,
-                    Torre = livroCaixaRequest.Torre,
-                    ValorTransacao = livroCaixaRequest.ValorTransacao
-                };
-
-                //var livroCaixaMap = mapper.Map<LivroCaixa>(livroCaixaRequest);
+                var livroCaixaMap = mapper.Map<LivroCaixa>(livroCaixaRequest);
                 await _livroCaixaApplication.AtualizarLivroCaixa(livroCaixaMap);
 
                 return CustomResponse(200, true);

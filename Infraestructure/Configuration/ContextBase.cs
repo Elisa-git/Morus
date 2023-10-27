@@ -65,9 +65,9 @@ namespace Infraestructure.Configuration
 
             builder.Entity<AreaComum>().HasData
                 (
-                    new AreaComum { Id = 1, Id_condominio = 1, Limite = 30, Nome = "Churrasqueira" },
-                    new AreaComum { Id = 2, Id_condominio = 1, Limite = 70, Nome = "Salão de Festas" },
-                    new AreaComum { Id = 3, Id_condominio = 1, Limite = 15, Nome = "Quadra poliesportiva" }
+                    new AreaComum { Id = 1, IdCondominio = 1, Limite = 30, Nome = "Churrasqueira" },
+                    new AreaComum { Id = 2, IdCondominio = 1, Limite = 70, Nome = "Salão de Festas" },
+                    new AreaComum { Id = 3, IdCondominio = 1, Limite = 15, Nome = "Quadra poliesportiva" }
                 );
         }
 
@@ -258,7 +258,7 @@ namespace Infraestructure.Configuration
         public string ObterStringConexao()
         {
             // return "Server=db4free.net;Port=3306;Database=morusdb;user=morus_admin;password=Morus@2023;";
-            return "Server=localhost;Database=morus;user=root";
+            return "Server=localhost;Database=morus;user=root;password=root";
         }
     }
 }
