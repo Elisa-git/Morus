@@ -5,5 +5,6 @@ namespace Domain.Interfaces.InterfaceServices
     public interface ICondominioService
     {
         Task SalvarCondominio(Condominio condominio);
+        Task AtualizarCondominio(Condominio condominio);
     }
 }

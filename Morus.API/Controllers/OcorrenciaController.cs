@@ -66,6 +66,12 @@ namespace Morus.API.Controllers
         {
             try
             {
+                if (ocorrenciaRequest.Id == null)
+                {
+                    _notificador.Notificar("Informe o Id");
+                    throw new ValidacaoException();
+                }
+
                 var ocorrenciaMap = mapper.Map<Ocorrencia>(ocorrenciaRequest);
                 await _ocorrenciaService.AtualizarOcorrencia(ocorrenciaMap);
 

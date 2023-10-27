@@ -42,13 +42,13 @@ namespace Domain.Services
 
             if (!UsuarioExiste(reservaRequest))
             {
-                this.notificador.Notificar("O morador informado não existe");
+                notificador.Notificar("O morador informado não existe");
                 throw new ValidacaoException();
             }
             
             if (ValidarDisponibilidadeReserva(reservaRequest))
             {
-                this.notificador.Notificar("Já existem reservas para esse local nesta data");
+                notificador.Notificar("Já existem reservas para esse local nesta data");
                 throw new ValidacaoException();
             }
 
@@ -65,6 +65,12 @@ namespace Domain.Services
 
             if (!reservaValidator.ValidarEntidade(reservaRequest))
                 throw new ValidacaoException();
+
+            if (reservaRequest.Id == null)
+            {
+                this.notificador.Notificar("Informe o Id");
+                throw new ValidacaoException();
+            }
 
             if (!ValidarDonoReserva(reservaRequest) || userLogado.Equals(TipoUsuario.Sindico.ToString()) || userLogado.Equals(TipoUsuario.Admin.ToString()))
             {

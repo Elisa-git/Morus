@@ -1,11 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core;
+using Domain.Validacoes;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Domain.Entities
 {
     [Table("TaxaMensal")]
-    public class TaxaMensal : Notifies
+    public class TaxaMensal : EntityBase
     {
         [Key]
         [Column("Id")]
@@ -35,5 +37,11 @@ namespace Domain.Entities
 
         [JsonIgnore]
         public virtual Condominio Condominio { get; set; }
+
+        public override bool EhValido()
+        {
+            ResultadoValidacao = new TaxaMensalValidation().Validate(this);
+            return ResultadoValidacao.IsValid;
+        }
     }
 }

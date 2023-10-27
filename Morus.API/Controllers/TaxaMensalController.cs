@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Core.Exceptions;
+using Core.Notificador;
 using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Interfaces.InterfaceServices;
@@ -11,13 +13,13 @@ namespace Morus.API.Controllers
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
-    public class TaxaMensalController : ControllerBase
+    public class TaxaMensalController : MorusController
     {
         private readonly ITaxaMensalRepositorio taxaMensalRepositorio;
         private readonly ITaxaMensalService taxaMensalService;
         private readonly IMapper mapper;
 
-        public TaxaMensalController(ITaxaMensalRepositorio taxaMensalRepositorio, ITaxaMensalService taxaMensalService, IMapper mapper)
+        public TaxaMensalController(ITaxaMensalRepositorio taxaMensalRepositorio, ITaxaMensalService taxaMensalService, IMapper mapper, INotificador notificador) : base(notificador)
         {
             this.taxaMensalRepositorio = taxaMensalRepositorio;
             this.taxaMensalService = taxaMensalService;
@@ -28,42 +30,86 @@ namespace Morus.API.Controllers
         [HttpPost("/api/CadastrarTaxaMensal")]
         public IActionResult CadastrarTaxaMensal(TaxaMensalRequest taxaMensalRequest)
         {
-            if (taxaMensalRequest.Id_condominio == null)
-                return BadRequest();
+            try
+            {
+                var taxaMensal = mapper.Map<TaxaMensal>(taxaMensalRequest);
+                taxaMensalService.CadastrarTaxaMensal(taxaMensal);
 
-            var taxaMensal = mapper.Map<TaxaMensal>(taxaMensalRequest);
-            taxaMensalService.CadastrarTaxaMensal(taxaMensal);
-            return Ok(taxaMensal);
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         [AllowAnonymous]
         [HttpPut("/api/AtualizarTaxaMensal")]
-        public TaxaMensal AtualizarTaxaMensal(TaxaMensalRequest taxaMensalRequest)
+        public async Task<IActionResult> AtualizarTaxaMensal(TaxaMensalRequest taxaMensalRequest)
         {
-            var taxaMensal = mapper.Map<TaxaMensal>(taxaMensalRequest);
-            taxaMensalRepositorio.Update(taxaMensal);
+            try
+            {
+                if (taxaMensalRequest.Id == null)
+                {
+                    _notificador.Notificar("Informe o Id");
+                    throw new ValidacaoException();
+                }
 
-            return taxaMensal;
+                var taxaMensal = mapper.Map<TaxaMensal>(taxaMensalRequest);
+                await taxaMensalService.AtualizarTaxaMensal(taxaMensal);
+
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         [AllowAnonymous]
         [HttpDelete("/api/ExcluirTaxaMensal")]
-        public List<Notifies> ExcluirTaxaMensal(TaxaMensalRequest taxaMensalRequest)
+        public async Task<IActionResult> ExcluirTaxaMensal(TaxaMensalRequest taxaMensalRequest)
         {
-            var taxaMensal = mapper.Map<TaxaMensal>(taxaMensalRequest);
-            taxaMensalRepositorio.Delete(taxaMensal);
+            try
+            {
+                var taxaMensal = mapper.Map<TaxaMensal>(taxaMensalRequest);
+                taxaMensalRepositorio.Delete(taxaMensal);
 
-            return taxaMensal.ListaNotificacoes;
+                return CustomResponse(200, true);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         [AllowAnonymous]
         [HttpGet("/api/ListarTaxaMensal")]
-        public async Task<List<TaxaMensalRequest>> ListarTaxaMensal()
+        public async Task<IActionResult> ListarTaxaMensal()
         {
-            var taxaMensal = await taxaMensalRepositorio.List();
-            var taxaMensalMapeada = mapper.Map<List<TaxaMensalRequest>>(taxaMensal);
+            try
+            {
+                var taxaMensal = await taxaMensalService.ListarTaxaMensal();
+                var taxaMensalMapeada = mapper.Map<List<TaxaMensalRequest>>(taxaMensal);
 
-            return taxaMensalMapeada;
+                return CustomResponse(taxaMensalMapeada != null ? 200 : 404, true, taxaMensalMapeada);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
     }
 }

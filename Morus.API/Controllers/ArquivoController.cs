@@ -17,23 +17,40 @@ namespace Morus.API.Controllers
     {
         private readonly IArquivoService _arquivoService;
         private readonly IMapper mapper;
+        private readonly INotificador notificador;
 
         public ArquivoController(IArquivoService arquivoService, IMapper mapper, INotificador notificador) : base(notificador)
         {
             _arquivoService = arquivoService;
             this.mapper = mapper;
+            this.notificador = notificador;
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPost("/api/CadastrarArquivo")]
-        public async Task<IActionResult> CadastrarArquivo(ArquivoRequest arquivoRequest)
+        public async Task<IActionResult> SalvarArquivo([FromForm] ArquivoRequest arquivoRequest)
         {
             try
             {
-                var ocorrenciaMap = mapper.Map<Arquivo>(arquivoRequest);
-                await _arquivoService.CadastrarArquivo(ocorrenciaMap); 
-                
+                var pdf = arquivoRequest.Documento;
+                var tamanhoArquivo = pdf.Length;
+
+                if (pdf == null || tamanhoArquivo.Equals(0))
+                {
+                    notificador.Notificar("Arquivo não selecionado");
+                    throw new ValidacaoException();
+                }
+
+                var documentoMapeado = await _arquivoService.UploadArquivo(arquivoRequest.Documento);
+                arquivoRequest.Documento = null;
+
+                var arquivoMap = mapper.Map<Arquivo>(arquivoRequest);
+                arquivoMap.Documento = documentoMapeado;
+                arquivoMap.TamanhoArquivo = tamanhoArquivo;
+
+                await _arquivoService.SalvarArquivo(arquivoMap);
+
                 return CustomResponse(200, true);
             }
             catch (ValidacaoException e)
@@ -104,6 +121,27 @@ namespace Morus.API.Controllers
                 var arquivosMap = mapper.Map<List<ArquivoRequest>>(arquivos);
 
                 return CustomResponse(arquivosMap != null ? 200 : 404, true, arquivosMap);
+            }
+            catch (ValidacaoException e)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
+        }
+
+        [AllowAnonymous]
+        [Produces("application/json")]
+        [HttpGet("/api/DownloadArquivo")]
+        public async Task<IActionResult> DownloadArquivo(int id)
+        {
+            try
+            {
+                await _arquivoService.DownloadArquivo(id);
+                return CustomResponse(200, true);
             }
             catch (ValidacaoException e)
             {

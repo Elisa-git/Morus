@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
+using Core.Exceptions;
+using Core.Notificador;
 using Domain.Entities;
 using Domain.Interfaces;
+using Domain.Interfaces.InterfaceServices;
+using Domain.Services;
 using Infraestructure.Repository.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,46 +14,83 @@ namespace Morus.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MultaController : ControllerBase
+    public class MultaController : MorusController
     {
         private readonly IMulta _multaRepositorio;
+        private readonly IMultaService multaService;
         private readonly IMapper mapper;
         private readonly IMulta _IMulta;
-        public MultaController(MultaRepositorio multaRepositorio, IMapper mapper, IMulta IMulta)
+        public MultaController(MultaRepositorio multaRepositorio, IMultaService multaService, IMapper mapper, IMulta IMulta, INotificador notificador) : base(notificador)
         {
+            _multaRepositorio = multaRepositorio;
+            this.multaService = multaService;
             this.mapper = mapper;
             _IMulta = IMulta;
-            _multaRepositorio = multaRepositorio;
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPost("/api/CadastrarMulta")]
-        public async Task<List<Notifies>> CadastrarMulta(MultaRequest multaRequest)
+        public async Task<IActionResult> CadastrarMulta(MultaRequest multaRequest)
         {
-            var multaMapeado = mapper.Map<Multa>(multaRequest);
-            await _multaRepositorio.Add(multaMapeado);
-            return multaMapeado.ListaNotificacoes;
+            try
+            {
+                var multaMapeada = mapper.Map<Multa>(multaRequest);
+                await multaService.SalvarMulta(multaMapeada);
+
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpPut("/api/AtualizarMulta")]
-        public async Task<List<Notifies>> AtualizarMulta(MultaRequest multaRequest)
+        public async Task<IActionResult> AtualizarMulta(MultaRequest multaRequest)
         {
-            var multaMap = mapper.Map<Multa>(multaRequest);
-            await _multaRepositorio.Update(multaMap);
-            return multaMap.ListaNotificacoes;
+            try
+            {
+                var multaMapeada = mapper.Map<Multa>(multaRequest);
+                await multaService.AtualizarMulta(multaMapeada);
+
+                return CustomResponse(200, true);
+            }
+            catch (ValidacaoException)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpDelete("/api/DeletarMulta")]
-        public async Task<List<Notifies>> DeletarMulta(MultaRequest multaRequest)
+        public async Task<IActionResult> DeletarMulta(MultaRequest multaRequest)
         {
-            var multaMap = mapper.Map<Multa>(multaRequest);
-            await _multaRepositorio.Delete(multaMap);
-            return multaMap.ListaNotificacoes;
+            try
+            {
+                var multaMap = mapper.Map<Multa>(multaRequest);
+                await _multaRepositorio.Delete(multaMap);
+                
+                return CustomResponse(200, true);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
 
         //[AllowAnonymous]
@@ -65,12 +106,20 @@ namespace Morus.API.Controllers
         [AllowAnonymous]
         [Produces("application/json")]
         [HttpGet("/api/ListarMultas")]
-        public async Task<List<Multa>> ListarMultas()
+        public async Task<IActionResult> ListarMultas()
         {
-            var multas = await _IMulta.List();
-            var multaMap = mapper.Map<List<Multa>>(multas);
+            try
+            {
+                var multa = await multaService.ListarMultas();
+                var multaMap = mapper.Map<List<Multa>>(multa);
 
-            return multaMap;
+                return CustomResponse(multaMap != null ? 200 : 404, true, multaMap);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
         }
     }
 }

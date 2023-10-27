@@ -59,9 +59,14 @@ namespace Morus.API.Controllers
         {
             try
             {
+                if (informacaoRequest.Id == null)
+                {
+                    _notificador.Notificar("Informe o Id");
+                    throw new ValidacaoException();
+                }
+
                 var informacaoMapeada = mapper.Map<Informacao>(informacaoRequest);
                 await informacaoApplication.AtualizarInformacao(informacaoMapeada);
-
 
                 return CustomResponse(200, true);
             }
