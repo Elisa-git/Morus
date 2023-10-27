@@ -135,7 +135,7 @@ namespace Morus.API.Controllers
 
         [AllowAnonymous]
         [Produces("application/json")]
-        [HttpGet("/api/DownloadArquivo")]
+        [HttpGet("/api/DownloadArquivo/{id:int}")]
         public async Task<IActionResult> DownloadArquivo(int id)
         {
             try

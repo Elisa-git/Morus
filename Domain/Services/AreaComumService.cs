@@ -42,10 +42,13 @@ namespace Domain.Services
             await areaComumRepositorio.Update(areaComumRequest);
 
         }
-
         public async Task<List<AreaComum>> ListarAreaComum()
         {
             return await areaComumRepositorio.List();
+        }
+        public async Task<List<AreaComum>> ListarAreaComumPorCondominio(int idCondominio)
+        {
+            return await areaComumRepositorio.ListarAreasComuns(a => a.IdCondominio == idCondominio);
         }
     }
 }

@@ -53,18 +53,7 @@ namespace Application
         public async Task DeletarInformacao(int id)
         {
             var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
-            var informacao = await _informacaoRepositorio.GetEntityById(id);
-
-            if (informacao == null)
-            {
-                _notificador.Notificar("Informação inexistente.");
-                throw new ValidacaoException("");
-            }
-            if (userLogado.IdCondominio != informacao.IdCondominio)
-            {
-                _notificador.Notificar("Usuário não tem permissão para deletar informação solicitada.");
-                throw new InvalidOperationException();
-            }
+            var informacao = await ObterPorId(id);
 
             await _informacaoService.DeletarInformacao(informacao);
         }
@@ -74,9 +63,14 @@ namespace Application
             var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
             var informacao = await _informacaoRepositorio.GetEntityById(id);
 
-            if (informacao.IdCondominio != userLogado.IdCondominio)
+            if (informacao == null)
             {
-                _notificador.Notificar("Usuário não tem permissão para obter informação solicitada.");
+                _notificador.Notificar("Informação inexistente.");
+                throw new ValidacaoException("");
+            }
+            if (userLogado.IdCondominio != informacao.IdCondominio)
+            {
+                _notificador.Notificar("Usuário não tem permissão para acessar informação solicitada.");
                 throw new InvalidOperationException();
             }
 

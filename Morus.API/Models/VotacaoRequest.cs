@@ -9,7 +9,7 @@ namespace Morus.API.Models
 {
     public class VotacaoRequest
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public string Tema { get; set; }
 

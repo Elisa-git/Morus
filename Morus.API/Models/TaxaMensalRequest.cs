@@ -2,7 +2,7 @@
 {
     public class TaxaMensalRequest
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public string Nome { get; set; }
 

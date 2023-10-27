@@ -21,12 +21,12 @@ namespace Infraestructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.AreaComum", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("Id");
 
-                    b.Property<int>("Id_condominio")
+                    b.Property<int>("IdCondominio")
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
@@ -41,7 +41,7 @@ namespace Infraestructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id_condominio");
+                    b.HasIndex("IdCondominio");
 
                     b.ToTable("AreaComum");
 
@@ -49,21 +49,21 @@ namespace Infraestructure.Migrations
                         new
                         {
                             Id = 1,
-                            Id_condominio = 1,
+                            IdCondominio = 1,
                             Limite = 30,
                             Nome = "Churrasqueira"
                         },
                         new
                         {
                             Id = 2,
-                            Id_condominio = 1,
+                            IdCondominio = 1,
                             Limite = 70,
                             Nome = "Salão de Festas"
                         },
                         new
                         {
                             Id = 3,
-                            Id_condominio = 1,
+                            IdCondominio = 1,
                             Limite = 15,
                             Nome = "Quadra poliesportiva"
                         });
@@ -569,81 +569,81 @@ namespace Infraestructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ed90aa62-5abe-4cf6-8ccc-88fa05444982",
+                            Id = "b69762db-d9df-4762-b3ef-de9f6c63689e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "be83c0ad-3e9e-4909-a09a-f095b300632c",
+                            ConcurrencyStamp = "e3d7cbd7-a22a-4c11-a80d-2c252c62908c",
                             Email = "sindico@sindico.com.br",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "SINDICO@SINDICO.COM.BR",
                             NormalizedUserName = "SINDICO@SINDICO.COM.BR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOZJtb4SfAZl0yf2U3em6n1c259zlXhzJT1KKfFb6V8If8vJwk62AbxceF+SO/fOFQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC26bnyzjFjlo7subTwZMcDkkHJ9Id5jEJLyofPw2OaQIGcvNmHiH0BIApTSmCg6GA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e918020e-a1e2-4a43-bfe2-3f6553fc6eaf",
+                            SecurityStamp = "f2d216c5-5436-4132-9657-fa82460fc4a4",
                             TwoFactorEnabled = false,
                             UserName = "sindico@sindico.com.br"
                         },
                         new
                         {
-                            Id = "3101ff70-eefb-4653-a504-45b98aa035dc",
+                            Id = "519ec3cb-dddf-45f2-a642-124378dbb30d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "01c9f9fe-e586-4b6a-a7eb-77ee985b841f",
+                            ConcurrencyStamp = "5ff976e8-9b77-4b17-9325-7072f860dc66",
                             Email = "sindicoDois@sindicoDois.com.br",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "SINDICODOIS@SINDICODOIS.COM.BR",
                             NormalizedUserName = "SINDICODOIS@SINDICODOIS.COM.BR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJeepd6IUVTrdm72UHyKhk2A8ARVBjNE46pjtVXZesIAXOqvVVQ2B7bwp51mFbsmqw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE9m9YCw7JV0YVmfSrB3w1blIRHOREX3Ij0Kv6YxScpRALso5E/X8dcZyPZAybo83Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d36224d2-bc77-49e4-9872-71ca64815c26",
+                            SecurityStamp = "ee092611-7efd-49eb-951d-225b89ebd80f",
                             TwoFactorEnabled = false,
                             UserName = "sindicoDois@sindicoDois.com.br"
                         },
                         new
                         {
-                            Id = "55459e64-8d09-49b8-8b93-5ea267e1aa21",
+                            Id = "664d6a7a-43b5-4903-8fe4-4ae99866ebb2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "348d4e51-a2a6-4cf4-8646-47ebd87b68df",
+                            ConcurrencyStamp = "f4e10d1f-4bf6-481a-9e89-4b46df07252e",
                             Email = "morador@morador.com.br",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "MORADOR@MORADOR.COM.BR",
                             NormalizedUserName = "MORADOR@MORADOR.COM.BR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKAo1Bdwfo4RFhSsFBzZ4mQ52P8UQhQAOdOoRnzLs/1zOSnE3whOzjoDHOW99NGstQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENgzBTwiQB2JGHFSX1qDnm58I7Jw4FtEaNvxm2ySKGuf/58WyBfLYmiBcbrCWvxoUA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f83ccf4b-f002-4512-ade2-41008855e5ef",
+                            SecurityStamp = "a8a8ec1f-6df5-464a-b5f4-714b1428733c",
                             TwoFactorEnabled = false,
                             UserName = "morador@morador.com.br"
                         },
                         new
                         {
-                            Id = "d5385e9f-8a02-4960-ad27-c05abb5f53b0",
+                            Id = "5ad5bca7-da65-4054-8469-f535e33d490b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f6fc3ddd-f5fc-4f5e-a340-d6ce48c8d1a4",
+                            ConcurrencyStamp = "0ecdc5e3-55d0-4931-be8e-1a7b5168ffcb",
                             Email = "admin@admin.com.br",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM.BR",
                             NormalizedUserName = "ADMIN@ADMIN.COM.BR",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHqhwpqmvLlMD+p8QXu7q57qnTghVDTlkp7TywlaPibpCYQDFkhKPj8qO7YQXXIP9w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENswmTGw/h5wM1QzRbnN3CbiGTsKjUHwuPPKSA6GEQFQT104ckpBtjBEmINDe4FsTA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ffdff1f3-bfb5-4b44-8991-1b8af949e0ff",
+                            SecurityStamp = "f1297e60-1979-4f92-af5c-499ae8ae3ae2",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com.br"
                         },
                         new
                         {
-                            Id = "af3ae2a0-8726-42ca-81b3-806b1cd1421e",
+                            Id = "a0a5cf2c-02b6-42e8-b978-dae5fe055aac",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a2eeb7b1-d002-4fb0-8ce7-a52bf448340b",
+                            ConcurrencyStamp = "a3c750a9-94b6-41e1-9e40-36da2b315eb8",
                             Email = "porteiro@porteiro.com.br",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "PORTEIRO@PORTEIRO.COM.BR",
                             NormalizedUserName = "PORTEIRO@PORTEIRO.COM.BR",
-                            PasswordHash = "AQAAAAEAACcQAAAAELBr7WU+SWGCJqGqIMrzODZRMsznJIENgJE67gKOLSMFEqihR55YU852jacPECN/0Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECorr5+gF0dSr2sqtt7Opfv6OwIyPjoJF6dB5ZDppg/R7OUzG216Hp6vYhLbMc1z2w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "378d6942-d07f-4274-88da-cc3c46b44d62",
+                            SecurityStamp = "101207d0-05c3-43f0-9950-289bcfcb573a",
                             TwoFactorEnabled = false,
                             UserName = "porteiro@porteiro.com.br"
                         });
@@ -701,7 +701,7 @@ namespace Infraestructure.Migrations
                             CPF = "12345678999",
                             DataNascimento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCondominio = 1,
-                            IdUserIdentity = "ed90aa62-5abe-4cf6-8ccc-88fa05444982",
+                            IdUserIdentity = "b69762db-d9df-4762-b3ef-de9f6c63689e",
                             Nome = "Sindico da Costa Filho",
                             Torre = "A"
                         },
@@ -712,7 +712,7 @@ namespace Infraestructure.Migrations
                             CPF = "12343223444",
                             DataNascimento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCondominio = 1,
-                            IdUserIdentity = "55459e64-8d09-49b8-8b93-5ea267e1aa21",
+                            IdUserIdentity = "664d6a7a-43b5-4903-8fe4-4ae99866ebb2",
                             Nome = "Morador de Carvalho",
                             Torre = "A"
                         },
@@ -723,7 +723,7 @@ namespace Infraestructure.Migrations
                             CPF = "12343223445",
                             DataNascimento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCondominio = 1,
-                            IdUserIdentity = "af3ae2a0-8726-42ca-81b3-806b1cd1421e",
+                            IdUserIdentity = "a0a5cf2c-02b6-42e8-b978-dae5fe055aac",
                             Nome = "Porteiro Fernandes",
                             Torre = "A"
                         },
@@ -734,7 +734,7 @@ namespace Infraestructure.Migrations
                             CPF = "12343223456",
                             DataNascimento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCondominio = 1,
-                            IdUserIdentity = "d5385e9f-8a02-4960-ad27-c05abb5f53b0",
+                            IdUserIdentity = "5ad5bca7-da65-4054-8469-f535e33d490b",
                             Nome = "Administrador",
                             Torre = "A"
                         },
@@ -745,7 +745,7 @@ namespace Infraestructure.Migrations
                             CPF = "12343223336",
                             DataNascimento = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCondominio = 2,
-                            IdUserIdentity = "3101ff70-eefb-4653-a504-45b98aa035dc",
+                            IdUserIdentity = "519ec3cb-dddf-45f2-a642-124378dbb30d",
                             Nome = "Sindico Dois",
                             Torre = "A"
                         });
@@ -846,28 +846,28 @@ namespace Infraestructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "468a170e-ffed-4bd0-8a9d-049d3c522aef",
+                            Id = "8f100375-2d1c-49c9-a239-6ab03adf65f8",
                             ConcurrencyStamp = "1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "48429b05-4a93-4523-9d1c-891ed16c02a2",
+                            Id = "ca8b7727-c444-46f9-b4c3-eef3bdf11964",
                             ConcurrencyStamp = "2",
                             Name = "Sindico",
                             NormalizedName = "SINDICO"
                         },
                         new
                         {
-                            Id = "4cd5670b-9909-470d-9ab1-884f3b0f5976",
+                            Id = "a62c87d4-f0e5-41bd-b884-746c442c71f8",
                             ConcurrencyStamp = "3",
                             Name = "Morador",
                             NormalizedName = "MORADOR"
                         },
                         new
                         {
-                            Id = "02bd858e-0414-4aa0-b67c-054929ad13c5",
+                            Id = "3b13e293-f474-4dd7-9fd5-c184ed6f09a1",
                             ConcurrencyStamp = "4",
                             Name = "Porteiro",
                             NormalizedName = "PORTEIRO"
@@ -959,28 +959,28 @@ namespace Infraestructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "ed90aa62-5abe-4cf6-8ccc-88fa05444982",
-                            RoleId = "48429b05-4a93-4523-9d1c-891ed16c02a2"
+                            UserId = "b69762db-d9df-4762-b3ef-de9f6c63689e",
+                            RoleId = "ca8b7727-c444-46f9-b4c3-eef3bdf11964"
                         },
                         new
                         {
-                            UserId = "3101ff70-eefb-4653-a504-45b98aa035dc",
-                            RoleId = "48429b05-4a93-4523-9d1c-891ed16c02a2"
+                            UserId = "519ec3cb-dddf-45f2-a642-124378dbb30d",
+                            RoleId = "ca8b7727-c444-46f9-b4c3-eef3bdf11964"
                         },
                         new
                         {
-                            UserId = "d5385e9f-8a02-4960-ad27-c05abb5f53b0",
-                            RoleId = "468a170e-ffed-4bd0-8a9d-049d3c522aef"
+                            UserId = "5ad5bca7-da65-4054-8469-f535e33d490b",
+                            RoleId = "8f100375-2d1c-49c9-a239-6ab03adf65f8"
                         },
                         new
                         {
-                            UserId = "55459e64-8d09-49b8-8b93-5ea267e1aa21",
-                            RoleId = "4cd5670b-9909-470d-9ab1-884f3b0f5976"
+                            UserId = "664d6a7a-43b5-4903-8fe4-4ae99866ebb2",
+                            RoleId = "a62c87d4-f0e5-41bd-b884-746c442c71f8"
                         },
                         new
                         {
-                            UserId = "af3ae2a0-8726-42ca-81b3-806b1cd1421e",
-                            RoleId = "02bd858e-0414-4aa0-b67c-054929ad13c5"
+                            UserId = "a0a5cf2c-02b6-42e8-b978-dae5fe055aac",
+                            RoleId = "3b13e293-f474-4dd7-9fd5-c184ed6f09a1"
                         });
                 });
 
@@ -1007,7 +1007,7 @@ namespace Infraestructure.Migrations
                 {
                     b.HasOne("Domain.Entities.Condominio", "Condominio")
                         .WithMany()
-                        .HasForeignKey("Id_condominio")
+                        .HasForeignKey("IdCondominio")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

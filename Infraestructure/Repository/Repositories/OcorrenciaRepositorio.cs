@@ -28,7 +28,7 @@ namespace Infraestructure.Repository.Repositories
         {
             using (var banco = new ContextBase(_OptionsBuilder))
             {
-                return await banco.Ocorrencia.AsNoTracking().Include(o => o.Usuario).Where(u => u.Usuario.IdCondominio == idCondominio).ToListAsync();
+                return await banco.Ocorrencia.Include(o => o.Usuario).AsNoTracking().Where(u => u.Usuario.IdCondominio == idCondominio).ToListAsync();
             }
         }
 
@@ -36,7 +36,7 @@ namespace Infraestructure.Repository.Repositories
         {
             using (var banco = new ContextBase(_OptionsBuilder))
             {
-                return await banco.Ocorrencia.AsNoTracking().Include(o => o.Usuario).Where(u => u.Usuario.IdCondominio == idCondominio).Where(exMessage).ToListAsync();
+                return await banco.Ocorrencia.Include(o => o.Usuario).AsNoTracking().Where(u => u.Usuario.IdCondominio == idCondominio).Where(exMessage).ToListAsync();
             }
         }
     }
