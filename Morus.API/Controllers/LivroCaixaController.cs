@@ -16,13 +16,11 @@ namespace Morus.API.Controllers
     [ApiController]
     public class LivroCaixaController : MorusController
     {
-        private readonly ILivroCaixaService _livroCaixaService;
         private readonly IMapper mapper;
         private readonly ILivroCaixaApplication _livroCaixaApplication;
 
-        public LivroCaixaController(ILivroCaixaService livroCaixaService, IMapper mapper, INotificador notificador, ILivroCaixaApplication livroCaixaApplication) : base(notificador)
+        public LivroCaixaController(IMapper mapper, INotificador notificador, ILivroCaixaApplication livroCaixaApplication) : base(notificador)
         {
-            _livroCaixaService = livroCaixaService;
             _livroCaixaApplication = livroCaixaApplication;
             this.mapper = mapper;
         }

@@ -20,7 +20,7 @@ namespace Domain.Services
 
         public async Task CadastrarLivroCaixa(LivroCaixa livroCaixa)
         {
-            if (_livroCaixaValidator.ValidarEntidade(livroCaixa))
+            if (!_livroCaixaValidator.ValidarEntidade(livroCaixa))
                 throw new ValidacaoException();
 
             await livroCaixaRepositorio.Add(livroCaixa);
