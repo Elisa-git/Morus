@@ -84,6 +84,7 @@ builder.Services.AddTransient<IInformacaoRepositorio, InformacaoRepositorio>();
 builder.Services.AddTransient<IMulta, MultaRepositorio>();
 builder.Services.AddTransient<IOcorrencia, OcorrenciaRepositorio>();
 builder.Services.AddTransient<ILivroCaixaRepositorio, LivroCaixaRepositorio>();
+builder.Services.AddTransient<IEncomendaRepositorio, EncomendaRepositorio>();
 builder.Services.AddTransient<IAreaComumRepositorio, AreaComumRepositorio>();
 builder.Services.AddTransient<ITaxaMensalRepositorio, TaxaMensalRepositorio>();
 builder.Services.AddTransient<IReservaRepositorio, ReservaRepositorio>();
@@ -106,6 +107,7 @@ builder.Services.AddScoped<IUserLogadoApplication, UserLogadoApplication>();
 builder.Services.AddScoped<IInformacaoApplication, InformacaoApplication>();
 builder.Services.AddScoped<IVotacaoApplication, VotacaoApplication>();
 builder.Services.AddScoped<ILivroCaixaApplication, LivroCaixaApplication>();
+builder.Services.AddScoped<IEncomendaApplication, EncomendaApplication>();
 builder.Services.AddScoped<IAreaComumApplication, AreaComumApplication>();
 
 builder.Services.AddScoped<INotificador, Notificador>();
@@ -120,6 +122,7 @@ builder.Services.AddScoped<IInformacaoService, InformacaoService>();
 builder.Services.AddScoped<IMultaService, MultaService>();
 builder.Services.AddScoped<IOcorrenciaService, OcorrenciaService>();
 builder.Services.AddScoped<ILivroCaixaService, LivroCaixaService>();
+builder.Services.AddScoped<IEncomendaService, EncomendaService>();
 builder.Services.AddScoped<ITaxaMensalService, TaxaMensalService>();
 builder.Services.AddScoped<IVotacaoService, VotacaoService>();
 builder.Services.AddScoped<IAreaComumService, AreaComumService>();
@@ -188,6 +191,7 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
     cfg.CreateMap<Arquivo, ArquivoRequest>();
     cfg.CreateMap<ArquivoRequest, Arquivo>();
     cfg.CreateMap<LivroCaixa, LivroCaixaRequest>().ReverseMap();
+    cfg.CreateMap<Encomenda, EncomendaRequest>().ReverseMap();
 });
 
 IMapper mapper = config.CreateMapper();

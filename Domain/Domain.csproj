@@ -16,6 +16,7 @@
     <Compile Include="Entities\AreaComum.cs" />
     <Compile Include="Entities\Arquivo.cs" />
     <Compile Include="Entities\Condominio.cs" />
+    <Compile Include="Entities\Encomenda.cs" />
     <Compile Include="Entities\Enum\StatusReserva.cs" />
     <Compile Include="Entities\Enum\StatusVotacao.cs" />
     <Compile Include="Entities\Enum\TipoTransacao.cs" />

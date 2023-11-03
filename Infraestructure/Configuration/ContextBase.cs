@@ -18,6 +18,7 @@ namespace Infraestructure.Configuration
         public DbSet<User> User { get; set; }
         public DbSet<AreaComum> AreaComum { get; set; }
         public DbSet<Arquivo> Arquivo { get; set; }
+        public DbSet<Encomenda> Encomenda { get; set; }
         public DbSet<Informacao> Informacao { get; set; }
         public DbSet<LivroCaixa> LivroCaixa { get; set; }
         public DbSet<TaxaMensal> TaxaMensal { get; set; }
