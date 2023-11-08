@@ -13,7 +13,6 @@ namespace Domain.Validacoes
         public AreaComumValidation()
         {
             RuleFor(e => e.Limite).NotEmpty().WithMessage("Deve ser informado o limite"); 
-            RuleFor(e => e.IdCondominio).NotEmpty().WithMessage("Deve ser informado o condominio"); 
             RuleFor(e => e.Nome).NotEmpty().WithMessage("Deve ser informado o nome da area"); 
         }
     }
