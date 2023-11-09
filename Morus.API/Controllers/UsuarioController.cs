@@ -170,6 +170,38 @@ namespace Morus.API.Controllers
             }
         }
 
+        [Authorize]
+        [Produces("application/json")]
+        [HttpGet("/api/ListarUsuariosTipo")]
+        public async Task<IActionResult> ListarUsuariosRole([FromQuery] string tipo)
+        {
+            try
+            {
+                var usuarios = await _usuarioApplication.ListarUsuarios();
+
+                if (usuarios == null)
+                    return CustomResponse(404, true);
+
+                var usuariosFiltrados = new List<Usuario>();
+                foreach (var u in usuarios)
+                {
+                    var userIdentity = await _userManager.FindByIdAsync(u.IdUserIdentity);
+                    var roleUser = (await _userManager.GetRolesAsync(userIdentity))?.FirstOrDefault();
+                    
+                    if (roleUser.ToLowerInvariant() == tipo.ToLowerInvariant())
+                        usuariosFiltrados.Add(u);
+                }
+                var usuariosMap = mapper.Map<List<UsuarioRequest>>(usuariosFiltrados);
+
+                return CustomResponse(200, true, usuariosMap);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
+        }
+
 
         //[AllowAnonymous]
         //[Produces("application/json")]
