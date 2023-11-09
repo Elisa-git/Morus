@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.ViewModels;
 using AutoMapper;
 using Core.Exceptions;
 using Core.Notificador;
@@ -79,26 +80,26 @@ namespace Morus.API.Controllers
             }
         }
 
-        [Authorize]
-        [Produces("application/json")]
-        [HttpGet("/api/ObterContagemVotacao/{idVotacao:int}")]
-        public async Task<IActionResult> ObterContagemVotacao([FromRoute] int idVotacao)
-        {
-            try
-            {
-                var response = await _votacaoApplication.ContadorVotacao(idVotacao);
-                return CustomResponse(200, true, response);
-            }
-            catch (ValidacaoException e)
-            {
-                return CustomResponse(400, false);
-            }
-            catch (Exception e)
-            {
-                _notificador.NotificarMensagemErroInterno();
-                return CustomResponse(500, false);
-            }
-        }
+        //[Authorize]
+        //[Produces("application/json")]
+        //[HttpGet("/api/ObterContagemVotacao/{idVotacao:int}")]
+        //public async Task<IActionResult> ObterContagemVotacao([FromRoute] int idVotacao)
+        //{
+        //    try
+        //    {
+        //        var response = await _votacaoApplication.ContadorVotacao(idVotacao);
+        //        return CustomResponse(200, true, response);
+        //    }
+        //    catch (ValidacaoException e)
+        //    {
+        //        return CustomResponse(400, false);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        _notificador.NotificarMensagemErroInterno();
+        //        return CustomResponse(500, false);
+        //    }
+        //}
 
         [Authorize(Roles = "Sindico")]
         [Produces("application/json")]
@@ -113,8 +114,8 @@ namespace Morus.API.Controllers
                     throw new ValidacaoException();
                 }
 
-                var ocorrenciaMap = mapper.Map<Votacao>(votacaoRequest);
-                await _votacaoService.AtualizarVotacao(ocorrenciaMap);
+                var votacaoMap = mapper.Map<Votacao>(votacaoRequest);
+                await _votacaoApplication.AtualizarVotacao(votacaoMap);
 
                 return CustomResponse(200, true);
             }
@@ -153,14 +154,14 @@ namespace Morus.API.Controllers
 
         [Authorize]
         [Produces("application/json")]
-        [HttpDelete("/api/ObterVotacaoPorId/{id:int}")]
+        [HttpGet("/api/ObterVotacaoPorId/{id:int}")]
         public async Task<IActionResult> ObterVotacaoPorId(int id)
         {
             try
             {
-                await _votacaoApplication.ObterPorId(id);
+                var votacao = await _votacaoApplication.ContadorVotacao(id);
 
-                return CustomResponse(200, true);
+                return CustomResponse(200, true, votacao);
             }
             catch (ValidacaoException e)
             {
@@ -181,8 +182,13 @@ namespace Morus.API.Controllers
             try
             {
                 var votacoes = await _votacaoApplication.ListarVotacoesCondominio();
+                var votacoesComContagem = new List<VotacaoContadorResponse>();
+                foreach (var votacao in votacoes)
+                {
+                    votacoesComContagem.Add(await _votacaoApplication.ContadorVotacao(votacao.Id));
+                }
 
-                return CustomResponse(votacoes != null ? 200 : 404, true, votacoes);
+                return CustomResponse(votacoes != null ? 200 : 404, true, votacoesComContagem);
             }
             catch (ValidacaoException e)
             {

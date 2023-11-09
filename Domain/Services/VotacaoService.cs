@@ -25,7 +25,7 @@ namespace Domain.Services
 
         public async Task AtualizarVotacao(Votacao votacao)
         {
-            if (_votacaoValidator.ValidarEntidade(votacao))
+            if (!_votacaoValidator.ValidarEntidade(votacao))
                 throw new ValidacaoException();
 
             await votacaoRepositorio.Update(votacao);
