@@ -54,7 +54,7 @@ namespace Application
             var votosUsuario = await _votoRepositorio.ListarVotos(v => v.IdUsuario == usuarioLogado.Id);
             var votacao = await _votacaoRepositorio.GetEntityById(voto.IdVotacao);
 
-            if (votacao.DataExpiracao > DateTime.Now)
+            if (votacao.DataExpiracao < DateTime.Now)
             {
                 _notificador.Notificar("Votação está encerrada");
                 throw new ValidacaoException("");
@@ -86,7 +86,8 @@ namespace Application
                 DataExpiracao = votacao.DataExpiracao,
                 QtdVotosContras = votos.Count(v => v.ValorVoto == false),
                 QtdVotosFavoraveis = votos.Count(v => v.ValorVoto == true),
-                QtdVotosNulos = votos.Count(v => v.ValorVoto == null)
+                QtdVotosNulos = votos.Count(v => v.ValorVoto == null),
+                IdCondominio = votacao.IdCondominio
             };
         }
 
@@ -115,6 +116,22 @@ namespace Application
             }
 
             return votacao;
+        }
+
+        public async Task AtualizarVotacao(Votacao votacao)
+        {
+            var votacaoExistente = await _votacaoRepositorio.GetEntityById(votacao.Id);
+            if (votacaoExistente == null)
+            {
+                _notificador.Notificar("Votação inexistente.");
+                throw new ValidacaoException("");
+            }
+
+            var usuarioLogado = await _userLogadoApplication.ObterUsuarioLogado();
+            votacao.DataCriacao = votacaoExistente.DataCriacao;
+            votacao.IdCondominio = usuarioLogado.IdCondominio;
+
+            await _votacaoService.AtualizarVotacao(votacao);
         }
     }
 }

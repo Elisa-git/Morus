@@ -16,6 +16,7 @@ namespace Application.ViewModels
         public DateTime DataCriacao { get; set; }
         public DateTime DataExpiracao { get; set; }
         public bool Ativa { get; set; }
+        public int IdCondominio { get; set; }
         public int QtdVotosFavoraveis { get; set; }
         public int QtdVotosContras { get; set; }
         public int QtdVotosNulos { get; set; }

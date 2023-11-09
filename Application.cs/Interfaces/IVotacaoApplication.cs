@@ -10,6 +10,7 @@ namespace Application.Interfaces
 {
     public interface IVotacaoApplication
     {
+        Task AtualizarVotacao(Votacao votacao);
         Task CadastrarVotacao(Votacao votacao);
         Task<VotacaoContadorResponse> ContadorVotacao(int idVotacao);
         Task DeletarVotacaoPorId(int id);
