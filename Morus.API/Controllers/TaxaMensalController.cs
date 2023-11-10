@@ -31,12 +31,12 @@ namespace Morus.API.Controllers
 
         [Authorize]
         [HttpPost("/api/CadastrarTaxaMensal")]
-        public IActionResult CadastrarTaxaMensal(TaxaMensalRequest taxaMensalRequest)
+        public async Task<IActionResult> CadastrarTaxaMensal(TaxaMensalRequest taxaMensalRequest)
         {
             try
             {
                 var taxaMensal = mapper.Map<TaxaMensal>(taxaMensalRequest);
-                taxaMensalApplication.CadastrarTaxaMensal(taxaMensal);
+                await taxaMensalApplication.CadastrarTaxaMensal(taxaMensal);
 
                 return CustomResponse(200, true);
             }
@@ -101,7 +101,7 @@ namespace Morus.API.Controllers
         }
 
         [Authorize]
-        [HttpDelete("/api/ObterTaxaMensalPorId/{id:int}")]
+        [HttpGet("/api/ObterTaxaMensalPorId/{id:int}")]
         public async Task<IActionResult> ObterTaxaMensalPorId(int id)
         {
             try
