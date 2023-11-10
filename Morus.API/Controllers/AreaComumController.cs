@@ -56,6 +56,12 @@ namespace Morus.API.Controllers
         {
             try
             {
+                if (areaComumRequest.Id == null || areaComumRequest.Id == 0)
+                {
+                    _notificador.Notificar("Informe o Id");
+                    throw new ValidacaoException();
+                }
+
                 var areaComumMapeada = mapper.Map<AreaComum>(areaComumRequest);
                 await _areaComumApplication.AtualizarAreaComum(areaComumMapeada);
 

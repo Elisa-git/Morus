@@ -17,7 +17,7 @@ namespace Domain.Validacoes
             RuleFor(e => e.Recorrente).NotEmpty().WithMessage("O campo Recorrente deve ser informado");
             RuleFor(e => e.DataInicio).NotEmpty().WithMessage("O campo Data Inicio deve ser informado");
             RuleFor(e => e.DataFim).NotEmpty().WithMessage("O campo Data Fim deve ser informado");
-            RuleFor(e => e.Id_condominio).NotEmpty().WithMessage("O campo Id Condominio deve ser informado");
+            RuleFor(e => e.IdCondominio).NotEmpty().WithMessage("O campo Id Condominio deve ser informado");
         }
     }
 }

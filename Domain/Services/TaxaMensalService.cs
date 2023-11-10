@@ -22,6 +22,9 @@ namespace Domain.Services
 
         public async Task CadastrarTaxaMensal(TaxaMensal taxaMensal)
         {
+            if (!taxaMensalValidator.ValidarEntidade(taxaMensal))
+                throw new ValidacaoException();
+
             await taxaMensalRepositorio.Add(taxaMensal);
         }
 

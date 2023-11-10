@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Interfaces;
+using AutoMapper;
 using Core.Exceptions;
 using Core.Notificador;
 using Domain.Entities;
@@ -17,23 +18,25 @@ namespace Morus.API.Controllers
     {
         private readonly ITaxaMensalRepositorio taxaMensalRepositorio;
         private readonly ITaxaMensalService taxaMensalService;
+        private readonly ITaxaMensalApplication taxaMensalApplication;
         private readonly IMapper mapper;
 
-        public TaxaMensalController(ITaxaMensalRepositorio taxaMensalRepositorio, ITaxaMensalService taxaMensalService, IMapper mapper, INotificador notificador) : base(notificador)
+        public TaxaMensalController(ITaxaMensalRepositorio taxaMensalRepositorio, ITaxaMensalService taxaMensalService, IMapper mapper, INotificador notificador, ITaxaMensalApplication taxaMensalApplication) : base(notificador)
         {
             this.taxaMensalRepositorio = taxaMensalRepositorio;
             this.taxaMensalService = taxaMensalService;
+            this.taxaMensalApplication = taxaMensalApplication;
             this.mapper = mapper;
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost("/api/CadastrarTaxaMensal")]
         public IActionResult CadastrarTaxaMensal(TaxaMensalRequest taxaMensalRequest)
         {
             try
             {
                 var taxaMensal = mapper.Map<TaxaMensal>(taxaMensalRequest);
-                taxaMensalService.CadastrarTaxaMensal(taxaMensal);
+                taxaMensalApplication.CadastrarTaxaMensal(taxaMensal);
 
                 return CustomResponse(200, true);
             }
@@ -48,7 +51,7 @@ namespace Morus.API.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPut("/api/AtualizarTaxaMensal")]
         public async Task<IActionResult> AtualizarTaxaMensal(TaxaMensalRequest taxaMensalRequest)
         {
@@ -61,7 +64,7 @@ namespace Morus.API.Controllers
                 }
 
                 var taxaMensal = mapper.Map<TaxaMensal>(taxaMensalRequest);
-                await taxaMensalService.AtualizarTaxaMensal(taxaMensal);
+                await taxaMensalApplication.AtualizarTaxaMensal(taxaMensal);
 
                 return CustomResponse(200, true);
             }
@@ -76,7 +79,7 @@ namespace Morus.API.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpDelete("/api/ExcluirTaxaMensal")]
         public async Task<IActionResult> ExcluirTaxaMensal(TaxaMensalRequest taxaMensalRequest)
         {
@@ -94,7 +97,7 @@ namespace Morus.API.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("/api/ListarTaxaMensal")]
         public async Task<IActionResult> ListarTaxaMensal()
         {

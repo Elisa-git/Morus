@@ -109,6 +109,7 @@ builder.Services.AddScoped<IVotacaoApplication, VotacaoApplication>();
 builder.Services.AddScoped<ILivroCaixaApplication, LivroCaixaApplication>();
 builder.Services.AddScoped<IEncomendaApplication, EncomendaApplication>();
 builder.Services.AddScoped<IAreaComumApplication, AreaComumApplication>();
+builder.Services.AddScoped<ITaxaMensalApplication, TaxaMensalApplication>();
 
 builder.Services.AddScoped<INotificador, Notificador>();
 
