@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Interfaces;
+using AutoMapper;
 using Core.Exceptions;
 using Core.Notificador;
 using Domain.Entities;
@@ -16,11 +17,13 @@ namespace Morus.API.Controllers
     {
         private readonly IMapper mapper;
         private readonly IReservaService reservaService;
+        private readonly IUserLogadoApplication userLogadoApplication;
 
-        public ReservaController(IMapper mapper, IReservaService reservaService, INotificador notificador) : base(notificador)
+        public ReservaController(IMapper mapper, IReservaService reservaService, INotificador notificador, IUserLogadoApplication userLogadoApplication) : base(notificador)
         {
             this.mapper = mapper;
             this.reservaService = reservaService;
+            this.userLogadoApplication = userLogadoApplication;
         }
 
         [Produces("application/json")]
@@ -30,8 +33,10 @@ namespace Morus.API.Controllers
         {
             try
             {
-                reservaRequest.UserId = await RetornarIdUsuarioLogado();
                 var reservaMapeada = mapper.Map<Reserva>(reservaRequest);
+                var usuarioLogado = await userLogadoApplication.ObterUsuarioLogado();
+                reservaMapeada.Id_Usuario = usuarioLogado.Id;
+
                 await reservaService.CadastrarReserva(reservaMapeada);
 
                 return CustomResponse(200, true);
@@ -106,11 +111,6 @@ namespace Morus.API.Controllers
                 _notificador.NotificarMensagemErroInterno();
                 return CustomResponse(500, false);
             }
-        }
-
-        private async Task<string> RetornarIdUsuarioLogado()
-        {
-            return "ebafef68-4f09-4fc5-834c-2b0871b770c0";
         }
     }
 }

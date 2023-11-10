@@ -16,8 +16,6 @@ namespace Morus.API.Models
 
         public int Id_AreaComum { get; set; }
 
-        public int Id_Usuario { get; set; }
-
         public string UserId { get; set; }
 
     }
