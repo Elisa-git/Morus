@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Entities.Enum;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Domain.Validacoes
     {
         public LivroCaixaValidation()
         {
+            RuleFor(l => l.TipoTransacao).IsInEnum().WithMessage("Tipo Transação inválido");
         }
     }
 }

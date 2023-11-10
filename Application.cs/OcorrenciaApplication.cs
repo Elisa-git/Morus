@@ -62,8 +62,14 @@ namespace Application
 
         public async Task<Ocorrencia> ObterPorId(int id)
         {
-            var userLogado = await _userLogadoApplication.ObterUsuarioLogado();
-            return await _ocorrenciaRepositorio.GetEntityById(id);
+            var ocorrencia = await _ocorrenciaRepositorio.GetEntityById(id);
+            if (ocorrencia == null)
+            {
+                _notificador.Notificar("Ocorrência inexistente.");
+                throw new ValidacaoException("");
+            }
+
+            return ocorrencia;
         }
     }
 }

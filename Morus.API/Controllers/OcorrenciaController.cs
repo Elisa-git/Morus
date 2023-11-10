@@ -156,7 +156,7 @@ namespace Morus.API.Controllers
             try
             {
                 var ocorrencia = await _ocorrenciaApplication.ObterPorId(id);
-                var ocorrenciaMap = mapper.Map<List<OcorrenciaRequest>>(ocorrencia);
+                var ocorrenciaMap = mapper.Map<OcorrenciaRequest>(ocorrencia);
 
                 return CustomResponse(ocorrenciaMap != null ? 200 : 404, true, ocorrenciaMap);
             }
