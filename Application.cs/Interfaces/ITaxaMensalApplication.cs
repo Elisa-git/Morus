@@ -11,5 +11,7 @@ namespace Application.Interfaces
     {
         Task AtualizarTaxaMensal(TaxaMensal taxaMensal);
         Task CadastrarTaxaMensal(TaxaMensal taxaMensal);
+        Task Deletar(int id);
+        Task<TaxaMensal> ObterPorId(int id);
     }
 }

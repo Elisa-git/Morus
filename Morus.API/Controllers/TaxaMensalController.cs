@@ -80,15 +80,40 @@ namespace Morus.API.Controllers
         }
 
         [Authorize]
-        [HttpDelete("/api/ExcluirTaxaMensal")]
-        public async Task<IActionResult> ExcluirTaxaMensal(TaxaMensalRequest taxaMensalRequest)
+        [HttpDelete("/api/ExcluirTaxaMensal/{id:int}")]
+        public async Task<IActionResult> ExcluirTaxaMensal(int id)
         {
             try
             {
-                var taxaMensal = mapper.Map<TaxaMensal>(taxaMensalRequest);
-                taxaMensalRepositorio.Delete(taxaMensal);
+                await taxaMensalApplication.Deletar(id);
 
                 return CustomResponse(200, true);
+            }
+            catch (ValidacaoException)
+            {
+                return CustomResponse(400, false);
+            }
+            catch (Exception e)
+            {
+                _notificador.NotificarMensagemErroInterno();
+                return CustomResponse(500, false);
+            }
+        }
+
+        [Authorize]
+        [HttpDelete("/api/ObterTaxaMensalPorId/{id:int}")]
+        public async Task<IActionResult> ObterTaxaMensalPorId(int id)
+        {
+            try
+            {
+                var taxaMensal = taxaMensalApplication.ObterPorId(id);
+                var taxaMensalMap = mapper.Map<TaxaMensalRequest>(taxaMensal);
+
+                return CustomResponse(200, true, taxaMensalMap);
+            }
+            catch (ValidacaoException)
+            {
+                return CustomResponse(400, false);
             }
             catch (Exception e)
             {
@@ -107,6 +132,10 @@ namespace Morus.API.Controllers
                 var taxaMensalMapeada = mapper.Map<List<TaxaMensalRequest>>(taxaMensal);
 
                 return CustomResponse(taxaMensalMapeada != null ? 200 : 404, true, taxaMensalMapeada);
+            }
+            catch (ValidacaoException)
+            {
+                return CustomResponse(400, false);
             }
             catch (Exception e)
             {
